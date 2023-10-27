@@ -1,0 +1,6 @@
+VueRouter
+Vuex
+npm install bootstrap-vue
+npm i element-ui -S
+npm install axios --save
+npm install vue-cookies --save

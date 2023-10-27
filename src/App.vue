@@ -4,9 +4,17 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </nav>
-    <router-view/>
+    <router-view />
   </div>
 </template>
+
+<script>
+import HelloWorldVue from "./components/HelloWorld.vue";
+export default {
+  name: "",
+  components: { HelloWorldVue },
+};
+</script>
 
 <style lang="scss">
 #app {

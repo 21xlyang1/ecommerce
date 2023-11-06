@@ -1,6 +1,6 @@
 <template>
   <div>
-    购物主页
+
   </div>
 </template>
 <script>

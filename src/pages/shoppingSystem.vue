@@ -1,12 +1,12 @@
 <template>
   <div class=" w-100" style="height: 1000px;">
-    用户购物系统
+
     <!-- 导航栏 -->
-    <div class=" w-100 bg-danger " style="height: 80px;">
+    <div class=" w-100 " style="height: 70px;">
       <myHead></myHead>
     </div>
     <!-- 主体内容 -->
-    <div class=" container-xl bg-primary" style="height: 800px;">
+    <div class=" container-xl" style="height: 800px;">
       <router-view name="tow"></router-view>
     </div>
   </div>

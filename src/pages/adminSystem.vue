@@ -3,7 +3,7 @@
   <div class="w-100" style="height: 1000px">
 后台管理系统
     <!-- 导航栏 -->
-    <div class="w-100 bg-danger" style="height: 80px">
+    <div class="w-100 bg-danger" style="height: 70px">
       <myHead></myHead>
     </div>
     <div class="w-100 d-flex" style="height: 800px;">

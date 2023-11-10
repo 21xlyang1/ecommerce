@@ -1,17 +1,22 @@
 <template>
-  <div class="h-100 d-flex justify-content-evenly w-100 shadow-sm">
+  <div class="h-100 d-flex justify-content-evenly w-100 shadow-sm myhead">
     <!-- log -->
-    <div class=" d-flex justify-content-center align-items-center">
-      <img src="../assets/img/loge.png" style="height: 60px;width: 60px;" alt="">
-      <div class="logotext" >ECS</div>
+    <div class="d-flex justify-content-center align-items-center">
+      <img
+        src="../assets/img/loge.png"
+        style="height: 60px; width: 60px"
+        alt=""
+      />
+      <div class="logotext">ECS</div>
     </div>
     <!-- 导航 -->
     <div class="h-100">
       <div class="nav">
         <ul>
-          <li><a href="/#/ss/home">主页</a></li>
-          <li><a href="/#/ss/productList">商品分类</a></li>
-          <li><a href="/#/ss/home">开发日志</a></li>
+          <li v-for="item in indexList" :key="item.ID">
+            <a :href="item.url" >{{ item.name }}</a>
+          </li>
+
           <div class="nav-box"></div>
         </ul>
       </div>
@@ -24,24 +29,37 @@
 
     <!-- 用户 -->
     <div>
-      <usercard/>
-      
+      <usercard />
     </div>
   </div>
 </template>
 <script>
-import Search from '@/pages/search.vue';
-import searchBox from './searchBox.vue';
-import usercard from './usercard.vue';
+import Search from "@/pages/search.vue";
+import searchBox from "./searchBox.vue";
+import usercard from "./usercard.vue";
 
 export default {
   name: "myHead",
-  components:{usercard,searchBox, Search},
+  components: { usercard, searchBox, Search },
+  data() {
+    return {
+      indexList: [
+        { ID: 1, name: "主页", url: "/#/ss/home" },
+        { ID: 1, name: "商品分类", url: "#/ss/productList" },
+        { ID: 1, name: "开发日志", url: "/#/ss/logShow" },
+      ],
+    };
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-.logotext{
+.myhead {
+  position: sticky;
+  top: 0;
+  // left: 0;
+}
+.logotext {
   font-size: 30px;
   font-weight: 600;
   color: #f53082;
@@ -62,8 +80,7 @@ body {
 }
 
 .nav {
-  
-  width:400px;
+  width: 400px;
   height: 70px;
   position: relative;
   top: 0;
@@ -94,7 +111,7 @@ body {
 }
 .nav ul li a {
   color: rgb(70, 100, 180);
-  font: 100 22px "优设标题黑";
+  font: 500 22px "优设标题黑";
   display: block;
   width: 100%;
   height: 100%;

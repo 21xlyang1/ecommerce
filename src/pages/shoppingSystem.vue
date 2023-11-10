@@ -6,7 +6,7 @@
       <myHead></myHead>
     </div>
     <!-- 主体内容 -->
-    <div class=" container-xl" style="height: 800px;">
+    <div  class="w-100" style="height: 800px;">
       <router-view name="tow"></router-view>
     </div>
   </div>

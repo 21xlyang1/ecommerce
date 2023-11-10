@@ -6,11 +6,14 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/test',
     components: {
-      one: () => import('@/pages/shoppingSystem.vue'),
-      tow: () => import('@/pages/home.vue')
+      one: () => import('@/pages/test.vue'),
     },
+  },
+  {
+    path: '/',
+    redirect: '/ss/home'
   },
   {
     path: '/ls/login',

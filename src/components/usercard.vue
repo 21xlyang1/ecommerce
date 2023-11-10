@@ -1,24 +1,52 @@
 <template>
-  <div class="d-flex" style=" width: 300px;">
+  <div class="d-flex h-100">
     <div class="hover-trigger">
       <div class="photo">
         <img src="../assets\img\1.png" alt="" />
       </div>
-
+      <!-- 下拉框内容 -->
       <div class="dropdown">
-        <!-- 下拉框内容 -->
-        <div class="p-2 pt-3 pb-3 shadow-sm rounded-2   w-100" style="height: 200px; background-color:#fafafa;">
+        <div
+          class="p-2 pt-3 pb-3 shadow-sm rounded-2 w-100"
+          style="height: 200px; background-color: #fafafa"
+        >
           <div>
-            <el-button  style="width: 120px;">登入</el-button>
+            <el-button style="width: 120px">登入</el-button>
           </div>
-          <div class=" pt-3">
-            <el-button style="width:120px">注册</el-button>
+          <div class="pt-3">
+            <el-button style="width: 120px">注册</el-button>
           </div>
         </div>
       </div>
     </div>
-    <v-icon name="lishi" style="font-size: 26px; color: #f53082;"></v-icon>
-    <div></div>
+
+    <div
+      v-for="(item, index) in indexList"
+      :key="index"
+      class="h-100 hover-effect ps-3 pe-3"
+      
+      @mouseover="changeTextColor(item, true)"
+      @mouseout="changeTextColor(item, false)"
+    >
+      <div class="w-100" style="height: 10px"></div>
+      <div
+        class="w-100 d-flex justify-content-center align-items-center"
+        style="height: 30px"
+      >
+        <v-icon
+          :name="item.name"
+          style="font-size: 30px; color: #f53082"
+          class="icon"
+        ></v-icon>
+      </div>
+      <div
+        class="w-100 d-flex justify-content-center align-items-center "
+        style="height: 30px;font-size:15px;color: #fafafa2f;"
+        :style="{ color: item.textColor }"
+      >
+        {{ item.inf }}
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -27,9 +55,18 @@ export default {
   data() {
     return {
       isDropdownVisible: false,
+      indexList: [
+        { name: "shoucang", inf: "收藏" },
+        { name: "dingdan", inf: "订单" },
+        { name: "lishi", inf: "历史" },
+        { name: "gouwuche", inf: "购物车" },
+      ],
     };
   },
   methods: {
+    changeTextColor(item, isHovered) {
+      this.$set(item, 'textColor', isHovered ? '#f53082' : '');
+    },
     showDropdown() {
       this.isDropdownVisible = true;
     },
@@ -41,6 +78,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .hover-effect:hover .icon {
+    transform: translateY(-6px);
+    transition: transform 0.2s ease;
+    // background-color: #fafafa2f;
+  }
 /* 定义名为photo的类*/
 .photo {
   margin-top: 5px;
@@ -86,7 +128,6 @@ export default {
   // transform: translateY(-20px);
   // transition: opacity 0.3s, transform 0.3s, display 0.3s;
   animation: pop-btn 0.3s;
-
 }
 @keyframes pop-btn {
   0% {

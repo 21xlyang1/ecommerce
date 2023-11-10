@@ -71,7 +71,7 @@
         class=" w-100 d-flex  justify-content-evenly"
         style="height: 350px;"
         >
-        <productCard v-show="index>maxHang*(i-1)&&index<=(maxHang*(i-1)+hangNum)" v-for="item,index in productList" :key="item.ID"></productCard>
+        <productCard :proId='item.ID' v-show="index>maxHang*(i-1)&&index<=(maxHang*(i-1)+hangNum)" v-for="item,index in productList" :key="item.ID"></productCard>
         </div>
 
       </div>

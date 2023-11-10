@@ -19,7 +19,7 @@
         </div>
       </div>
     </div>
-    <div></div>
+
     <div
       v-for="(item, index) in indexList"
       :key="index"

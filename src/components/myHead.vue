@@ -109,12 +109,12 @@ body {
   width: 100%;
   text-align: center;
 }
-.nav ul li a {
+.nav ul li a { 
   color: rgb(70, 100, 180);
   font: 500 22px "优设标题黑";
   display: block;
   width: 100%;
-  height: 100%;
+  height: 100%; 
   line-height: 70px;
 }
 .nav ul li:nth-child(1):hover ~ .nav-box {

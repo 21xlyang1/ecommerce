@@ -24,7 +24,7 @@
       v-for="(item, index) in indexList"
       :key="index"
       class="h-100 hover-effect ps-3 pe-3"
-      
+      @click="dianji(index)"
       @mouseover="changeTextColor(item, true)"
       @mouseout="changeTextColor(item, false)"
     >
@@ -47,11 +47,22 @@
         {{ item.inf }}
       </div>
     </div>
+    <el-drawer
+      :withHeader="false"
+      :show-close="false"
+      :visible.sync="drawer"
+      :direction="direction"
+
+    >
+      <shoppingTrolley></shoppingTrolley>
+    </el-drawer>
   </div>
 </template>
 <script>
+import shoppingTrolley from './shoppingTrolley.vue';
 export default {
   name: "",
+  components: { shoppingTrolley },
   data() {
     return {
       isDropdownVisible: false,
@@ -61,6 +72,8 @@ export default {
         { name: "lishi", inf: "历史" },
         { name: "gouwuche", inf: "购物车" },
       ],
+      drawer: false,
+      direction: "rtl",
     };
   },
   methods: {
@@ -73,6 +86,12 @@ export default {
     hideDropdown() {
       this.isDropdownVisible = false;
     },
+    dianji(index){
+      console.log(index)
+      if(index==3){
+        this.drawer = true
+      }
+    }
   },
 };
 </script>

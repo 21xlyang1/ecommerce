@@ -11,22 +11,38 @@
           style="height: 200px; background-color: #fafafa"
         >
           <div>
-            <el-button style="width: 120px">登入</el-button>
+            <el-button style="width: 120px" @click="$store.commit('showLogin')">登入</el-button>
           </div>
           <div class="pt-3">
-            <el-button style="width: 120px">注册</el-button>
+            <el-button style="width: 120px" @click="$store.commit('showRegister')">注册</el-button>
           </div>
         </div>
       </div>
     </div>
+    <el-dialog  :visible.sync="dialogVisible"  :show-close="false" width="30%">
+      <div class="w-100 h-100 bg-danger p-3" ></div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false"
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog >
 
-    <div
+
+    <!-- <dialog :open="true" style="margin-top: 40px;z-index: 1000px;">
+      sfd
+    </dialog> -->
+
+
+    <router-link
       v-for="(item, index) in indexList"
       :key="index"
       class="h-100 hover-effect ps-3 pe-3"
-      @click="dianji(index)"
       @mouseover="changeTextColor(item, true)"
       @mouseout="changeTextColor(item, false)"
+      :style="$route.path == item.url ? 'color: #f53082' : ''"
+      :to="item.url"
     >
       <div class="w-100" style="height: 10px"></div>
       <div
@@ -40,45 +56,66 @@
         ></v-icon>
       </div>
       <div
-        class="w-100 d-flex justify-content-center align-items-center "
-        style="height: 30px;font-size:15px;color: #fafafa2f;"
+        class="w-100 d-flex justify-content-center align-items-center"
+        style="height: 30px; font-size: 15px; color: #fafafa2f"
         :style="{ color: item.textColor }"
       >
         {{ item.inf }}
       </div>
+    </router-link>
+    <div @click="drawer = true" class="h-100 hover-effect ps-3 pe-3">
+      <div class="w-100" style="height: 10px"></div>
+      <div
+        class="w-100 d-flex justify-content-center align-items-center"
+        style="height: 30px"
+      >
+        <v-icon
+          name="gouwuche"
+          style="font-size: 30px; color: #f53082"
+          class="icon"
+        ></v-icon>
+      </div>
+      <div
+        class="w-100 d-flex justify-content-center align-items-center"
+        style="height: 30px; font-size: 15px"
+      >
+        购物车
+      </div>
     </div>
+
     <el-drawer
       :withHeader="false"
       :show-close="false"
       :visible.sync="drawer"
       :direction="direction"
-
     >
       <shoppingTrolley></shoppingTrolley>
     </el-drawer>
   </div>
 </template>
 <script>
-import shoppingTrolley from './shoppingTrolley.vue';
+import shoppingTrolley from "./shoppingTrolley.vue";
 export default {
   name: "",
   components: { shoppingTrolley },
+
   data() {
     return {
       isDropdownVisible: false,
       indexList: [
-        { name: "shoucang", inf: "收藏" },
-        { name: "dingdan", inf: "订单" },
-        { name: "lishi", inf: "历史" },
-        { name: "gouwuche", inf: "购物车" },
+        { name: "shoucang", inf: "收藏", url: "/ss/favorite" },
+        { name: "dingdan", inf: "订单", url: "/ss/userOrder" },
+        { name: "lishi", inf: "历史", url: "/ss/history" },
+        // { name: "gouwuche", inf: "购物车",url:"" },
       ],
       drawer: false,
+      dialogVisible: false,
       direction: "rtl",
     };
   },
   methods: {
     changeTextColor(item, isHovered) {
-      this.$set(item, 'textColor', isHovered ? '#f53082' : '');
+      this.$set(item, "textColor", isHovered ? "#f53082" : "");
     },
     showDropdown() {
       this.isDropdownVisible = true;
@@ -86,22 +123,35 @@ export default {
     hideDropdown() {
       this.isDropdownVisible = false;
     },
-    dianji(index){
-      console.log(index)
-      if(index==3){
-        this.drawer = true
+    dianji(index) {
+      console.log(index);
+      if (index == 0) {
+        this.$router.push("/ss/favorite");
+      } else if (index == 1) {
+        this.$router.push("userOrder");
+      } else if ((index = 2)) {
+        this.$router.push("history");
+      } else if (index == 3) {
+        this.drawer = true;
       }
+    },
+    showdengru(){
+      this.$store.commit('showLogin')
     }
   },
 };
 </script>
 
 <style lang="scss" scoped>
-  .hover-effect:hover .icon {
-    transform: translateY(-6px);
-    transition: transform 0.2s ease;
-    // background-color: #fafafa2f;
-  }
+a {
+  text-decoration: none; /* 去掉下划线 */
+  color: inherit; /* 保留默认颜色 */
+}
+.hover-effect:hover .icon {
+  transform: translateY(-6px);
+  transition: transform 0.2s ease;
+  // background-color: #fafafa2f;
+}
 /* 定义名为photo的类*/
 .photo {
   margin-top: 5px;

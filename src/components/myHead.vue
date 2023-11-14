@@ -14,7 +14,7 @@
       <div class="nav">
         <ul>
           <li v-for="item in indexList" :key="item.ID">
-            <a :href="item.url">{{ item.name }}</a>
+            <a :href="item.url" :style="'/#'+$route.path==item.url?'color: #f53082':''" >{{ item.name }}</a>
           </li>
 
           <div class="nav-box"></div>
@@ -54,14 +54,16 @@ export default {
     return {
       indexList: [
         { ID: 1, name: "主页", url: "/#/ss/home" },
-        { ID: 1, name: "商品分类", url: "#/ss/productList" },
-        { ID: 1, name: "开发日志", url: "/#/ss/logShow" },
+        { ID: 2, name: "商品分类", url: "/#/ss/productList" },
+        { ID: 3, name: "开发日志", url: "/#/ss/logShow" },
       ],
       drawer: false,
       direction: "rtl",
     };
   },
   methods: {
+
+    
     handleClose(done) {
       this.$confirm("确认关闭？")
         .then((_) => {
@@ -70,6 +72,9 @@ export default {
         .catch((_) => {});
     },
   },
+  mounted(){
+    //  this.$store.commit("showRegister")
+  }
 };
 </script>
 

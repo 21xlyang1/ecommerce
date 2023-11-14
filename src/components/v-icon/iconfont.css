@@ -1,10 +1,9 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4310153 */
-  src: url('iconfont.woff2?t=1699260300912') format('woff2'),
-       url('iconfont.woff?t=1699260300912') format('woff'),
-       url('iconfont.ttf?t=1699260300912') format('truetype');
+  src: url('iconfont.woff2?t=1699932189299') format('woff2'),
+       url('iconfont.woff?t=1699932189299') format('woff'),
+       url('iconfont.ttf?t=1699932189299') format('truetype');
 }
-
 
 .iconfont {
   font-family: "iconfont" !important;
@@ -12,6 +11,26 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-notsee:before {
+  content: "\e601";
+}
+
+.icon-cansee:before {
+  content: "\e602";
+}
+
+.icon-bilibili:before {
+  content: "\e883";
+}
+
+.icon-weixin:before {
+  content: "\e600";
+}
+
+.icon-QQ:before {
+  content: "\e882";
 }
 
 .icon-gouwuche:before {

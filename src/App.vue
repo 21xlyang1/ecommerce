@@ -1,16 +1,22 @@
 <template>
   <div id="app">
+    <dialog closeByMask  class="d-flex align-items-center"  style="padding: 0px; border:0px;z-index: 100;height: 100%; background: none;">
+      <loginCard :islog="$store.state.isLoginShow" ></loginCard>
+    </dialog>
     <router-view name="one"></router-view>
+
 
   </div>
 </template>
  
 
 <script>
-import HelloWorldVue from "./components/HelloWorld.vue";
+
+import loginCard from './components/loginCard.vue';
+
 export default {
   name: "",
-  components: { HelloWorldVue },
+  components: { loginCard },
 };
 </script>
 
@@ -34,5 +40,18 @@ nav {
       color: #42b983;
     }
   }
+}
+
+dialog::backdrop {
+  background: rgba($color: #000000, $alpha: 0.4);
+}
+dialog {
+   transition: opacity 0.4s ease;
+   opacity: 1;
+}
+dialog:not([open]) {
+  display: block;
+  opacity: 0;
+  visibility: hidden;
 }
 </style>

@@ -1,40 +1,79 @@
 <template>
   <div class="d-flex h-100">
+    <!-- 头像 -->
     <div class="hover-trigger">
       <div class="photo">
-        <img src="../assets\img\1.png" alt="" />
-      </div>
-      <!-- 下拉框内容 -->
-      <div class="dropdown">
+        <img v-show="isLog" src="../assets\img\1.png" alt="" />
         <div
-          class="p-2 pt-3 pb-3 shadow-sm rounded-2 w-100"
-          style="height: 200px; background-color: #fafafa"
+          class="d-flex justify-content-center align-content-center"
+          v-show="!isLog"
         >
+          <v-icon
+            style="font-size: 35px; color: #fafafa"
+            name="yonghu"
+          ></v-icon>
+        </div>
+      </div>
+      <div class="dropdown">
+        <!-- 登入前的下拉框 -->
+        <div
+          v-if="!isLog"
+          class="p-2 pt-3 pb-3 shadow-sm rounded-2 w-100"
+          style="height: 200px; background-color: #ecf0f3"
+        >
+          <div>登入即可享受</div>
+          <div class="h5 mb-3">极致优惠</div>
           <div>
-            <el-button style="width: 120px" @click="$store.commit('showLogin')">登入</el-button>
+            <el-button
+              :round="true"
+              type="primary"
+              style="width: 180px"
+              @click="$store.commit('showLogin')"
+              >登入</el-button
+            >
           </div>
           <div class="pt-3">
-            <el-button style="width: 120px" @click="$store.commit('showRegister')">注册</el-button>
+            <el-button
+              :round="true"
+              type="warning"
+              style="width: 180px"
+              @click="$store.commit('showRegister')"
+              >注册</el-button
+            >
+          </div>
+        </div>
+        <!-- 登入后的下拉框 -->
+        <div
+          v-if="isLog"
+          class="w-100 p-3 shadow-sm rounded-2"
+          style="height: 250px; background-color: #fff"
+        >
+          <div class="h6 pb-3">{{ "username" }}</div>
+          <div
+            class="d-flex justify-content-evenly rounded item align-items-center"
+            v-for="item,index in btnList"
+            :key="item.name"
+            style="height: 40px;cursor: pointer;"
+            @click="clickButton(index)"
+          >
+            <v-icon :style="{color:item.color}" style="font-size: 20px" :name="item.icon"></v-icon>
+            <div class="d-flex" style="width: 100px; font-size: 15px">
+              {{ item.name }}
+            </div>
+            <div style="width: 18px">
+              <img
+                v-show="item.jiantou"
+                src="../../public/img/icon/右箭头.png"
+                style="height: 18px"
+                alt=""
+              />
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <el-dialog  :visible.sync="dialogVisible"  :show-close="false" width="30%">
-      <div class="w-100 h-100 bg-danger p-3" ></div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
-          >确 定</el-button
-        >
-      </span>
-    </el-dialog >
 
-
-    <!-- <dialog :open="true" style="margin-top: 40px;z-index: 1000px;">
-      sfd
-    </dialog> -->
-
-
+    <!-- 用户操作 -->
     <router-link
       v-for="(item, index) in indexList"
       :key="index"
@@ -63,6 +102,7 @@
         {{ item.inf }}
       </div>
     </router-link>
+    <!-- 购物车按钮 -->
     <div @click="drawer = true" class="h-100 hover-effect ps-3 pe-3">
       <div class="w-100" style="height: 10px"></div>
       <div
@@ -82,12 +122,13 @@
         购物车
       </div>
     </div>
-
+    <!-- 购物车 -->
     <el-drawer
       :withHeader="false"
       :show-close="false"
       :visible.sync="drawer"
       :direction="direction"
+      :size="500"
     >
       <shoppingTrolley></shoppingTrolley>
     </el-drawer>
@@ -108,9 +149,16 @@ export default {
         { name: "lishi", inf: "历史", url: "/ss/history" },
         // { name: "gouwuche", inf: "购物车",url:"" },
       ],
+      btnList: [
+        {color:"blue", name: "个人中心", icon: "person", jiantou: true },
+        {color:"orange", name: "商家管理", icon: "shangjia", jiantou: true },
+        {color:"green", name: "后台管理", icon: "houtai", jiantou: true },
+        {color:"red", name: "退出登入", icon: "tuichu", jiantou: false },
+      ],
       drawer: false,
       dialogVisible: false,
       direction: "rtl",
+      isLog: false,
     };
   },
   methods: {
@@ -128,21 +176,46 @@ export default {
       if (index == 0) {
         this.$router.push("/ss/favorite");
       } else if (index == 1) {
-        this.$router.push("userOrder");
+        this.$router.push("/ss/userOrder");
       } else if ((index = 2)) {
-        this.$router.push("history");
+        this.$router.push("/ss/history");
       } else if (index == 3) {
         this.drawer = true;
       }
     },
-    showdengru(){
-      this.$store.commit('showLogin')
-    }
+    showdengru() {
+      this.$store.commit("showLogin");
+    },
+    clickButton(index) {
+      // 个人中心
+      if (index == 0) {
+        // 商家管理
+      } else if (index == 1) {
+        // 后台管理
+      } else if (index == 2) {
+        // 退出登入
+      } else if (index == 3) {
+        this.$cookies.set("isLog", false);
+      }
+    },
+  },
+  mounted() {
+    setInterval(() => {
+      if (this.$cookies.get("isLog") == "true") {
+        this.isLog = true;
+      } else {
+        this.isLog = false;
+      }
+    }, 100);
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.item:hover {
+  background: rgba($color: #000000, $alpha: 0.2);
+}
+
 a {
   text-decoration: none; /* 去掉下划线 */
   color: inherit; /* 保留默认颜色 */
@@ -163,9 +236,10 @@ a {
   /* 设置边框圆角为50%*/
   overflow: hidden;
   /* 设置溢出隐藏*/
-  border: 5px solid #fafafa;
+  border: 5px solid#e3edf0;
   /* 设置边框为5像素实线，颜色为#fafafa*/
-  background-color: #fafafa;
+  background-color: #9ca4a8;
+
   /* 设置背景颜色为#fafafa*/
 }
 
@@ -187,8 +261,8 @@ a {
   display: none;
   position: absolute;
   top: 80%;
-  left: -67px;
-  width: 200px;
+  left: -90px;
+  width: 250px;
   // background-color: #fff;
   // border: 1px solid #ccc;
   // box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);

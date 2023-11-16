@@ -1,5 +1,5 @@
 <template>
-  <div class="h-100 d-flex justify-content-evenly w-100 shadow-sm myhead">
+  <div class="h-100 d-flex justify-content-evenly w-100 shadow-sm myhead" style="background: #fff;">
     <!-- log -->
     <div class="d-flex justify-content-center align-items-center">
       <img
@@ -52,6 +52,7 @@ export default {
   components: { usercard, searchBox, Search,shoppingTrolley },
   data() {
     return {
+      notNeedLog:false,
       indexList: [
         { ID: 1, name: "主页", url: "/#/ss/home" },
         { ID: 2, name: "商品分类", url: "/#/ss/productList" },
@@ -74,11 +75,23 @@ export default {
   },
   mounted(){
     //  this.$store.commit("showRegister")
-  }
+    if(this.notNeedLog){
+      this.$cookies.set('isLog',true);
+    }else{
+      // this.$cookies.set('isLog',false);
+    }
+
+
+
+
+  } 
 };
 </script>
 
 <style lang="scss" scoped>
+
+
+
 .myhead {
   // position: sticky;
   // top: 0;

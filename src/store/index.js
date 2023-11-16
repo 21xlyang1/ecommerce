@@ -6,6 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     isLoginShow:true,
+    gunDongHigh:0,
   },
   getters: {
   },
@@ -35,6 +36,9 @@ export default new Vuex.Store({
     closeLogin(state){
       var dialog = document.querySelector('dialog')
       dialog.close()
+    },
+    setGunDongHigh(state,high){
+      state.gunDongHigh=high
     }
   },
   actions: {

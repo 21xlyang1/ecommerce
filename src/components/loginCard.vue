@@ -5,15 +5,8 @@
         <h2 class="form_title title">创建账号</h2>
 
         <span class="form_span">选择注册方式活电子邮箱注册</span>
-
-        <!-- <input type="text" class="form_input" placeholder="Name" />
-        <div style="height: 20px"></div>
-        <input type="text" class="form_input" placeholder="Email" />
-        <div style="height: 20px"></div>
-        <input type="text" class="form_input" placeholder="Password" /> -->
-
+        <!-- 注册表单 -->
         <div v-for="(value, key) in registerInf" :key="key">
-          <!-- <input v-model="value.data" type="text" class="form_input" :placeholder="key" /> -->
           <FloatingLabel :label="key" v-model="value.data"></FloatingLabel>
           <div
             class="d-flex ps-4 p-0"
@@ -22,7 +15,7 @@
             {{ value.error }}
           </div>
         </div>
-
+        <!-- 注册按钮 -->
         <button @click="register" class="form_button button submit">
           SIGN UP
         </button>
@@ -32,14 +25,16 @@
       <form action="" method="" class="form" id="b-form">
         <h2 class="form_title title">登入账号</h2>
         <div class="form_icons">
-          <i class="iconfont icon-QQ"></i>
-          <i class="iconfont icon-weixin"></i>
-          <i class="iconfont icon-bilibili"></i>
+          <i class="iconfont icon-QQ" style="background-color: red"></i>
+          <i class="iconfont icon-weixin" style="background-color: green"></i>
+          <i
+            class="iconfont icon-bilibili"
+            style="background-color: rgb(255, 81, 0)"
+          ></i>
         </div>
         <span class="form_span">选择登录方式活电子邮箱登录</span>
-
+        <!-- 登入表单 -->
         <div v-for="(value, key) in loginInf" :key="key">
-          <!-- <input v-model="value.data" type="text" class="form_input" :placeholder="key" /> -->
           <FloatingLabel :label="key" v-model="value.data"></FloatingLabel>
           <div
             class="d-flex ps-4 p-0"
@@ -58,14 +53,15 @@
             >自动登入</el-checkbox
           >
         </div>
-
+        <!-- 忘记密码 -->
         <a class="form_link">忘记密码？</a>
+        <!-- 登入按钮 -->
         <button @click="login" class="form_button button submit">
           SIGN IN
         </button>
       </form>
     </div>
-
+    <!-- 切换部分 -->
     <div class="switch" id="switch-cnt">
       <div class="switch_circle"></div>
       <div class="switch_circle switch_circle-t"></div>
@@ -76,7 +72,11 @@
         <p class="switch_description description">
           已经有账号了嘛，去登入账号来进入奇妙世界吧！！！
         </p>
-        <button class="switch_button button switch-btn" @click="changeForm">
+        <button
+          style="margin-top: 50px"
+          class="switch_button button switch-btn"
+          @click="changeForm"
+        >
           SIGN IN
         </button>
       </div>
@@ -89,7 +89,11 @@
           去注册一个账号，成为尊贵的粉丝会员，让我们踏入奇妙的旅途！
         </p>
 
-        <button class="switch_button button switch-btn" @click="changeForm">
+        <button
+          style="margin-top: 50px"
+          class="switch_button button switch-btn"
+          @click="changeForm"
+        >
           SIGN UP
         </button>
       </div>
@@ -107,7 +111,6 @@ export default {
     return {
       registerInf: {
         username: { data: "", error: "" },
-        
         password: { data: "", error: "" },
         repassword: { data: "", error: "" },
         email: { data: "", error: "" },
@@ -161,6 +164,9 @@ export default {
       if (password.data == "") {
         password.error = "请输入密码";
       }
+      this.$cookies.set("isLog", true);
+      this.$store.commit("closeLogin")
+
     },
     register() {
       var username = this.registerInf.username;
@@ -189,16 +195,16 @@ export default {
         password.error = "密码的长度不得大于11位";
       }
 
-      if (password.data!=repassword.data){
-        repassword.error="两次密码输入不一致"
+      if (password.data != repassword.data) {
+        repassword.error = "两次密码输入不一致";
       }
 
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-      
-      if (email.data==""){
-        email.error="邮箱不得为空"
-      }else if(!emailRegex.test(email.data)){
-        email.error="邮箱格式不正确"
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (email.data == "") {
+        email.error = "邮箱不得为空";
+      } else if (!emailRegex.test(email.data)) {
+        email.error = "邮箱格式不正确";
       }
     },
   },
@@ -239,6 +245,7 @@ body {
   min-height: 600px;
   height: 600px;
   padding: 25px;
+
   background-color: #e4e9ec;
   // box-shadow: 10px 10px 10px #d1d9e6, -10px -10px 10px #f9f9f9;
   border-radius: 12px;
@@ -302,12 +309,13 @@ body {
 }
 
 .iconfont {
-  margin: 0 5px;
-  border: rgba(0, 0, 0, 0.5) 2px solid;
+  margin: 0 10px;
+  // border: rgba(0, 0, 0, 0.5) 2px solid;
+  color: #ffffff;
   border-radius: 50%;
   font-size: 25px;
   padding: 3px;
-  opacity: 0.5;
+  opacity: 0.7;
   transition: 0.1s;
 }
 
@@ -368,7 +376,7 @@ body {
   width: 180px;
   height: 50px;
   border-radius: 25px;
-  margin-top: 50px;
+  // margin-top: 50px;
   font-weight: 700;
   font-size: 14px;
   letter-spacing: 1.15px;

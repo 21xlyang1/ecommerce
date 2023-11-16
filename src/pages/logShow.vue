@@ -3,22 +3,16 @@
     class="bg"
     :style="{
       'background-image': `url(${require('../../public/img/log/' +
-        bgIndex +
+        bgIndex%10 +
         '.png')})`,
     }"
     style="z-index: -2"
   >
     <div class="hui" style="z-index: -1"></div>
-    <div ref="parent" class="container-xxl pt-5" style="z-index: 100">
+    <div ref="parent" class="container-xxl pt-5">
       <div
         class="w-100"
-        style="
-          padding: 100px 0px;
-          font-size: 50px;
-          z-index: 100;
-          color: #fff;
-          z-index: 10;
-        "
+        style="padding: 100px 0px; font-size: 50px; color: #fff"
       >
         项目开发日志
       </div>
@@ -28,6 +22,7 @@
         :key="index"
         :class="index % 2 == 0 ? '' : 'flex-row-reverse'"
         class="w-100 d-flex"
+        :style="{opacity:index==bgIndex?1:0.5}"
       >
         <div class="w-50" :class="index % 2 == 0 ? 'xianl' : 'xianr'"></div>
         <div class="w-50 father" :class="index % 2 == 0 ? 'xianr' : 'xianl'">
@@ -44,7 +39,7 @@
           </div>
           <div class="pt-5 p-4">
             <div
-              class="w-100 rounded card"
+              class="w-100 rounded card shadow"
               style="text-align: left; padding: 35px"
             >
               <div class="w-100">
@@ -55,7 +50,6 @@
                 <div class="pe-1" style="color: #ff7575">{{ "清菱悦风" }}</div>
                 <div style="color: #5e6d82">提交于 2018/11/15 13:36:47</div>
               </div>
-              
             </div>
           </div>
         </div>
@@ -74,6 +68,56 @@ export default {
   data() {
     return {
       logList: [
+        {
+          time: "",
+          content:
+            "Use align-self utilities on flexbox items to individually change their alignment on the cross axis (the y-axis to start, x-axis if flex-direction: column). Choose from the same options as align-items: start, end, center, baseline, or stretch (browser default).",
+        },
+        {
+          time: "",
+          content:
+            "Use align-items utilities on flexbox containers to change the alignment of flex items on the cross axis (the y-axis to start, x-axis if flex-direction: column). Choose from start, end, center, baseline, or stretch (browser default).",
+        },
+        {
+          time: "",
+          content:
+            "Set the direction of flex items in a flex container with direction utilities. In most cases you can omit the horizontal class here as the browser default is row. However, you may encounter situations where you needed to explicitly set this value (like responsive layouts).",
+        },
+        {
+          time: "",
+          content:
+            "Quickly manage the layout, alignment, and sizing of grid columns, navigation, components, and more with a full suite of responsive flexbox utilities. For more complex implementations, custom CSS may be necessary.",
+        },
+        {
+          time: "",
+          content:
+            "Apply display utilities to create a flexbox container and transform direct children elements into flex items. Flex containers and items are able to be modified further with additional flex properties.",
+        },
+        {
+          time: "",
+          content:
+            "Use align-self utilities on flexbox items to individually change their alignment on the cross axis (the y-axis to start, x-axis if flex-direction: column). Choose from the same options as align-items: start, end, center, baseline, or stretch (browser default).",
+        },
+        {
+          time: "",
+          content:
+            "Use align-items utilities on flexbox containers to change the alignment of flex items on the cross axis (the y-axis to start, x-axis if flex-direction: column). Choose from start, end, center, baseline, or stretch (browser default).",
+        },
+        {
+          time: "",
+          content:
+            "Set the direction of flex items in a flex container with direction utilities. In most cases you can omit the horizontal class here as the browser default is row. However, you may encounter situations where you needed to explicitly set this value (like responsive layouts).",
+        },
+        {
+          time: "",
+          content:
+            "Quickly manage the layout, alignment, and sizing of grid columns, navigation, components, and more with a full suite of responsive flexbox utilities. For more complex implementations, custom CSS may be necessary.",
+        },
+        {
+          time: "",
+          content:
+            "Apply display utilities to create a flexbox container and transform direct children elements into flex items. Flex containers and items are able to be modified further with additional flex properties.",
+        },
         {
           time: "",
           content:
@@ -130,13 +174,23 @@ export default {
     },
   },
   mounted() {
-    this.$nextTick(() => {
-      this.getRelativePositions();
-    });
+    // this.$nextTick(() => {
+    //   this.getRelativePositions();
+    // });
   },
   watch: {
-    isMethodBTriggered(newValue) {
-      this.bgIndex = Math.floor(newValue / 300);
+    isMethodBTriggered(high) {
+      // this.bgIndex = Math.floor(high / 300);
+      this.getRelativePositions();
+      console.log("high"+high)
+      var t = this.relativePositions;
+      for (var i = 0; i < t.length; i++) {
+        console.log("top"+t[i].top)
+        if (high + 100 < t[i].top) {
+          this.bgIndex = i;
+          break;
+        }
+      }
     },
   },
 };
@@ -144,13 +198,11 @@ export default {
 
 <style lang="scss" scoped>
 .bg {
-
   background-attachment: fixed;
   background-size: cover;
   animation: fly-in 0.3s ease-in-out;
   position: relative;
-  transition: opacity 1s ease-in-out;
-  
+  transition: background-image 0.5s ease-in-out;
 }
 /* 添加一个额外的类来设置透明度 */
 .bg.fade-out {
@@ -227,7 +279,7 @@ export default {
   padding-bottom: 12px;
 }
 .card {
-  background: rgba($color: #ffffff, $alpha: 0.7);
+  background: rgba($color: #ffffff, $alpha: 0.8);
   font-size: 18px;
 }
 </style>

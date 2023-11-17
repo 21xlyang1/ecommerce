@@ -22,7 +22,7 @@
       <myHead></myHead>
     </div>
 
-    <el-scrollbar :bar-style="'rgba(0,0,0,1)'" ref="scrollbar" class="w-100" :style="{height:outerDivHeight } ">
+    <el-scrollbar  ref="scrollbar" class="w-100" :style="{height:outerDivHeight } ">
       <router-view name="one"></router-view>
     </el-scrollbar>
   </div>

@@ -279,7 +279,9 @@ export default {
   padding-bottom: 12px;
 }
 .card {
+  
   background: rgba($color: #ffffff, $alpha: 0.8);
+  backdrop-filter: blur(6px);
   font-size: 18px;
 }
 </style>

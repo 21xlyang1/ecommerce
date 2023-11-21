@@ -23,7 +23,7 @@
               :icon="'add'"
               :size="'30px'"
               :color="'green'"
-              @click="dialogShow=true"
+              @click="addInf.show = true"
             ></iconbutton>
           </div>
           <div style="width: 80%"></div>
@@ -71,8 +71,9 @@
               <div
                 class="d-flex align-items-center justify-content-center"
                 :style="overIndex == index ? 'background:rgba(0,0,0,0.05)' : ''"
-                style="width: 15%"
-                @click="1 == 1"
+                style="width: 15%; position: relative; overflow: visible"
+                @mouseover="updateIndex = index"
+                @mouseleave="updateIndex = -1"
               >
                 <div v-show="overIndex != index">{{ item.num }}</div>
                 <v-icon
@@ -81,6 +82,48 @@
                   style="font-size: 24px"
                   name="list"
                 ></v-icon>
+                <div
+                  v-show="updateIndex == index && overIndex == index"
+                  class="list showdong"
+                  style="width: 100%; height: 100px"
+                >
+                  <div
+                    class="rounded-1"
+                    style="
+                      width: 100%;
+                      height: 70px;
+                      z-index: 10000;
+                      background: rgba(255, 255, 255, 0.8);
+                    "
+                  >
+                    <div
+                      style="height: 35px"
+                      class="w-100 d-flex justify-content-center align-items-center"
+                    >
+                      <iconbutton
+                        :iconSize="'24px'"
+                        :icon="'updata'"
+                        :size="'28px'"
+                        :color="'green'"
+                        :showBorder="false"
+                        @click="updateInf.show=true"
+                      ></iconbutton>
+                    </div>
+                    <div
+                      style="height: 35px"
+                      class="w-100 d-flex justify-content-center align-items-center"
+                    >
+                      <iconbutton
+                        :iconSize="'24px'"
+                        :icon="'delate'"
+                        :size="'28px'"
+                        :color="'red'"
+                        :showBorder="false"
+
+                      ></iconbutton>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </el-scrollbar>
@@ -94,19 +137,27 @@
         </div>
       </div>
     </div>
+<!-- 添加对话框 -->
+    <el-dialog title="添加收藏夹" width="500px" :visible.sync="addInf.show">
+      <div class="d-flex w-100 align-items-center p-4">
+        <div style="width: 100px">收藏夹名称</div>
+        <el-input placeholder="请输入内容" v-model="addInf.name" clearable>
+        </el-input>
+      </div>
 
-    <el-dialog title="收货地址" :visible.sync="dialogShow">
-      <!-- <el-form>
-        <el-form-item label="活动名称" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="活动区域" :label-width="formLabelWidth">
-          <el-select v-model="form.region" placeholder="请选择活动区域">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
-          </el-select>
-        </el-form-item>
-      </el-form> -->
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogShow = false">取 消</el-button>
+        <el-button type="primary" @click="dialogShow = false">确 定</el-button>
+      </div>
+    </el-dialog>
+    <!-- 修改对话框 -->
+        <el-dialog title="修改收藏夹信息" width="500px" :visible.sync="updateInf.show">
+      <div class="d-flex w-100 align-items-center p-4">
+        <div style="width: 100px">收藏夹名称</div>
+        <el-input placeholder="请输入内容" v-model="updateInf.name" clearable>
+        </el-input>
+      </div>
+
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogShow = false">取 消</el-button>
         <el-button type="primary" @click="dialogShow = false">确 定</el-button>
@@ -129,16 +180,18 @@ export default {
         { ID: 3, name: "智能手表", num: 4 },
         { ID: 4, name: "休闲食品", num: 6 },
       ],
+      addInf: { name: "",show:false },
+      updateInf: { name: "",show:false },
       overIndex: -1,
       nowIndex: 0,
       dialogShow: false,
+      updateIndex: -1,
     };
   },
   methods: {
     setOuterDivSize() {
       this.outerDivHeight = window.innerHeight - 70;
     },
-
   },
   mounted() {
     this.setOuterDivSize(); // 初始化时设置最外层div的尺寸
@@ -167,6 +220,13 @@ export default {
 //   left: 0;
 //   background: rgba($color: #000000, $alpha: 0.3);
 // }
+
+.list {
+  position: absolute;
+  top: 44px;
+  left: 0px;
+  z-index: 1000;
+}
 
 .showdong {
   animation: pop-btn 0.3s;

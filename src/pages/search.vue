@@ -1,15 +1,131 @@
 <template>
-  <div>
-    商品搜索页
+  <div class="search-container">
+    <div class="category-buttons">
+      <button :class="{ active: activeCategory === '商品' }" @click="changeCategory('商品')">商品</button>
+      <button :class="{ active: activeCategory === '店铺' }" @click="changeCategory('店铺')">店铺</button>
+      <button :class="{ active: activeCategory === '用户' }" @click="changeCategory('用户')">用户</button>
+    </div>
+    <div class="search-input-container">
+      <input type="text" v-model="searchQuery" placeholder="请输入搜索关键字" class="search-input">
+      <button @click="startSearch" class="search-button">
+        <img src="search-icon.png" alt="搜索" class="search-icon">
+      </button>
+    </div>
+    <div class="sort-buttons">
+      <button :class="{ active: activeSort === '综合排序' }" @click="changeSort('综合排序')">综合排序</button>
+      <button :class="{ active: activeSort === '高销量优先' }" @click="changeSort('高销量优先')">高销量优先</button>
+      <button :class="{ active: activeSort === '新发布优先' }" @click="changeSort('新发布优先')">新发布优先</button>
+      <button :class="{ active: activeSort === '价格区间' }" @click="changeSort('价格区间')">价格区间</button>
+    </div>
   </div>
 </template>
+
 <script>
-  export default {
-    name:"",
-  }
+export default {
+  data() {
+    return {
+      searchQuery: '', // 搜索关键字
+      activeCategory: '商品', // 当前选中的分类
+      activeSort: '综合排序', // 当前选中的排序方式
+    };
+  },
+  methods: {
+    changeCategory(category) {
+      // 切换分类
+      this.activeCategory = category;
+    },
+    changeSort(sort) {
+      // 切换排序方式
+      this.activeSort = sort;
+    },
+    startSearch() {
+      // 发起搜索请求，与后端进行通信
+      console.log('开始搜索:', this.searchQuery);
+      // 清空搜索框
+      this.searchQuery = '';
+      // 隐藏模糊搜索的提示
+      this.showSuggestions = false;
+
+      // 使用异步请求库发送请求
+      axios.post('/api/search', {
+        query: this.searchQuery,
+        category: this.activeCategory,
+        sort: this.activeSort,
+      })
+      .then(response => {
+        // 处理请求成功的响应
+        console.log('搜索结果:', response.data);
+      })
+      .catch(error => {
+        // 处理请求失败的错误
+        console.error('搜索请求失败:', error);
+      });
+    },
+  },
+};
 </script>
 
-<style lang="scss" scoped>
+<style>
+.search-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
+.category-buttons button,
+.sort-buttons button {
+  background-color: #fff;
+  border: none;
+  padding: 5px 10px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.category-buttons button.active,
+.sort-buttons button.active {
+  background-color: #f2f2f2;
+}
+
+.search-input-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.search-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex: 1;
+  font-size: 14px;
+}
+
+.search-button {
+  background-color: #fff;
+  border: none;
+  padding: 10px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.search-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.sort-buttons {
+  margin-top: 10px;
+}
+
+.sort-buttons button {
+  background-color: #fff;
+  border: none;
+  padding: 5px 10px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.sort-buttons button.active {
+  background-color: #f2f2f2;
+}
 </style>
-

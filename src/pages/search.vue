@@ -6,13 +6,14 @@
     <button :class="{ active: activeCategory === '用户' }" @click="changeCategory('用户')">用户</button>
   </div>
   <div class="search-input-container">
-    <div class="search-wrapper">
-      <input type="text" v-model="searchQuery" placeholder="请输入搜索关键字" class="search-input">
-      <button @click="startSearch" class="search-button">
-        <img src="search-icon.png" alt="搜索" class="search-icon">
-      </button>
-    </div>
-  </div>
+<div class="search-wrapper">
+  <input type="text" v-model="searchQuery" placeholder="请输入搜索关键字" class="search-input">
+  <button @click="startSearch" class="search-button">
+      <img src="../assets/img/search-icon.png" alt="搜索" class="search-icon">
+    <span class="sr-only">搜索</span>
+  </button>
+</div>
+</div>
   <div class="sort-buttons">
     <button :class="{ active: activeSort === '综合排序' }" @click="changeSort('综合排序')">综合排序</button>
     <button :class="{ active: activeSort === '高销量优先' }" @click="changeSort('高销量优先')">高销量优先</button>
@@ -96,7 +97,7 @@ margin-top: 10px;
 }
 
 .search-wrapper {
-position: relative;
+position: relative; /* 添加这行代码 */
 display: flex;
 align-items: center;
 }
@@ -116,7 +117,7 @@ border: none;
 padding: 10px;
 margin-left: -40px; /* 负边距调整按钮位置 */
 z-index: 1; /* 确保按钮位于输入框上层 */
-position: absolute;
+position: relative;
 right: 5px;
 cursor: pointer;
 }
@@ -127,6 +128,11 @@ height: 16px;
 }
 
 .sort-buttons {
+ /* 调整排序按钮的位置 */
+ display: flex;
+justify-content: space-between; /* 可以考虑使用 flex 布局对按钮进行定位 */
+width: 100%; /* 适应父容器宽度 */
+max-width: 800px; /* 或者根据需要设置最大宽度 */
 margin-top: 10px;
 }
 
@@ -141,4 +147,18 @@ cursor: pointer;
 .sort-buttons button.active {
 background-color: #f2f2f2;
 }
+
+.search-button span.sr-only {
+position: absolute;
+width: 1px;
+height: 1px;
+padding: 0;
+margin: -20px;
+overflow: hidden;
+clip: rect(0, 0, 0, 0);
+white-space: nowrap;
+border: 0;
+}
+
 </style>
+

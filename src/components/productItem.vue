@@ -99,7 +99,7 @@ export default {
     .singleCard .commodityPhoto{
         // background-color: khaki;
         width: 10px;
-        height: 10px; 
+        height: 10px;
         width: 100%; /* 调整宽度为50% */
         height: 100%; /* 设置高度为100% */
 

@@ -1,53 +1,10 @@
 <template>
   <div class="w-100 d-flex" :style="{ height: outerDivHeight }">
-    <!-- 侧边导航栏 -->
+    <myAside
+      :title="'商家管理系统'"
+      :sideList="sideList"
+    ></myAside>
 
-    <el-scrollbar
-      style="
-        width: 300px;
-        background: linear-gradient(135deg, #8f75da 0, #727cf5 60%);
-      "
-      :style="{ height: outerDivHeight }"
-    >
-      <div
-        class="w-100 d-flex justify-content-center align-items-center"
-        style="height: 100px; color: #fff"
-      >
-        <div style="font-size: 20px">商家管理系统</div>
-      </div>
-      <router-link
-        :to="item.to"
-        class="d-flex align-items-center sideItem"
-        v-for="(item, index) in sideList"
-        :key="index"
-        style="height: 80px; text-decoration: none"
-      >
-        <div
-          class="d-flex justify-content-center align-items-center"
-          style="width: 80px"
-        >
-          <v-icon :name="item.icon" style="font-size: 24px"></v-icon>
-        </div>
-
-        <div class="d-flex" style="font-size: 18px; width: 160px">
-          {{ item.name }}
-        </div>
-        <div
-          class="d-flex justify-content-center align-items-center"
-          style="width: 80px"
-        >
-          <!-- <div class=" bg-body rounded-1" style="width: 36px; height: 16px;color: #000;font-size:12px ">
-            New
-          </div> -->
-          <div
-            v-if="item.num != 0"
-            class="d-flex justify-content-center align-items-center numicon"
-          >
-            <div>{{ item.num }}</div>
-          </div>
-        </div>
-      </router-link>
-    </el-scrollbar>
     <el-scrollbar style="flex-grow: 1" :style="{ height: outerDivHeight }">
       <router-view name="tow"></router-view>
     </el-scrollbar>
@@ -56,9 +13,10 @@
 <script>
 import myHead from "@/components/myHead.vue";
 
+import myAside from "@/components/myAside.vue";
 export default {
   name: "",
-  components: { myHead },
+  components: { myHead, myAside },
   data() {
     return {
       outerDivHeight: "", // 最外层div的高度
@@ -112,7 +70,6 @@ export default {
   animation: pop-btn 0.25s ease; /* 鼠标悬浮时执行一次性动画 */
 }
 .numicon:hover {
-
   animation: pop-btn 0.25s ease; /* 鼠标悬浮时执行一次性动画 */
   transform: scale(1.3);
 }

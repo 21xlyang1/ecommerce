@@ -1,10 +1,9 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4310153 */
-  src: url('iconfont.woff2?t=1699260300912') format('woff2'),
-       url('iconfont.woff?t=1699260300912') format('woff'),
-       url('iconfont.ttf?t=1699260300912') format('truetype');
+  src: url('iconfont.woff2?t=1700238783003') format('woff2'),
+       url('iconfont.woff?t=1700238783003') format('woff'),
+       url('iconfont.ttf?t=1700238783003') format('truetype');
 }
-
 
 .iconfont {
   font-family: "iconfont" !important;
@@ -12,6 +11,66 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-list:before {
+  content: "\e6e4";
+}
+
+.icon-shoucangjia:before {
+  content: "\e610";
+}
+
+.icon-add:before {
+  content: "\e622";
+}
+
+.icon-updata:before {
+  content: "\e8cf";
+}
+
+.icon-delate:before {
+  content: "\e718";
+}
+
+.icon-person:before {
+  content: "\e653";
+}
+
+.icon-tuichu:before {
+  content: "\e60d";
+}
+
+.icon-houtai:before {
+  content: "\e654";
+}
+
+.icon-shangjia:before {
+  content: "\e647";
+}
+
+.icon-yonghu:before {
+  content: "\e6a5";
+}
+
+.icon-notsee:before {
+  content: "\e601";
+}
+
+.icon-cansee:before {
+  content: "\e602";
+}
+
+.icon-bilibili:before {
+  content: "\e883";
+}
+
+.icon-weixin:before {
+  content: "\e600";
+}
+
+.icon-QQ:before {
+  content: "\e882";
 }
 
 .icon-gouwuche:before {

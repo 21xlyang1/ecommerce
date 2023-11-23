@@ -61,19 +61,22 @@
           </div>
         </div>
       </div>
-      <div
-        class="conbg w-100"
-        style="height: 700px; top: 75%"
-      >
+      <div class="conbg w-100" style="height: 700px; top: 75%">
         <div
-        v-for="i in 2"
-        :key="i"
-        class=" w-100 d-flex  justify-content-evenly"
-        style="height: 350px;"
+          v-for="i in 2"
+          :key="i"
+          class="w-100 d-flex justify-content-evenly"
+          style="height: 350px"
         >
-        <productCard v-show="index>maxHang*(i-1)&&index<=(maxHang*(i-1)+hangNum)" v-for="item,index in productList" :key="item.ID"></productCard>
+          <productCard
+            :proId="item.ID"
+            v-show="
+              index > maxHang * (i - 1) && index <= maxHang * (i - 1) + hangNum
+            "
+            v-for="(item, index) in productList"
+            :key="item.ID"
+          ></productCard>
         </div>
-
       </div>
     </div>
     <div class="w-100 sbg" style="height: 600px"></div>
@@ -108,8 +111,8 @@ export default {
         { ID: 15 },
         { ID: 16 },
       ],
-      hangNum:6,
-      maxHang:6,
+      hangNum: 6,
+      maxHang: 6,
     };
   },
   methods: {
@@ -124,19 +127,20 @@ export default {
     },
     getDivWidth() {
       // 使用$refs来获取引用的div元素
+
       const divWidth = this.$refs.myDiv.offsetWidth;
       console.log("Div宽度：", divWidth);
-      return divWidth
+      return divWidth;
     },
     handleResize() {
       // 当div大小发生变化时触发的事件处理函数
       // 可以在这里执行你想要的操作
       console.log("Div大小发生变化！");
-      this.hangNum=Math.floor(this.getDivWidth()/250)
-      if(this.hangNum>this.maxHang){
-        this.hangNum=this.maxHang
+      this.hangNum = Math.floor(this.getDivWidth() / 250);
+      if (this.hangNum > this.maxHang) {
+        this.hangNum = this.maxHang;
       }
-      console.log(this.hangNum)
+      console.log(this.hangNum);
     },
   },
   mounted() {
@@ -145,10 +149,13 @@ export default {
     }, 3000);
 
     // 在组件挂载后立即获取一次宽度
-    this.handleResize()
+    this.handleResize();
 
     // 监听窗口大小变化，当窗口大小变化时重新获取宽度
     window.addEventListener("resize", this.handleResize);
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.handleResize);
   },
 };
 </script>

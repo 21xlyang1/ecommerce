@@ -1,5 +1,5 @@
 <template>
-  <div class="h-100 d-flex justify-content-evenly w-100 shadow-sm myhead">
+  <div class="h-100 d-flex justify-content-evenly w-100 shadow-sm myhead" style="background: #fff;">
     <!-- log -->
     <div class="d-flex justify-content-center align-items-center">
       <img
@@ -14,7 +14,7 @@
       <div class="nav">
         <ul>
           <li v-for="item in indexList" :key="item.ID">
-            <a :href="item.url" >{{ item.name }}</a>
+            <a :href="item.url" :style="'/#'+$route.path==item.url?'color: #f53082':''" >{{ item.name }}</a>
           </li>
 
           <div class="nav-box"></div>
@@ -26,7 +26,15 @@
     <div>
       <searchBox></searchBox>
     </div>
+    <!-- <el-drawer
+      :withHeader="false"
+      :show-close="false"
+      :visible.sync="drawer"
+      :direction="direction"
 
+    >
+      <shoppingTrolley></shoppingTrolley>
+    </el-drawer> -->
     <!-- 用户 -->
     <div>
       <usercard />
@@ -37,26 +45,56 @@
 import Search from "@/pages/search.vue";
 import searchBox from "./searchBox.vue";
 import usercard from "./usercard.vue";
+import shoppingTrolley from './shoppingTrolley.vue';
 
 export default {
   name: "myHead",
-  components: { usercard, searchBox, Search },
+  components: { usercard, searchBox, Search,shoppingTrolley },
   data() {
     return {
+      notNeedLog:false,
       indexList: [
         { ID: 1, name: "主页", url: "/#/ss/home" },
-        { ID: 1, name: "商品分类", url: "#/ss/productList" },
-        { ID: 1, name: "开发日志", url: "/#/ss/logShow" },
+        { ID: 2, name: "商品分类", url: "/#/ss/productList" },
+        { ID: 3, name: "开发日志", url: "/#/ss/logShow" },
       ],
+      drawer: false,
+      direction: "rtl",
     };
   },
+  methods: {
+
+    
+    handleClose(done) {
+      this.$confirm("确认关闭？")
+        .then((_) => {
+          done();
+        })
+        .catch((_) => {});
+    },
+  },
+  mounted(){
+    //  this.$store.commit("showRegister")
+    if(this.notNeedLog){
+      this.$cookies.set('isLog',true);
+    }else{
+      // this.$cookies.set('isLog',false);
+    }
+
+
+
+
+  } 
 };
 </script>
 
 <style lang="scss" scoped>
+
+
+
 .myhead {
-  position: sticky;
-  top: 0;
+  // position: sticky;
+  // top: 0;
   // left: 0;
 }
 .logotext {
@@ -109,12 +147,12 @@ body {
   width: 100%;
   text-align: center;
 }
-.nav ul li a { 
+.nav ul li a {
   color: rgb(70, 100, 180);
   font: 500 22px "优设标题黑";
   display: block;
   width: 100%;
-  height: 100%; 
+  height: 100%;
   line-height: 70px;
 }
 .nav ul li:nth-child(1):hover ~ .nav-box {

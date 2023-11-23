@@ -1,33 +1,132 @@
 <template>
-  <div class="w-100" style="height: 1000px">
-    商家管理系统
-    <!-- 导航栏 -->
-    <div class="w-100 bg-danger" style="height: 70px">
-      <myHead></myHead>
-    </div>
-    <div class="w-100 d-flex" style="height: 800px;">
-      <div class="h-100 bg-success" style="width: 300px;">
+  <div class="w-100 d-flex" :style="{ height: outerDivHeight }">
+    <!-- 侧边导航栏 -->
 
+    <el-scrollbar
+      style="
+        width: 300px;
+        background: linear-gradient(135deg, #8f75da 0, #727cf5 60%);
+      "
+      :style="{ height: outerDivHeight }"
+    >
+      <div
+        class="w-100 d-flex justify-content-center align-items-center"
+        style="height: 100px; color: #fff"
+      >
+        <div style="font-size: 20px">商家管理系统</div>
       </div>
-      <div class=" bg-primary h-100" style="flex-grow: 1;">
-        <router-view name="tow"></router-view>
-      </div>
-      
-    </div>
+      <router-link
+        :to="item.to"
+        class="d-flex align-items-center sideItem"
+        v-for="(item, index) in sideList"
+        :key="index"
+        style="height: 80px; text-decoration: none"
+      >
+        <div
+          class="d-flex justify-content-center align-items-center"
+          style="width: 80px"
+        >
+          <v-icon :name="item.icon" style="font-size: 24px"></v-icon>
+        </div>
 
-
-
+        <div class="d-flex" style="font-size: 18px; width: 160px">
+          {{ item.name }}
+        </div>
+        <div
+          class="d-flex justify-content-center align-items-center"
+          style="width: 80px"
+        >
+          <!-- <div class=" bg-body rounded-1" style="width: 36px; height: 16px;color: #000;font-size:12px ">
+            New
+          </div> -->
+          <div
+            v-if="item.num != 0"
+            class="d-flex justify-content-center align-items-center numicon"
+          >
+            <div>{{ item.num }}</div>
+          </div>
+        </div>
+      </router-link>
+    </el-scrollbar>
+    <el-scrollbar style="flex-grow: 1" :style="{ height: outerDivHeight }">
+      <router-view name="tow"></router-view>
+    </el-scrollbar>
   </div>
 </template>
 <script>
-import myHead from '@/components/myHead.vue';
+import myHead from "@/components/myHead.vue";
 
 export default {
   name: "",
-  components:{myHead},
+  components: { myHead },
+  data() {
+    return {
+      outerDivHeight: "", // 最外层div的高度
+      sideList: [
+        {
+          name: "发布商品",
+          to: "/ms/productAdd",
+          num: 0,
+          icon: "fabushangping",
+        },
+        {
+          name: "商品管理",
+          to: "/ms/productAdd",
+          num: 2,
+          icon: "shangpinguanli",
+        },
+        { name: "库存管理", to: "/ms/productAdd", num: 0, icon: "kucuntongji" },
+        { name: "订单查看", to: "/ms/productAdd", num: 11, icon: "dingdan1" },
+        { name: "退货审核", to: "/ms/productAdd", num: 9, icon: "ruihuo" },
+        { name: "商家资料", to: "/ms/productAdd", num: 0, icon: "ziliao" },
+        { name: "数据统计", to: "/ms/productAdd", num: 0, icon: "shujutongji" },
+      ],
+    };
+  },
+  methods: {
+    setOuterDivSize() {
+      this.outerDivHeight = window.innerHeight - 70 + "px";
+    },
+  },
+  mounted() {
+    this.setOuterDivSize(); // 初始化时设置最外层div的尺寸
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+.sideItem {
+  color: #cedce4;
+}
+.sideItem:hover {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.2);
+}
+.numicon {
+  color: #fff;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 12px;
+  background-color: #ff7575;
+  animation: pop-btn 0.25s ease; /* 鼠标悬浮时执行一次性动画 */
+}
+.numicon:hover {
+
+  animation: pop-btn 0.25s ease; /* 鼠标悬浮时执行一次性动画 */
+  transform: scale(1.3);
+}
+
+@keyframes pop-btn {
+  0% {
+    transform: scale(1);
+  }
+  80% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1.3);
+  }
+}
 </style>
 

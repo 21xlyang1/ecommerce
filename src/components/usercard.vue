@@ -189,10 +189,13 @@ export default {
     clickButton(index) {
       // 个人中心
       if (index == 0) {
+
         // 商家管理
       } else if (index == 1) {
+        this.$router.push("/ms/productAdd")
         // 后台管理
       } else if (index == 2) {
+
         // 退出登入
       } else if (index == 3) {
         this.$cookies.set("isLog", false);

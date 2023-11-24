@@ -61,7 +61,7 @@
           </div>
         </div>
       </div>
-      <div class="conbg w-100" style="height: 700px; top: 75%">
+      <div class="conbg w-100" style="height: 800px; top: 75%">
         <div
             v-for="i in 2"
             :key="i"
@@ -95,7 +95,7 @@ export default {
       imgNum: 3,
       productList: [
         {ID: 1, name: "Product 1", price: 19.99, imageUrl: "C:/Users/Yun/Desktop/Objects/学习/2023-2024秋季课/WEB开发/ecommerce/public/img/product/1.jpg" },
-        {ID: 2, name: "Product 2", price: 29.99, imageUrl: "C:/Users/Yun/Desktop/Objects/学习/2023-2024秋季课/WEB开发/ecommerce/public/img/product/2.jpg"},
+        {ID: 2, name: "Product 2", price: 29.99, imageUrl: "C:/Users/Yun/Desktop/Objects/学习/2023-2024秋季课/WEB开发/ecommerce/public/img/product/0.jpg"},
         {ID: 3},
         {ID: 4},
         {ID: 5},

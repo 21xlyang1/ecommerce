@@ -6,20 +6,24 @@
     ></myAside>
 
     <el-scrollbar style="flex-grow: 1" :style="{ height: outerDivHeight }">
+      <el-button @click="isLoading=true" >显示</el-button>
+      <el-button @click="isLoading=false" >隐藏</el-button>
+      <loadingVue class=" m-4"  v-show="isLoading" :size="20" ></loadingVue>
       <router-view name="tow"></router-view>
     </el-scrollbar>
   </div>
 </template>
 <script>
 import myHead from "@/components/myHead.vue";
-
 import myAside from "@/components/myAside.vue";
+import loadingVue from '@/components/loading.vue';
 export default {
   name: "",
-  components: { myHead, myAside },
+  components: { myHead, myAside,loadingVue },
   data() {
     return {
       outerDivHeight: "", // 最外层div的高度
+      isLoading:false,
       sideList: [
         {
           name: "发布商品",

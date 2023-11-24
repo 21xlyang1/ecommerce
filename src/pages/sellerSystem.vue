@@ -6,9 +6,8 @@
     ></myAside>
 
     <el-scrollbar style="flex-grow: 1" :style="{ height: outerDivHeight }">
-      <el-button @click="isLoading=true" >显示</el-button>
-      <el-button @click="isLoading=false" >隐藏</el-button>
-      <loadingVue class=" m-4"  v-show="isLoading" :size="20" ></loadingVue>
+
+      <!-- <loadingVue class=" m-4"  v-show="isLoading" :size="40" ></loadingVue> -->
       <router-view name="tow"></router-view>
     </el-scrollbar>
   </div>

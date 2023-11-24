@@ -22,7 +22,7 @@
 <script>
 export default {
   name: "",
-  props: [ "color"],
+  props: [ "size"],
   data() {
     return {
       numberOfBalls: 20,
@@ -52,6 +52,11 @@ export default {
     }, 70);
     this.getboxshow();
 
+
+
+
+    this.color = this.getRandomColor(); // 每秒改变一次颜色
+    this.getboxshow();
     this.intervalId = setInterval(() => {
       this.color = this.getRandomColor(); // 每秒改变一次颜色
       this.getboxshow();
@@ -115,12 +120,14 @@ export default {
 <style scoped>
 #app {
   position: relative;
+  animation: pop-btn 0.3s ease-in-out;
 }
 
 .ball {
   border-radius: 50%;
   position: absolute;
   transition: background 2s, box-shadow 2s;
+
 }
 
 @keyframes pop-btn {
@@ -128,9 +135,16 @@ export default {
     transform: scale(0);
     opacity: 0;
   }
+  40%{
+        transform: scale(0.6);
+    opacity: 0.6;
+  }
   100% {
     transform: scale(1);
     opacity: 1;
   }
 }
+
+
+
 </style>

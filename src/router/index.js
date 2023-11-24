@@ -57,12 +57,12 @@ const routes = [
           tow: () => import('@/pages/productList.vue')
         }
       },
-      {
-        path: 'search',
-        components: {
-          tow: () => import('@/pages/search.vue')
-        }
-      },
+      // {
+      //   path: 'search',
+      //   components: {
+      //     tow: () => import('@/pages/search.vue')
+      //   }
+      // },
       {
         path: 'productShow',
         components: {

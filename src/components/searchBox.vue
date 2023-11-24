@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="shell">
-      <input type="text" placeholder="Search" />
-      <a href="#">
+      <input type="text" v-model="searchData" placeholder="Search" />
+      <a :href="'#/ss/search?data='+searchData">
         <i class="fa fa-hand-o-right"></i>
         <i class="fa fa-search"></i>
       </a>
@@ -12,6 +12,11 @@
 <script>
 export default {
   name: "",
+  data(){
+    return{
+      searchData:"",
+    }
+  },
 };
 </script>
 

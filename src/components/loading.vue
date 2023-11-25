@@ -1,4 +1,4 @@
-<template>
+·<=template>
   <div>
     <div id="app" :style="{ height: size + 'px', width: size + 'px' }">
       <div
@@ -17,7 +17,7 @@
       ></div>
     </div>
   </div>
-</template>
+</=template>
 
 <script>
 export default {
@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       numberOfBalls: 20,
-      balls: [],
+      balls: [], 
       center: { x: 40, y: 40 }, // 中心点坐标
       radius: 40, // 半径
       color: "red",

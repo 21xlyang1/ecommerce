@@ -1,51 +1,25 @@
 <template>
   <div>
-    <!-- 购物车标题 -->
     <h2>购物车</h2>
-
-    <!-- 检查购物车是否有商品 -->
     <div v-if="cartItems.length > 0">
-      
-      <!-- 遍历购物车中的每个商品 -->
       <div v-for="(item, index) in cartItems" :key="index" class="cart-item-wrapper">
         <div class="cart-item">
-          <!-- 显示商品图片 -->
           <img :src="require(`@/assets/img/${item.image}`)" alt="商品图片">
-          
           <div class="item-details">
-            <!-- 显示商品名称和描述 -->
             <h3>{{ item.name }}</h3>
             <p>{{ item.description }}</p>
-
-            <!-- 商品数量控制按钮 -->
             <div class="quantity-controls">
               <span class="quantity-label">数量：</span>
-              
-              <!-- 减少数量按钮 -->
               <button class="quantity-btn" @click="updateQuantity(index, -1)">-</button>
-              
-              <!-- 显示商品数量 -->
               <span class="quantity-value">{{ item.quantity }}</span>
-              
-              <!-- 增加数量按钮 -->
               <button class="quantity-btn" @click="updateQuantity(index, 1)">+</button>
             </div>
-
-            <!-- 显示商品价格 -->
             <p>价格: ¥{{ calculateItemPrice(item) }}</p>
           </div>
         </div>
       </div>
-
-      <!-- 显示购物车中所有商品的总价 -->
-      <div class="total-price">总价: ¥{{ calculateTotalPrice() }}</div>
-      
-      <!-- 提交订单按钮 -->
       <button @click="submitOrder">提交订单</button>
-
     </div>
-    
-    <!-- 如果购物车为空，显示消息 -->
     <div v-else>
       <p>购物车是空的</p>
     </div>
@@ -57,7 +31,6 @@ export default {
   name: "ShoppingCart",
   data() {
     return {
-      // 初始购物车商品数据
       cartItems: [
         {
           name: "商品1",
@@ -73,35 +46,26 @@ export default {
           quantity: 1,
           image: "1.png"
         },
-        // 根据需要添加更多商品
+        // Add more items as needed
       ]
     };
   },
   methods: {
-    // 提交订单方法
     submitOrder() {
+      // Logic to submit the order
       console.log("订单已提交");
     },
-
-    // 更新购物车中商品数量的方法
     updateQuantity(index, change) {
       const updatedQuantity = this.cartItems[index].quantity + change;
       if (updatedQuantity > 0) {
         this.cartItems[index].quantity = updatedQuantity;
       } else {
-        // 当数量为0时从购物车中移除商品
+        // Remove the item from the cart when quantity is 0
         this.cartItems.splice(index, 1);
       }
     },
-
-    // 计算单个商品价格的方法
     calculateItemPrice(item) {
       return item.price * item.quantity;
-    },
-
-    // 计算购物车中所有商品总价的方法
-    calculateTotalPrice() {
-      return this.cartItems.reduce((total, item) => total + this.calculateItemPrice(item), 0);
     },
   }
 };
@@ -157,10 +121,5 @@ export default {
   margin: 0 5px;
   font-weight: bold;
   vertical-align: middle;
-}
-
-.total-price {
-  margin-top: 10px;
-  font-weight: bold;
 }
 </style>

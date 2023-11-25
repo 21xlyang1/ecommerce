@@ -33,6 +33,9 @@
         class="d-flex justify-content-center align-items-center"
         style="width: 80px"
       >
+        <!-- <div class=" bg-body rounded-1" style="width: 36px; height: 16px;color: #000;font-size:12px ">
+            New
+          </div> -->
         <div
           v-if="item.num != 0"
           class="d-flex justify-content-center align-items-center numicon"

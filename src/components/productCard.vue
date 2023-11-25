@@ -1,10 +1,10 @@
 <template>
-  <div  style="min-width: 250px  ; height: 350px;padding: 10px">
+  <div style="min-width: 250px  ; height: 350px;padding: 10px">
     <div class="w-100 h-100  rounded-2 " style="background: #eaeceb">
       <!--      {{proId}}-->
       <!--      图片-->
       <div class="" style="width: 100%;height: 230px;padding:5px">
-        <img style="height: 220px;width: 220px" :src="getProductImage(proId)" alt="Product Image" />
+        <img style="height: 220px;width: 220px" :src="getProductImage(proId)" alt="Product Image"/>
       </div>
       <!--      商品名称-->
       <div class=" d-flex align-items-center" style="width: 100%;height: 35px">
@@ -12,17 +12,18 @@
       </div>
       <div class="d-flex justify-content-between" style="width: 100%;height: 65px">
         <!--      信息-->
-        <div  style="height: 100%">
+        <div style="height: 100%">
           <div class="d-flex" style="height: 40%">
-            <div v-for="item in dataList" :key="item.ID" class="bg-danger rounded-1 d-flex align-items-center" style="font-size: 10px;width: auto;color: #fff;padding: 2px;margin: 5px 5px;" >
-              {{item.name}}
+            <div v-for="item in dataList" :key="item.ID" class="bg-danger rounded-1 d-flex align-items-center"
+                 style="font-size: 10px;width: auto;color: #fff;padding: 2px;margin: 5px 5px;">
+              {{ item.name }}
             </div>
           </div>
           <div class="d-flex" style="height: 20%; font-size: 10px; padding-left: 5px;">
-            月销量{{saleNum}}件
+            月销量{{ saleNum }}件
           </div>
           <div class="d-flex" style="height: 40%; padding-left: 5px">
-            ￥{{price}}
+            ￥{{ price }}
           </div>
         </div>
         <div>
@@ -32,46 +33,31 @@
           <div>
             店铺名称
           </div>
-          <img  src="../assets/img/1.png" style="border-radius: 50%;height: 34px;width: 34px;margin: 4px;border: solid 3px #cccccc">
-
+          <img src="../assets/img/1.png"
+               style="border-radius: 50%;height: 34px;width: 34px;margin: 4px;border: solid 3px #cccccc">
           </img>
         </div>
       </div>
-
-
-      <!--      <div class="product-image">-->
-      <!--        &lt;!&ndash; 在这里使用商品图片的数据绑定 &ndash;&gt;-->
-      <!--        <img :src="getProductImage(proId)" alt="Product Image" />-->
-      <!--      </div>-->
-      <!--      <div class="product-info">-->
-      <!--        &lt;!&ndash; 在这里使用商品信息的数据绑定 &ndash;&gt;-->
-      <!--        <p>{{ getProductInfo(proId) }}</p>-->
-      <!--      </div>-->
-      <!--      <div class="product-price">-->
-      <!--        &lt;!&ndash; 在这里使用商品价格的数据绑定 &ndash;&gt;-->
-      <!--        <p>{{ getProductPrice(proId) }}</p>-->
-      <!--      </div>-->
     </div>
-
   </div>
 </template>
 <script>
 export default {
   name: "productCard",
   props: ['proId'],
-  data(){
-    return{
-      dataList:[
-        {ID:1,name:'好评率98%'},{ID:2,name:'满300减50'}
+  data() {
+    return {
+      dataList: [
+        {ID: 1, name: '好评率98%'}, {ID: 2, name: '满300减50'}
       ],
-      saleNum:'10万+',
-      price:11.11
+      saleNum: '10万+',
+      price: 11.11
     }
   },
   methods: {
     getProductImage(productId) {
       // 根据商品ID获取对应的商品图片路径，可以根据实际情况替换为真实的图片路径
-      return '../../public/img/log/' +productId%10 + '.png';
+      return '../../public/img/log/' + productId % 10 + '.png';
     },
     getProductInfo(productId) {
       // 根据商品ID获取对应的商品信息，可以根据实际情况替换为真实的商品信息

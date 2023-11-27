@@ -1,15 +1,349 @@
 <template>
-  <div>
-    商品详情页
+  <div style="background: #f1f1f1">
+    <div class="container d-flex justify-content-center">
+      <div class="p-3" style="width: 90%">
+        <div class="w-100 bg-body rounded-4">
+          <!-- 商品信息 -->
+          <div class="w-100 d-flex">
+            <div class="" style="width: 400px">
+              <!-- 图片 -->
+              <div class="w-100" style="padding: 20px">
+                <img
+                  class="rounded-4"
+                  src="../assets/img/1.png"
+                  alt=""
+                  style="height: 360px; width: 360px"
+                />
+                <div class="w-100 d-flex mt-3">
+                  <img
+                    class="rounded-2"
+                    v-for="index in imgNum"
+                    :key="index"
+                    src="../assets/img/1.png"
+                    :style="{
+                      height: calculateImgSize(),
+                      width: calculateImgSize(),
+                      'margin-left':
+                        index == 1 ? '0px' : 40 / (imgNum - 1) + 'px',
+                    }"
+                  />
+                </div>
+              </div>
+              <!-- 店铺信息 -->
+              <div
+                class="d-flex mt-4"
+                style="
+                  height: 80px;
+                  width: 330px;
+                  margin-left: 20px;
+                  padding: 10px 10px;
+                  border-radius: 40px;
+                  background: #eee;
+                "
+              >
+                <!-- 店铺头像 -->
+                <img
+                  src="../assets/img/1.png"
+                  alt=""
+                  style="height: 60px; width: 60px; border-radius: 50%"
+                />
+                <div>
+                  <div
+                    class="d-flex align-items-end"
+                    style="height: 24px; padding: 0px 10px"
+                  >
+                    <div style="font-size: 20px">{{ shopInf.name }}</div>
+                    <div class="ms-2" style="font-size: 14px; color: #777">
+                      {{ "粉丝" + shopInf.fenNum }}
+                    </div>
+                  </div>
+                  <div class="d-flex" style="padding: 0px 10px">
+                    <el-button size="medium" style="padding: 5px 15px" round>
+                      <div class="d-flex align-items-center">
+                        <v-icon name="kefu" style="font-size: 24px"></v-icon>
+                        <div style="font-size: 16px">联系客服</div>
+                      </div>
+                    </el-button>
+
+                    <el-button size="medium" style="padding: 5px 15px" round>
+                      <div class="d-flex align-items-center">
+                        <v-icon name="dingyue" style="font-size: 24px"></v-icon>
+                        <div style="font-size: 16px">订阅</div>
+                      </div>
+                    </el-button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 具体信息 -->
+            <div style="flex-grow: 1; padding: 20px 20px 20px 0px">
+              <div
+                class="d-flex justify-content-between"
+                style="font-size: 30px"
+              >
+                <div>{{ productInf.name }}</div>
+                <div></div>
+                <v-icon name="shoucang" style="font-size: 30px"></v-icon>
+              </div>
+              <div class="d-flex" style="color: #888">
+                本月已售{{ productInf.xiaoliang }}
+              </div>
+              <div class="mt-3 mb-3 d-flex">
+                <div
+                  v-for="(item, index) in productInf.labelList"
+                  :key="index"
+                  class="rounded-2 bg-danger"
+                  style="
+                    padding: 0px 10px;
+                    color: #fff;
+                    font-size: 14px;
+                    margin-right: 10px;
+                  "
+                >
+                  {{ item }}
+                </div>
+              </div>
+              <!-- 配送 -->
+              <div class="d-flex align-items-center">
+                <div
+                  class="text-secondary me-3"
+                  style="font-size: 20px; min-width: 60px"
+                >
+                  配送：
+                </div>
+                <div class="d-flex ms-2" style="font-size: 20px">
+                  <div>{{ productInf.fahuodi }}</div>
+                  <div class="ms-2 me-2">至</div>
+                  <div>用户地址</div>
+                </div>
+              </div>
+              <!-- 款式 -->
+              <div class="d-flex align-items-center mb-4 mt-4">
+                <div
+                  class="text-secondary me-3"
+                  style="font-size: 20px; min-width: 60px"
+                >
+                  款式：
+                </div>
+                <div class="d-flex flex-wrap">
+                  <div
+                    v-for="index in 3"
+                    :key="index"
+                    class="m-2 d-flex align-items-center rounded-2"
+                    style="height: 74px; padding: 7px; background-color: #eee"
+                  >
+                    <img
+                      class="rounded-2"
+                      src="../assets/img/1.png"
+                      alt=""
+                      style="height: 60px; width: 60px"
+                    />
+                    <div class="ms-2 text-secondary" style="font-size: 22px">
+                      套装一
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- 数量 -->
+              <div class="d-flex align-items-center mt-4">
+                <div
+                  class="text-secondary me-3"
+                  style="font-size: 20px; min-width: 60px"
+                >
+                  数量：
+                </div>
+                <button
+                  class="d-flex align-items-center justify-content-center btndong ms-2"
+                  style="border-radius: 10px 0px 0px 10px"
+                  @click="productInf.num -= productInf.num > 1 ? 1 : 0"
+                >
+                  <v-icon
+                    style="font-size: 20px; color: #fff"
+                    name="jianhao"
+                  ></v-icon>
+                </button>
+                <div
+                  class="d-flex align-items-center pe-3 ps-3"
+                  style="height: 40px; background-color: #eee; font-size: 24px"
+                >
+                  {{ productInf.num }}
+                </div>
+                <button
+                  class="d-flex align-items-center justify-content-center btndong"
+                  style="border-radius: 0px 10px 10px 0px"
+                  @click="productInf.num++"
+                >
+                  <v-icon
+                    style="font-size: 20px; color: #fff"
+                    name="add"
+                  ></v-icon>
+                </button>
+              </div>
+              <!-- 价格 -->
+              <div class="d-flex align-items-center mt-4">
+                <div
+                  class="text-secondary me-3"
+                  style="font-size: 20px; min-width: 60px"
+                >
+                  价格：
+                </div>
+                <div class="text-danger" style="font-size: 50px">
+                  ￥{{ productInf.price }}
+                </div>
+              </div>
+              <!-- 购买按钮 -->
+              <div class="w-100 d-flex justify-content-end mt-5 pe-4">
+                <button class="gwcbtn">加入购物车</button>
+                <button class="gmbtn">立即购买</button>
+              </div>
+            </div>
+          </div>
+          <div class="w-100" style="margin-top: 40px">
+            <!-- 选项 -->
+            <div class="d-flex ms-4">
+              <button
+                class="itembtn"
+                @click="choosed = '商品详情'"
+                :style="{
+                  background: choosed == '商品详情' ? '#1984ff' : '',
+                  color: choosed == '商品详情' ? '#fff' : '',
+                }"
+              >
+                商品详情
+              </button>
+              <button
+                class="itembtn"
+                @click="choosed = '评论'"
+                :style="{
+                  background: choosed == '评论' ? '#1984ff' : '',
+                  color: choosed == '评论' ? '#fff' : '',
+                }"
+              >
+                评论
+              </button>
+            </div>
+
+            <div class="w-100 p-2">
+              <el-divider class="m-0"></el-divider>
+            </div>
+            <!-- 商品详情页 -->
+            <div v-show="choosed == '商品详情'" style="height: 500px;"></div>
+            <!-- 评论区 -->
+            <div  v-show="choosed == '评论'" style="height: 500px;">
+              <div class="d-flex ms-3">
+              <button
+                @click="plflchoosed = item"
+                class="plbtn"
+                v-for="(item, index) in plflList"
+                :key="index"
+                :style="{
+                  background: plflchoosed == item ? '#ff7575' : '#eee',
+                  color: plflchoosed == item ? '#fff' : '',
+                }"
+              >
+                {{ item }}
+              </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
-  export default {
-    name:"",
-  }
+export default {
+  name: "",
+  data() {
+    return {
+      imgNum: 6,
+      productInf: {
+        name: "商品名称",
+        fahuodi: "发货地",
+        xiaoliang: "80万+",
+        num: 1,
+        price: 114.51,
+        labelList: ["包邮", "假一赔十"],
+      },
+      shopInf: {
+        ID: 21,
+        name: "店铺名称",
+        fenNum: "1.4万+",
+      },
+      choosed: "商品详情",
+      plflList: ["全部", "有图/视频", "差评"],
+      plflchoosed: "全部",
+    };
+  },
+  methods: {
+    calculateImgSize() {
+      var total = 360;
+      var res = (total - 40) / this.imgNum;
+      return res + "px";
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
+.btndong {
+  background: #1984ff;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  border: none;
+}
+.btndong:hover {
+  background: #006ae4;
+}
 
+.gwcbtn {
+  height: 60px;
+  border-radius: 30px 0px 0px 30px;
+  border: none;
+  padding: 0px 25px 0px 35px;
+  font-size: 22px;
+  color: #fff;
+  background-color: #eda5a5;
+}
+.gwcbtn:hover {
+  background-color: #e78b8b;
+}
+.gmbtn {
+  height: 60px;
+  border-radius: 0px 30px 30px 0px;
+  border: none;
+  padding: 0px 35px 0px 25px;
+  font-size: 22px;
+  color: #fff;
+  background-color: #ff7575;
+}
+.gmbtn:hover {
+  background-color: #f35757;
+}
+.itembtn {
+  padding: 5px 10px;
+  margin: 0px 5px;
+  font-size: 22px;
+  border-radius: 5px;
+  border: none;
+  background: none;
+}
+.itembtn:hover {
+  background: #eee;
+}
+
+.plbtn {
+  height: 34px;
+  padding: 5px 20px;
+  margin: 0px 5px;
+  font-size: 18px;
+  border-radius: 20px;
+  border: none;
+  background: none;
+}
 </style>
 
+ 

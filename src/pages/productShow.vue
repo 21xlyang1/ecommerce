@@ -228,24 +228,157 @@
               <el-divider class="m-0"></el-divider>
             </div>
             <!-- 商品详情页 -->
-            <div v-show="choosed == '商品详情'" style="height: 500px;"></div>
+            <div v-show="choosed == '商品详情'" style="height: 500px"></div>
             <!-- 评论区 -->
-            <div  v-show="choosed == '评论'" style="height: 500px;">
+            <div v-show="choosed == '评论'" >
               <div class="d-flex ms-3">
-              <button
-                @click="plflchoosed = item"
-                class="plbtn"
-                v-for="(item, index) in plflList"
-                :key="index"
-                :style="{
-                  background: plflchoosed == item ? '#ff7575' : '#eee',
-                  color: plflchoosed == item ? '#fff' : '',
-                }"
-              >
-                {{ item }}
-              </button>
+                <button
+                  @click="plflchoosed = item"
+                  class="plbtn"
+                  v-for="(item, index) in plflList"
+                  :key="index"
+                  :style="{
+                    background: plflchoosed == item ? '#ff7575' : '#eee',
+                    color: plflchoosed == item ? '#fff' : '',
+                  }"
+                >
+                  {{ item }}
+                </button>
               </div>
+              <div class="d-flex w-100 p-4 pt-5">
+                <!-- 头像 -->
+                <div style="height: 100%; width: 60px">
+                  <img
+                    src="../assets/img/1.png"
+                    style="
+                      height: 56px;
+                      width: 56px;
+                      border-radius: 50%;
+                      border: solid 3px #eee;
+                    "
+                  />
+                </div>
 
+                <div class="pe-3 ps-3 mt-1" style="flex-grow: 1">
+                  <div class="d-flex align-items-center">
+                    <!-- 昵称 -->
+                    <div style="color: #fb7299">普普通通Tony大叔</div>
+                    <!-- 标签 -->
+                    <div
+                      class="pe-1 ps-1 ms-2 rounded-1 d-flex align-items-center"
+                      style="
+                        color: #fff;
+                        background: #ff6699;
+                        font-size: 12px;
+                        height: 16px;
+                      "
+                    >
+                      买家
+                    </div>
+                  </div>
+                  <div class="d-flex mt-1">
+                    <v-icon
+                      class="me-1"
+                      :style="{ color: index <= 4 ? 'orange' : '#bbb' }"
+                      v-for="index in 5"
+                      :key="index"
+                      name="xingxing"
+                    ></v-icon>
+                  </div>
+                  <!-- 内容 -->
+                  <div class="mt-1" style="font-size: 18px">
+                    许多小伙伴在问这张M.2
+                    4060Ti何时开售，预计是11月22号晚上上架各大电商平台，价格比普通版Dual
+                    4060Ti贵100块
+                  </div>
+                  <div
+                    class="d-flex align-items-center mt-2"
+                    style="color: #888; font-size: 16px"
+                  >
+                    <!-- 时间 -->
+                    <div class="d-flex">
+                      <!-- 日期 -->
+                      <div>{{ "2023-11-20" }}</div>
+                      <!-- 时间 -->
+                      <div class="ms-1">{{ "18:26" }}</div>
+                    </div>
+                    <!-- 点赞 -->
+                    <div class="ms-4 d-flex align-items-center">
+                      <button class="goodbtn"><v-icon name="good"></v-icon></button>
+                      <div class="ms-1">{{ 13 }}</div>
+                    </div>
+                    <!-- 回复按钮 -->
+                    <button class="ms-4 chakanbtn">回复</button>
+                  </div>
+                  <!-- 回复区 -->
+                  <div class="mt-2">
+                    <div v-for="index in 3" :key="index" class="d-flex mt-3">
+                      <div style="width: 50px">
+                        <img
+                          src="../assets/img/1.png"
+                          style="
+                            height: 44px;
+                            width: 44px;
+                            border-radius: 50%;
+                            border: solid 2px #eee;
+                          "
+                        />
+                      </div>
+                      <div class="ps-2 pe-2" style="flex-grow: 1">
+                        <div class="d-flex flex-wrap">
+                          <!-- 昵称 -->
+                          <div class="d-flex align-items-center pe-3">
+                            <div style="color: #fb7299; font-size: 14px">
+                              普普通通Tony大叔
+                            </div>
+                            <!-- 标签 -->
+                            <div
+                              class="pe-1 ps-1 ms-2 rounded-1 d-flex align-items-center"
+                              style="
+                                color: #fff;
+                                background: #ff6699;
+                                font-size: 11px;
+                                height: 14px;
+                              "
+                            >
+                              买家
+                            </div>
+                          </div>
+                          <div v-for="index in content.length" :key="index">
+                            {{ content[index - 1] }}
+                          </div>
+                        </div>
+                        <div
+                          class="d-flex align-items-center mt-1"
+                          style="color: #888; font-size: 15px"
+                        >
+                          <!-- 时间 -->
+                          <div class="d-flex">
+                            <!-- 日期 -->
+                            <div>{{ "2023-11-20" }}</div>
+                            <!-- 时间 -->
+                            <div class="ms-1">{{ "18:26" }}</div>
+                          </div>
+                          <!-- 点赞 -->
+                          <div class="ms-4 d-flex align-items-center">
+                            <button class="goodbtn"><v-icon name="good"></v-icon></button>
+                            
+                            <div class="ms-1">{{ 13 }}</div>
+                          </div>
+                          <!-- 回复按钮 -->
+                          <button class="ms-4 chakanbtn">回复</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- 回复统计 -->
+                  <div class="mt-3 d-flex" style="color: #888; font-size: 16px" >
+                    <div>共有12条回复，</div>
+                    <button class="chakanbtn">点击查看</button>
+                    
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -272,9 +405,11 @@ export default {
         name: "店铺名称",
         fenNum: "1.4万+",
       },
-      choosed: "商品详情",
+      choosed: "评论",
       plflList: ["全部", "有图/视频", "差评"],
       plflchoosed: "全部",
+      content:
+        "许多小伙伴在问这张M.2 4060Ti何时开售，预计是11月22号晚上上架各大电商平台，价格比普通版Dual 4060Ti贵100块",
     };
   },
   methods: {
@@ -343,6 +478,27 @@ export default {
   border-radius: 20px;
   border: none;
   background: none;
+}
+.chakanbtn{
+  
+  padding: 0px;
+  margin: 0px;
+  border: none;
+  background: none;
+  color:#888
+}
+.chakanbtn:hover{
+  color:#006bff
+}
+.goodbtn{
+    padding: 0px;
+  margin: 0px;
+  border: none;
+  background: none;
+  color:#888
+}
+.goodbtn:hover{
+  color:#f35757
 }
 </style>
 

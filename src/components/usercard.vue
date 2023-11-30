@@ -21,25 +21,33 @@
           class="p-2 pt-3 pb-3 shadow-sm rounded-2 w-100"
           style="height: 200px; background-color: #ecf0f3"
         >
-          <div>登入即可享受</div>
-          <div class="h5 mb-3">极致优惠</div>
-          <div>
-            <el-button
-              :round="true"
-              type="primary"
-              style="width: 180px"
-              @click="$store.commit('showLogin')"
-              >登入</el-button
-            >
+          <div class="d-flex justify-content-center">
+            <div>登入即可享受</div>
           </div>
-          <div class="pt-3">
-            <el-button
-              :round="true"
-              type="warning"
-              style="width: 180px"
-              @click="$store.commit('showRegister')"
-              >注册</el-button
-            >
+          <div class="d-flex justify-content-center" >
+            <div class="h5 mb-3">极致优惠</div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <div>
+              <el-button
+                :round="true"
+                type="primary"
+                style="width: 180px"
+                @click="$store.commit('showLogin')"
+                >登入</el-button
+              >
+            </div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <div class="pt-3">
+              <el-button
+                :round="true"
+                type="warning"
+                style="width: 180px"
+                @click="$store.commit('showRegister')"
+                >注册</el-button
+              >
+            </div>
           </div>
         </div>
         <!-- 登入后的下拉框 -->
@@ -51,12 +59,16 @@
           <div class="h6 pb-3">{{ "username" }}</div>
           <div
             class="d-flex justify-content-evenly rounded item align-items-center"
-            v-for="item,index in btnList"
+            v-for="(item, index) in btnList"
             :key="item.name"
-            style="height: 40px;cursor: pointer;"
+            style="height: 40px; cursor: pointer"
             @click="clickButton(index)"
           >
-            <v-icon :style="{color:item.color}" style="font-size: 20px" :name="item.icon"></v-icon>
+            <v-icon
+              :style="{ color: item.color }"
+              style="font-size: 20px"
+              :name="item.icon"
+            ></v-icon>
             <div class="d-flex" style="width: 100px; font-size: 15px">
               {{ item.name }}
             </div>
@@ -150,10 +162,10 @@ export default {
         // { name: "gouwuche", inf: "购物车",url:"" },
       ],
       btnList: [
-        {color:"blue", name: "个人中心", icon: "person", jiantou: true },
-        {color:"orange", name: "商家管理", icon: "shangjia", jiantou: true },
-        {color:"green", name: "后台管理", icon: "houtai", jiantou: true },
-        {color:"red", name: "退出登入", icon: "tuichu", jiantou: false },
+        { color: "blue", name: "个人中心", icon: "person", jiantou: true },
+        { color: "orange", name: "商家管理", icon: "shangjia", jiantou: true },
+        { color: "green", name: "后台管理", icon: "houtai", jiantou: true },
+        { color: "red", name: "退出登入", icon: "tuichu", jiantou: false },
       ],
       drawer: false,
       dialogVisible: false,
@@ -189,13 +201,11 @@ export default {
     clickButton(index) {
       // 个人中心
       if (index == 0) {
-
         // 商家管理
       } else if (index == 1) {
-        this.$router.push("/ms/productAdd")
+        this.$router.push("/ms/productAdd");
         // 后台管理
       } else if (index == 2) {
-
         // 退出登入
       } else if (index == 3) {
         this.$cookies.set("isLog", false);

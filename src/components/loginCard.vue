@@ -56,8 +56,14 @@
         <!-- 忘记密码 -->
         <a class="form_link">忘记密码？</a>
         <!-- 登入按钮 -->
-        <button @click="login" class="form_button button submit">
-          SIGN IN
+        <button
+          @click="login"
+          class="d-flex align-items-center ps-4  button submit"
+        >
+          <div class=" me-1" style="width: 40px; height: 40px ;">
+            <loading v-show="logLoad" :size="40"></loading>
+          </div>
+          <div>SIGN IN</div>
         </button>
       </form>
     </div>
@@ -102,11 +108,11 @@
 </template>
 <script>
 import FloatingLabel from "./FloatingLabel.vue";
-
+import loading from "./loading.vue";
 export default {
   name: "",
   props: ["islog"],
-  components: { FloatingLabel },
+  components: { FloatingLabel, loading },
   data() {
     return {
       registerInf: {
@@ -121,6 +127,8 @@ export default {
         password: { data: "", error: "" },
       },
       isSave: false,
+      logLoad: false,
+      registerLoad: false,
     };
   },
   mounted() {
@@ -152,20 +160,36 @@ export default {
       bContainer.classList.toggle("is-z");
     },
     login() {
+      this.logLoad = true;
+      var isSuccess=true;
       var username = this.loginInf.username;
       var password = this.loginInf.password;
       // 清空error信息
       username.error = "";
       password.error = "";
-      // 表单验证
+      // 前端表单验证
       if (username.data == "") {
         username.error = "请输入用户名";
+        isSuccess=false
       }
       if (password.data == "") {
         password.error = "请输入密码";
+        isSuccess=false
       }
+      // 后端表单验证
+
+
+      if(isSuccess){
       this.$cookies.set("isLog", true);
-      this.$store.commit("closeLogin")
+      this.$store.commit("closeLogin");
+      setTimeout(() => {
+        this.logLoad = false;
+      }, 3000);
+      }else{
+              setTimeout(() => {
+        this.logLoad = false;
+      }, 3000);
+      }
 
     },
     register() {

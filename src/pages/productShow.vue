@@ -1,6 +1,6 @@
 <template>
   <div style="background: #f1f1f1">
-    <div class="container d-flex justify-content-center">
+    <div class="container-xl d-flex justify-content-center">
       <div class="p-3" style="width: 90%">
         <div class="w-100 bg-body rounded-4">
           <!-- 商品信息 -->
@@ -230,7 +230,7 @@
             <!-- 商品详情页 -->
             <div v-show="choosed == '商品详情'" style="height: 500px"></div>
             <!-- 评论区 -->
-            <div v-show="choosed == '评论'" >
+            <div v-show="choosed == '评论'">
               <div class="d-flex ms-3">
                 <button
                   @click="plflchoosed = item"
@@ -304,7 +304,9 @@
                     </div>
                     <!-- 点赞 -->
                     <div class="ms-4 d-flex align-items-center">
-                      <button class="goodbtn"><v-icon name="good"></v-icon></button>
+                      <button class="goodbtn">
+                        <v-icon name="good"></v-icon>
+                      </button>
                       <div class="ms-1">{{ 13 }}</div>
                     </div>
                     <!-- 回复按钮 -->
@@ -361,8 +363,10 @@
                           </div>
                           <!-- 点赞 -->
                           <div class="ms-4 d-flex align-items-center">
-                            <button class="goodbtn"><v-icon name="good"></v-icon></button>
-                            
+                            <button class="goodbtn">
+                              <v-icon name="good"></v-icon>
+                            </button>
+
                             <div class="ms-1">{{ 13 }}</div>
                           </div>
                           <!-- 回复按钮 -->
@@ -372,10 +376,9 @@
                     </div>
                   </div>
                   <!-- 回复统计 -->
-                  <div class="mt-3 d-flex" style="color: #888; font-size: 16px" >
+                  <div class="mt-3 d-flex" style="color: #888; font-size: 16px">
                     <div>共有12条回复，</div>
                     <button class="chakanbtn">点击查看</button>
-                    
                   </div>
                 </div>
               </div>
@@ -479,26 +482,25 @@ export default {
   border: none;
   background: none;
 }
-.chakanbtn{
-  
+.chakanbtn {
   padding: 0px;
   margin: 0px;
   border: none;
   background: none;
-  color:#888
+  color: #888;
 }
-.chakanbtn:hover{
-  color:#006bff
+.chakanbtn:hover {
+  color: #006bff;
 }
-.goodbtn{
-    padding: 0px;
+.goodbtn {
+  padding: 0px;
   margin: 0px;
   border: none;
   background: none;
-  color:#888
+  color: #888;
 }
-.goodbtn:hover{
-  color:#f35757
+.goodbtn:hover {
+  color: #f35757;
 }
 </style>
 

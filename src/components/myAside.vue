@@ -78,7 +78,7 @@ export default {
 }
 .sideItem:hover {
   color: #fff;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.1);
 }
 .numicon {
   color: #fff;

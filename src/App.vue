@@ -17,12 +17,17 @@
     <!-- 导航栏 -->
     <div
       class="w-100 myhead"
-      style="height: 70px;"
+      style="height: 70px"
+      :style="{ width: outerDivWidth }"
     >
-      <myHead></myHead>
+      <myHead :style="{width:outerDivWidth}"></myHead>
     </div>
 
-    <el-scrollbar  ref="scrollbar" class="w-100" :style="{height:outerDivHeight } ">
+    <el-scrollbar
+      ref="scrollbar"
+      class="w-100"
+      :style="{ height: outerDivHeight }"
+    >
       <router-view name="one"></router-view>
     </el-scrollbar>
   </div>
@@ -44,23 +49,19 @@ export default {
   },
   methods: {
     setOuterDivSize() {
-
-      this.outerDivHeight = window.innerHeight-70 + "px";
+      this.outerDivHeight = window.innerHeight - 70 + "px";
+      this.outerDivWidth = window.innerWidth + "px";
     },
   },
-  mounted(){
+  mounted() {
     this.setOuterDivSize(); // 初始化时设置最外层div的尺寸
     window.addEventListener("resize", this.setOuterDivSize);
 
-
     let scrollbarEl = this.$refs.scrollbar.wrap;
-      scrollbarEl.onscroll = () => {
-
-        console.log(scrollbarEl.scrollTop)
-        this.$store.commit("setGunDongHigh",scrollbarEl.scrollTop)
-
-      };
-
+    scrollbarEl.onscroll = () => {
+      console.log(scrollbarEl.scrollTop);
+      this.$store.commit("setGunDongHigh", scrollbarEl.scrollTop);
+    };
   },
   beforeDestroy() {
     // 组件销毁时，移除窗口大小改变事件的监听
@@ -109,8 +110,7 @@ dialog:not([open]) {
   visibility: hidden;
 }
 
-
 .el-table__body-wrapper::-webkit-scrollbar-thumb:window-inactive {
-        background: rgba(0,0,0,1);
-    }
+  background: rgba(0, 0, 0, 1);
+}
 </style>

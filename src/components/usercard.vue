@@ -203,9 +203,16 @@ export default {
       if (index == 0) {
         // 商家管理
       } else if (index == 1) {
-        this.$router.push("/ms/productAdd");
+        if(this.$route.path!='/ms/productAdd'){
+          this.$router.push("/ms/productAdd");
+        }
         // 后台管理
       } else if (index == 2) {
+        if(this.$route.path!='/as/dataShow'){
+          this.$router.push("/as/dataShow");
+        }
+        
+
         // 退出登入
       } else if (index == 3) {
         this.$cookies.set("isLog", false);

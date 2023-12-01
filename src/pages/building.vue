@@ -1,6 +1,6 @@
 <template>
   <div>
-    该页面正在开发中
+    该页面正在开发中...
   </div>
 </template>
 <script>

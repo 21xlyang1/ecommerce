@@ -6,13 +6,6 @@
         <div class="background-plate">
             <div class="Card-box">
                 <commodityCard />
-                <commodityCard />
-                <commodityCard />
-                <commodityCard />
-                <commodityCard />
-                <commodityCard />
-                <commodityCard />
-                <commodityCard />
             </div>
         </div>
     </div>
@@ -57,7 +50,7 @@ div hr {
     // 确定卡片的盒子位置
     background-color: rgb(255, 236, 236);
     height: 100%;
-    width: 80%;
+    width: 70%;
     border-radius: 10px;
 
     padding: 30px;

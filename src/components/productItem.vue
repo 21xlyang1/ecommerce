@@ -11,7 +11,7 @@
                 <div class="commodityName">
                     <span>{{ commodityName }}</span>
                 </div>
-                <div class="Box-for-Reviews-And-freeShipping-And-prices">
+                <div class="Box-for-Reviews-And-freeShipping-And-prices" style="">
                     <div class="Reviews-And-freeShipping">
                         <div class="box1"><label>{{ freeShipping }}</label></div>
                         <div class="box2"><label>好评率{{ Review }}%</label></div>
@@ -76,8 +76,8 @@ export default {
         transition: transform 0.3s;
     }
     .mainDiv:hover {
-        // 鼠标悬停时，将 mainDiv 上移 10 像素（可以根据需要调整）
-        transform: translateY(-10px);
+        // 鼠标悬停时，将 mainDiv 上移 3 像素（可以根据需要调整）
+        transform: translateY(-3px);
         // 阴影
         box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
     }
@@ -135,7 +135,7 @@ export default {
     }
 
     .commodityText .commodityName{
-        // background-color: green;
+        background-color: green;
         text-align: left; /* 文本左对齐 */
         font-size: 20px;
         position: relative;
@@ -149,7 +149,7 @@ export default {
     }
 
     .commodityText .Box-for-Reviews-And-freeShipping-And-prices{
-        // background-color: yellow;
+        background-color: yellow;
         display: grid;
         grid-template-columns: 1fr 150px; // 两列，左右布局
     }
@@ -195,9 +195,9 @@ export default {
 
 
     .commodityText .Box-shopName-And-salesVolume{
-        // background-color: blue;
+        background-color: blue;
         display: grid;
-        grid-template-columns: 1fr 150px; /* 两列，左右布局 */
+        grid-template-columns:150px 1fr; /* 两列，左右布局 */
     }
     .Box-shopName-And-salesVolume .shopPhoto{
         // background-color: dimgrey;
@@ -212,7 +212,7 @@ export default {
         align-items: center;
     }
     .Box-shopName-And-salesVolume .shopPhoto .photo div{
-        background-color: cyan;
+        // background-color: cyan;
         width: 43px;
         height: 43px;
         border-radius: 50%;

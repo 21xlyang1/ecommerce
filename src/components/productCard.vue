@@ -1,27 +1,31 @@
 <template>
   <div style="min-width: 250px  ; height: 350px;padding: 10px">
     <div class="w-100 h-100  rounded-2 " style="background: #eaeceb">
-      <!--      {{proId}}-->
       <!--      图片-->
       <div class="" style="width: 100%;height: 230px;padding:5px">
         <img style="height: 220px;width: 220px" :src="getProductImage(proId)" alt="Product Image"/>
       </div>
       <!--      商品名称-->
       <div class=" d-flex align-items-center" style="width: 100%;height: 35px">
-        <div class="ms-3">131</div>
+        <div class="ms-3">
+          {{ productName }}
+        </div>
       </div>
       <div class="d-flex justify-content-between" style="width: 100%;height: 65px">
-        <!--      信息-->
+        <!--      详细信息-->
         <div style="height: 100%">
+          <!--      商品小标签-->
           <div class="d-flex" style="height: 40%">
             <div v-for="item in dataList" :key="item.ID" class="bg-danger rounded-1 d-flex align-items-center"
                  style="font-size: 10px;width: auto;color: #fff;padding: 2px;margin: 5px 5px;">
               {{ item.name }}
             </div>
           </div>
+          <!--      月销量-->
           <div class="d-flex" style="height: 20%; font-size: 10px; padding-left: 5px;">
             月销量{{ saleNum }}件
           </div>
+          <!--      商品价格-->
           <div class="d-flex" style="height: 40%; padding-left: 5px">
             ￥{{ price }}
           </div>
@@ -42,11 +46,13 @@
   </div>
 </template>
 <script>
+
 export default {
   name: "productCard",
   props: ['proId'],
   data() {
     return {
+      productName: "商品名称",
       dataList: [
         {ID: 1, name: '好评率98%'}, {ID: 2, name: '满300减50'}
       ],
@@ -57,7 +63,7 @@ export default {
   methods: {
     getProductImage(productId) {
       // 根据商品ID获取对应的商品图片路径，可以根据实际情况替换为真实的图片路径
-      return '../../public/img/log/' + productId % 10 + '.png';
+      return `../../public/product` + productId % 10 + '.jpg';
     },
     getProductInfo(productId) {
       // 根据商品ID获取对应的商品信息，可以根据实际情况替换为真实的商品信息

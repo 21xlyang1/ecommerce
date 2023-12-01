@@ -26,15 +26,7 @@
     <div>
       <searchBox></searchBox>
     </div>
-    <!-- <el-drawer
-      :withHeader="false"
-      :show-close="false"
-      :visible.sync="drawer"
-      :direction="direction"
 
-    >
-      <shoppingTrolley></shoppingTrolley>
-    </el-drawer> -->
     <!-- 用户 -->
     <div>
       <usercard />
@@ -63,8 +55,6 @@ export default {
     };
   },
   methods: {
-
-    
     handleClose(done) {
       this.$confirm("确认关闭？")
         .then((_) => {

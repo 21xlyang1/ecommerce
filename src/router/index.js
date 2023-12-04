@@ -125,6 +125,24 @@ const routes = [
           tow: () => import('@/pages/sellerOrder.vue')
         }
       },
+      {
+        path: 'returnCheck',
+        components: {
+          tow: () => import('@/pages/building.vue')
+        }
+      },
+      {
+        path: 'sellerInf',
+        components: {
+          tow: () => import('@/pages/building.vue')
+        }
+      },
+      {
+        path: 'dataStatistics',
+        components: {
+          tow: () => import('@/pages/building.vue')
+        }
+      },
 
     ]
   },

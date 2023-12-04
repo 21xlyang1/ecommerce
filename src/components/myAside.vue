@@ -1,7 +1,7 @@
 <template>
   <el-scrollbar
     style="
-      width: 300px;
+      min-width: 300px;
       background: linear-gradient(135deg, #8f75da 0, #727cf5 60%);
     "
     :style="{ height: outerDivHeight }"
@@ -18,6 +18,7 @@
       v-for="(item, index) in sideList"
       :key="index"
       style="height: 80px; text-decoration: none"
+      :style="{color:$route.path==item.to?'#ff8989':''}"
     >
       <div
         class="d-flex justify-content-center align-items-center"
@@ -63,7 +64,11 @@ export default {
   },
   mounted() {
     this.setOuterDivSize(); // 初始化时设置最外层div的尺寸
+    window.addEventListener("resize", this.setOuterDivSize);
   },
+  beforeDestroy(){
+    window.removeEventListener("resize", this.setOuterDivSize);
+  }
 };
 </script>
 
@@ -73,7 +78,7 @@ export default {
 }
 .sideItem:hover {
   color: #fff;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.1);
 }
 .numicon {
   color: #fff;

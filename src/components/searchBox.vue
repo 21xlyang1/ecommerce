@@ -41,9 +41,9 @@ body {
   position: relative;
   width: 400px;
   padding: 6px;
-  background-color: #ff7575;
+  background-color: #ff8989;
   border-radius: 4px;
-  box-shadow: 0 2px 5px #ff7575, 0 10 0 10px #fff;
+  box-shadow: 0 2px 5px #ff8989, 0 10 0 10px #fff;
 }
 
 .shell input {
@@ -100,7 +100,7 @@ body {
   position: absolute;
   display: block;
   font-size: 12px;
-  background-color: #ff7575;
+  background-color: #ff8989;
   padding: 0px 3px;
   top: -25px;
   right: -25px;

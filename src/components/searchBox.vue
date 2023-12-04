@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="shell">
+    <div class="shell" :style="{width:boxWidth+'px'}">
       <input type="text" v-model="searchData" placeholder="Search" />
       <a :href="'#/ss/search?data='+searchData">
         <i class="fa fa-hand-o-right"></i>
@@ -15,7 +15,31 @@ export default {
   data(){
     return{
       searchData:"",
+      maxWidth: window.innerWidth, // 最外层div的宽度
+      boxWidth:400
     }
+  },
+  methods: {
+    setOuterDivSize() {
+      this.maxWidth = window.innerWidth;
+      if(this.maxWidth>1700){
+        this.boxWidth=600
+      }else if(this.maxWidth>1500){
+        this.boxWidth=500
+      }else if(this.maxWidth>600){
+        this.boxWidth=400
+      }else{
+        this.boxWidth=290
+      }
+    },
+  },
+  mounted() {
+    this.setOuterDivSize(); // 初始化时设置最外层div的尺寸
+    window.addEventListener("resize", this.setOuterDivSize);
+  },
+  beforeDestroy() {
+    // 组件销毁时，移除窗口大小改变事件的监听
+    window.removeEventListener("resize", this.setOuterDivSize);
   },
 };
 </script>
@@ -39,15 +63,15 @@ body {
 .shell {
   margin: 10px;
   position: relative;
-  width: 400px;
-  padding: 6px;
+  transition: 0.4s;
+  padding: 6px 20px;
   background-color: #ff8989;
   border-radius: 4px;
   box-shadow: 0 2px 5px #ff8989, 0 10 0 10px #fff;
 }
 
 .shell input {
-  width: 90%;
+  width: 80%;
   height: 40px;
   color: #ffffff;
   font: 300 20px "优设标题黑";

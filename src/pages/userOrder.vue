@@ -1,9 +1,7 @@
 <template>
   <div
     :style="{
-      'background-image': `url(${require('../../public/img/log/' +
-        '8' +
-        '.png')})`,
+      'background-image': `url(${require('../../public/img/bg/2.png')})`,
     }"
   >
     <div class="container-xl d-flex justify-content-center">

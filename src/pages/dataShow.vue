@@ -75,8 +75,8 @@
           <div
             style="
               position: absolute;
-              top: 15px;
-              left: 20px;
+              top: 20px;
+              left: 25px;
               color: #98a6ad;
               font-weight: 700;
             "
@@ -89,38 +89,64 @@
     </div>
     <div class="row m-0">
       <!-- 折线图 -->
-      <div class="col-xxl-7 col-12 p-3" style="height: 500px">
-        <div class="rounded-1 bg-body w-100 h-100 shadow-sm p-3" style="position: relative">
-
+      <div class="col-xxl-8 col-12 p-3" style="height: 500px">
+        <div
+          class="rounded-1 bg-body w-100 h-100 shadow-sm p-3"
+          style="position: relative"
+        >
           <div
             style="
               position: absolute;
-              top: 15px;
-              left: 20px;
+              top: 20px;
+              left: 25px;
               color: #98a6ad;
               font-weight: 700;
             "
           >
-          本周收入和支出
+            本周收入和支出
           </div>
-          <div class="w-100  ps-3 pe-3  " style=" top:40px;right:0px;height: 110px;position:absolute">
-            <div class="w-100 h-100 d-flex align-items-center justify-content-evenly" style="background-color:#f9f9fd">
-              <div  >
+          <div
+            class="w-100 ps-4 pe-4"
+            style="top: 45px; right: 0px; height: 90px; position: absolute"
+          >
+            <div
+              class="w-100 h-100 d-flex align-items-center justify-content-evenly"
+              style="background-color: #f9f9fd"
+            >
+              <div>
                 <div class="w-100 d-flex justify-content-center">
                   <div style="color: #98a6ad; font-weight: 700">一周总支出</div>
                 </div>
-                <div  class="d-flex align-items-center">
-                  <div class="me-2" style="font-size: 34px; font-weight: 1000;color:#80FFA5">·</div>
-                  <div style="font-size: 34px; font-weight: 700; color: #6c757d" >{{'$8,254'}}</div>
+                <div class="d-flex align-items-center">
+                  <div
+                    class="me-2"
+                    style="font-size: 34px; font-weight: 1000; color: #80ffa5"
+                  >
+                    ·
+                  </div>
+                  <div
+                    style="font-size: 34px; font-weight: 700; color: #6c757d"
+                  >
+                    {{ "$8,254" }}
+                  </div>
                 </div>
               </div>
-              <div >
+              <div>
                 <div class="w-100 d-flex justify-content-center">
                   <div style="color: #98a6ad; font-weight: 700">一周总收入</div>
                 </div>
-                <div  class="d-flex align-items-center">
-                  <div class="me-2" style="font-size: 34px; font-weight: 1000;color:#00DDFF">·</div>
-                  <div style="font-size: 34px; font-weight: 700; color: #6c757d" >{{'$18,254'}}</div>
+                <div class="d-flex align-items-center">
+                  <div
+                    class="me-2"
+                    style="font-size: 34px; font-weight: 1000; color: #00ddff"
+                  >
+                    ·
+                  </div>
+                  <div
+                    style="font-size: 34px; font-weight: 700; color: #6c757d"
+                  >
+                    {{ "$18,254" }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -128,18 +154,53 @@
           <div id="chart2" style="width: 100%; height: 410px"></div>
         </div>
       </div>
-      <div class="col-xxl-5 col-12 p-3" style="height: 500px">
-        <div class="rounded-1 bg-body w-100 h-100 shadow-sm"></div>
+      <!--  -->
+      <div class="col-xxl-4 col-12 p-3" style="height: 500px">
+        <div
+          class="rounded-1 bg-body w-100 h-100 shadow-sm p-3"
+          style="position: relative"
+        >
+          <div
+            style="
+              position: absolute;
+              top: 20px;
+              left: 25px;
+              color: #98a6ad;
+              font-weight: 700;
+            "
+          >
+            用户类型比例
+          </div>
+          <div class="d-flex w-100 justify-content-center w-100">
+            <div id="chart3" style="width: 300px; height: 270px"></div>
+          </div>
+
+          <div
+            v-for="(item, index) in userList"
+            :key="index"
+            class="d-flex w-100 justify-content-between align-items-center"
+            style="border-bottom: solid 1px #eee; height: 40px"
+          >
+            <div class="d-flex align-items-center">
+              <div class="ps-2 pe-1" style="font-size: 34px; font-weight: 1000" :style="{color:item.color}">·</div>
+              <div style="color:#888">{{item.name}}</div>
+            </div>
+            <div></div>
+            <div style="color:#888;font-size:15px">
+              {{item.value}}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="row m-0">
+    <!-- <div class="row m-0">
       <div class="col-xxl-5 col-12 p-3" style="height: 500px">
         <div class="rounded-1 bg-body w-100 h-100 shadow-sm"></div>
       </div>
       <div class="col-xxl-7 col-12 p-3" style="height: 500px">
         <div class="rounded-1 bg-body w-100 h-100 shadow-sm"></div>
       </div>
-    </div>
+    </div> -->
     <!-- <div id="main" style="width: 100%; height: 400px"></div> -->
   </div>
 </template>
@@ -149,6 +210,12 @@ export default {
   name: "",
   data() {
     return {
+      userList: [
+        { value: 1348, name: "游客", color: "#546fc6" },
+        { value: 2048, name: "普通用户", color: "#91cb74" },
+        { value: 823, name: "商家", color: "#fac859" },
+        { value: 278, name: "管理员", color: "#ee6666" },
+      ],
       dataList: [
         { name: "用户", icon: "person", num: "29,401", grow: 5.27 },
         { name: "商品", icon: "shangpinguanli1", num: "5,983", grow: -1.34 },
@@ -165,11 +232,14 @@ export default {
   mounted() {
     var myChart1 = echarts.init(document.getElementById("chart1"));
     var myChart2 = echarts.init(document.getElementById("chart2"));
+    var myChart3 = echarts.init(document.getElementById("chart3"));
     this.initChart1(myChart1);
     this.initChart2(myChart2);
+    this.initChart3(myChart3);
     window.addEventListener("resize", function () {
       myChart1.resize();
       myChart2.resize();
+      myChart3.resize();
     });
   },
   methods: {
@@ -211,11 +281,19 @@ export default {
             show: false,
           },
         },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            label: {
+              backgroundColor: "#6a7985",
+            },
+          },
+        },
         grid: {
-          left: "20px",
-          right: "20px",
+          left: "25px",
+          right: "25px",
           bottom: "0px",
-          top:"50px",
+          top: "55px",
           containLabel: true,
         },
         series: [
@@ -255,12 +333,13 @@ export default {
         },
 
         grid: {
-          left: "20px",
-          right: "20px",
+          left: "10px",
+          right: "10px",
           bottom: "",
-          top:"130px",
+          top: "130px",
           containLabel: true,
         },
+
         xAxis: [
           {
             type: "category",
@@ -327,6 +406,30 @@ export default {
               focus: "series",
             },
             data: [1200, 2420, 1610, 2340, 2200, 3400, 3100],
+          },
+        ],
+      });
+    },
+    initChart3(myChart) {
+      myChart.setOption({
+        tooltip: {
+          trigger: "item",
+        },
+        series: [
+          {
+            name: "用户类型",
+            type: "pie",
+            radius: ["50%", "80%"],
+
+            label: {
+              show: false,
+            },
+            data: [
+              { value: 1348, name: "游客" },
+              { value: 2048, name: "普通用户" },
+              { value: 823, name: "商家" },
+              { value: 278, name: "管理员" },
+            ],
           },
         ],
       });

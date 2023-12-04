@@ -1,8 +1,8 @@
 <template>
     <div class="mainDiv">
-        <div class="search-Box">
-            <searchBox />
-        </div>
+        <!-- <div class="search-Box"> -->
+            <!-- <searchBox /> -->
+        <!-- </div> -->
         <div class="Hr">
             <hr />
         </div>
@@ -23,7 +23,7 @@ import commodityCard from "../components/productItem.vue";
 export default {
     components: {
         commodityCard, // 注册commodityCard组件
-        searchBox,   // 注册searchBox搜索框组件
+        // searchBox,   // 注册searchBox搜索框组件
     },
 };
 </script>

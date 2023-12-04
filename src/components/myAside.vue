@@ -1,7 +1,7 @@
 <template>
   <el-scrollbar
     style="
-      width: 300px;
+      min-width: 300px;
       background: linear-gradient(135deg, #8f75da 0, #727cf5 60%);
     "
     :style="{ height: outerDivHeight }"

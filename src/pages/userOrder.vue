@@ -19,9 +19,11 @@
         </div>
         <div
           v-for="item in itemList"
-          class="w-100 d-flex align-items-center"
+          class="w-100 d-flex align-items-center item"
           :key="item.ID"
-          style="height: 40px"
+          style="height: 40px;cursor: pointer;"
+          :style="itemChosed==item.name?'color:#1889f1;':''"
+          @click="itemChosed=item.name"
         >
           <div class="ms-4" style="font-weight: 1000 ;font-size:24px" >·</div>
           <div class="ms-3" style="font-weight: 700 ;">{{item.name}}</div>
@@ -36,9 +38,11 @@
         :style="{ height: outerDivHeight + 'px' }"
       >
         <div
-          class="w-100 bg-body rounded-2"
-          style="height: 40px; margin-bottom: 10px"
-        ></div>
+          class="w-100 bg-body rounded-2 d-flex align-items-center ps-4"
+          style="height: 40px; margin-bottom: 10px;font-weight: 700 ;font-size:18px;color:#666666"
+        >
+          {{itemChosed+'订单'}}
+        </div>
 
         <el-scrollbar
           class="w-100 bg-body rounded-2"
@@ -63,6 +67,7 @@ export default {
         { ID: 4, name: "已完成" },
         { ID: 5, name: "已取消" },
       ],
+      itemChosed:"全部",
     };
   },
   methods: {
@@ -82,5 +87,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.item{
+  color:#666666;
+}
+.item:hover{
+  background: rgba($color: #000000, $alpha: 0.1);
+  color:#000000;
+  // color:#1889f1;
+}
 </style>
 

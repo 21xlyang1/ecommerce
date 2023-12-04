@@ -37,7 +37,7 @@ export default {
           icon: "shangpinguanli",
         },
         { name: "库存管理", to: "/ms/inventoryManage", num: 0, icon: "kucuntongji" },
-        { name: "订单查看", to: "/ms/sellerOrder", num: 11, icon: "dingdan1" },
+        { name: "订单管理", to: "/ms/sellerOrder", num: 11, icon: "dingdan1" },
         { name: "退货审核", to: "/ms/returnCheck", num: 9, icon: "ruihuo" },
         { name: "商家资料", to: "/ms/sellerInf", num: 0, icon: "ziliao" },
         { name: "数据统计", to: "/ms/dataStatistics", num: 0, icon: "shujutongji" },

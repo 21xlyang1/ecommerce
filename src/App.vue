@@ -27,6 +27,7 @@
       ref="scrollbar"
       class="w-100"
       :style="{ height: outerDivHeight }"
+      
     >
       <router-view name="one"></router-view>
     </el-scrollbar>

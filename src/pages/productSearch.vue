@@ -18,7 +18,7 @@
 
 <script>
 import commodityCard from "../components/productItem.vue";
-import searchBox from "../components/search.vue";
+// import searchBox from "../components/search.vue";
 
 export default {
     components: {

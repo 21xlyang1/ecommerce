@@ -1,5 +1,8 @@
 <template>
     <div class="mainDiv">
+        <div class="search-Box">
+            <searchBox />
+        </div>
         <div class="Hr">
             <hr />
         </div>
@@ -15,10 +18,12 @@
 
 <script>
 import commodityCard from "../components/productItem.vue";
+import searchBox from "../components/search.vue";
 
 export default {
     components: {
         commodityCard, // 注册commodityCard组件
+        searchBox,   // 注册searchBox搜索框组件
     },
 };
 </script>
@@ -44,6 +49,12 @@ div hr {
     display: flex;
     justify-content: center; // 水平居中
     // align-items: center; // 垂直居中
+}
+
+.search-Box {
+    // 同上，只是让搜索框水平居中
+    display: flex;
+    justify-content: center;
 }
 
 .Card-box {

@@ -135,7 +135,7 @@ export default {
     }
 
     .commodityText .commodityName{
-        background-color: green;
+        // background-color: green;
         text-align: left; /* 文本左对齐 */
         font-size: 20px;
         position: relative;
@@ -149,7 +149,7 @@ export default {
     }
 
     .commodityText .Box-for-Reviews-And-freeShipping-And-prices{
-        background-color: yellow;
+        // background-color: yellow;
         display: grid;
         grid-template-columns: 1fr 150px; // 两列，左右布局
     }
@@ -195,7 +195,7 @@ export default {
 
 
     .commodityText .Box-shopName-And-salesVolume{
-        background-color: blue;
+        // background-color: blue;
         display: grid;
         grid-template-columns:150px 1fr; /* 两列，左右布局 */
     }

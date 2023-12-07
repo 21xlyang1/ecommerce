@@ -5,7 +5,7 @@
       <div class="title_name">
         <div class="text">
           <em></em> 
-          我的足迹
+          我的足迹 
           <b>MY TRACKS</b>
         </div>
           <div @click="clearHistory" class="btn boom">

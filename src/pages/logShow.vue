@@ -11,7 +11,7 @@
     <div class="hui" style="z-index: -1"></div>
     <div ref="parent" class="container-xxl pt-5">
       <div
-        class="w-100"
+        class="w-100 justify-content-center d-flex"
         style="padding: 100px 0px; font-size: 50px; color: #fff"
       >
         项目开发日志

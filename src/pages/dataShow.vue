@@ -240,6 +240,11 @@ export default {
       myChart1.resize();
       myChart2.resize();
       myChart3.resize();
+      setTimeout(() => {
+        myChart1.resize();
+      myChart2.resize();
+      myChart3.resize();
+    }, 500); 
     });
   },
   methods: {

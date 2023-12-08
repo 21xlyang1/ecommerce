@@ -5,14 +5,14 @@
         <!-- Your content goes here -->
         <div class="w-100" style="height: 100%; overflow: hidden">
           <div
-              class="lunbo"
-              :style="{ transform: 'translateX(' + currentIndex * -100 + '%)' }"
+            class="lunbo"
+            :style="{ transform: 'translateX(' + currentIndex * -100 + '%)' }"
           >
             <img
-                v-for="index in imgNum"
-                :key="index"
-                class="lunboimg"
-                :src="'/img/slideshow/' + (index - 1) + '.png'"
+              v-for="index in imgNum"
+              :key="index"
+              class="lunboimg"
+              :src="'/img/slideshow/' + (index - 1) + '.png'"
             />
           </div>
         </div>
@@ -20,66 +20,66 @@
       <div class="conbg">
         <div class="h-100 w-100 p-0 d-flex justify-content-between">
           <div
-              class="h-100 d-flex align-items-center"
-              style="width: 4%; padding-bottom: 8%"
+            class="h-100 d-flex align-items-center"
+            style="width: 4%; padding-bottom: 8%"
           >
             <img
-                class="jiantou"
-                @click="prevSlide"
-                src="../../public/img/icon/左箭头 (1).png"
-                alt=""
+              class="jiantou"
+              @click="prevSlide"
+              src="../../public/img/icon/左箭头 (1).png"
+              alt=""
             />
           </div>
           <div
-              class="d-flex align-items-end justify-content-evenly"
-              style="padding-bottom: 8%; width: 30%"
+            class="d-flex align-items-end justify-content-evenly"
+            style="padding-bottom: 8%; width: 30%"
           >
             <div
-                v-for="index in imgNum"
-                :key="index"
-                class="bigbox d-flex justify-content-center align-items-center"
-                style="width: 25%; height: 30px; cursor: pointer"
-                @click="tunSlide(index - 1)"
-                :style="'width:' + 100 / imgNum + '%'"
+              v-for="index in imgNum"
+              :key="index"
+              class="bigbox d-flex justify-content-center align-items-center"
+              style="width: 25%; height: 30px; cursor: pointer"
+              @click="tunSlide(index - 1)"
+              :style="'width:' + 100 / imgNum + '%'"
             >
               <div
-                  :class="index - 1 == currentIndex ? 'pink' : 'tiao'"
-                  style="width: 70%; height: 5px"
+                :class="index - 1 == currentIndex ? 'pink' : 'tiao'"
+                style="width: 70%; height: 5px"
               ></div>
             </div>
           </div>
           <div
-              class="h-100 d-flex align-items-center"
-              style="width: 4%; padding-bottom: 8%"
+            class="h-100 d-flex align-items-center"
+            style="width: 4%; padding-bottom: 8%"
           >
             <img
-                class="jiantou"
-                @click="nextSlide"
-                src="../../public/img/icon/右箭头 (1).png"
-                alt=""
+              class="jiantou"
+              @click="nextSlide"
+              src="../../public/img/icon/右箭头 (1).png"
+              alt=""
             />
           </div>
         </div>
       </div>
-      <div class="conbg w-100" style="height: 800px; top: 75%">
+      <div class="conbg w-100" style="top: 75%">
         <div
-            v-for="i in 2"
-            :key="i"
-            class="w-100 d-flex justify-content-evenly"
-            style="height: 350px"
+          v-for="i in 2"
+          :key="i"
+          class="w-100 d-flex justify-content-evenly"
+          style="height: 350px"
         >
           <productCard
-              :proId="item.ID"
-              v-show="
+            :proId="item.ID"
+            v-show="
               index > maxHang * (i - 1) && index <= maxHang * (i - 1) + hangNum
             "
-              v-for="(item, index) in productList"
-              :key="item.ID"
+            v-for="(item, index) in productList"
+            :key="item.ID"
           ></productCard>
         </div>
       </div>
     </div>
-    <div class="w-100 sbg" style="height: 600px"></div>
+    <div class="w-100 sbg" style="height: 700px"></div>
   </div>
 </template>
 
@@ -88,28 +88,40 @@ import productCard from "@/components/productCard.vue";
 
 export default {
   name: "",
-  components: {productCard},
-  data() {
+  components: { productCard },
+  data() {  7
     return {
       currentIndex: 0,
       imgNum: 3,
       productList: [
-        {ID: 1, name: "Product 1", price: 19.99, imageUrl: "C:/Users/Yun/Desktop/Objects/学习/2023-2024秋季课/WEB开发/ecommerce/public/img/product/1.jpg" },
-        {ID: 2, name: "Product 2", price: 29.99, imageUrl: "C:/Users/Yun/Desktop/Objects/学习/2023-2024秋季课/WEB开发/ecommerce/public/img/product/0.jpg"},
-        {ID: 3},
-        {ID: 4},
-        {ID: 5},
-        {ID: 6},
-        {ID: 7},
-        {ID: 8},
-        {ID: 9},
-        {ID: 10},
-        {ID: 11},
-        {ID: 12},
-        {ID: 13},
-        {ID: 14},
-        {ID: 15},
-        {ID: 16},
+        {
+          ID: 1,
+          name: "Product 1",
+          price: 19.99,
+          imageUrl:
+            "C:/Users/Yun/Desktop/Objects/学习/2023-2024秋季课/WEB开发/ecommerce/public/img/product/1.jpg",
+        },
+        {
+          ID: 2,
+          name: "Product 2",
+          price: 29.99,
+          imageUrl:
+            "C:/Users/Yun/Desktop/Objects/学习/2023-2024秋季课/WEB开发/ecommerce/public/img/product/0.jpg",
+        },
+        { ID: 3 },
+        { ID: 4 },
+        { ID: 5 },
+        { ID: 6 },
+        { ID: 7 },
+        { ID: 8 },
+        { ID: 9 },
+        { ID: 10 },
+        { ID: 11 },
+        { ID: 12 },
+        { ID: 13 },
+        { ID: 14 },
+        { ID: 15 },
+        { ID: 16 },
       ],
       hangNum: 6,
       maxHang: 6,
@@ -129,13 +141,12 @@ export default {
       // 使用$refs来获取引用的div元素
 
       const divWidth = this.$refs.myDiv.offsetWidth;
-      console.log("Div宽度：", divWidth);
       return divWidth;
     },
     handleResize() {
       // 当div大小发生变化时触发的事件处理函数
       // 可以在这里执行你想要的操作
-      console.log("Div大小发生变化！");
+
       this.hangNum = Math.floor(this.getDivWidth() / 250);
       if (this.hangNum > this.maxHang) {
         this.hangNum = this.maxHang;
@@ -196,9 +207,9 @@ export default {
   width: 100%;
   height: 100%;
   background: linear-gradient(
-          to bottom,
-          rgb(255, 253, 253, 0) 90%,
-          #eaeceb 100%
+    to bottom,
+    rgb(255, 253, 253, 0) 90%,
+    #eaeceb 100%
   );
 }
 

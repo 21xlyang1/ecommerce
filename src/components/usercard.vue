@@ -1,12 +1,13 @@
 <template>
-  <div class="d-flex h-100">
+  <div class="d-flex h-100 align-items-center">
     <!-- 头像 -->
-    <div class="hover-trigger">
+    <div class="hover-trigger"  style="z-index: 1;">
       <div class="photo">
         <img v-show="isLog" src="../assets\img\1.png" alt="" />
         <div
           class="d-flex justify-content-center align-content-center"
           v-show="!isLog"
+        
         >
           <v-icon
             style="font-size: 35px; color: #fafafa"
@@ -14,49 +15,97 @@
           ></v-icon>
         </div>
       </div>
-      <div class="dropdown">
+      <div class="dropdown" style="z-index: -1;">
         <!-- 登入前的下拉框 -->
         <div
           v-if="!isLog"
           class="p-2 pt-3 pb-3 shadow-sm rounded-2 w-100"
-          style="height: 200px; background-color: #ecf0f3"
+          style="height: 200px; background-color: #eff4f7"
         >
-          <div>登入即可享受</div>
-          <div class="h5 mb-3">极致优惠</div>
-          <div>
-            <el-button
-              :round="true"
-              type="primary"
-              style="width: 180px"
-              @click="$store.commit('showLogin')"
-              >登入</el-button
-            >
+          <div class="d-flex justify-content-center">
+            <div>登入即可享受</div>
           </div>
-          <div class="pt-3">
-            <el-button
-              :round="true"
-              type="warning"
-              style="width: 180px"
-              @click="$store.commit('showRegister')"
-              >注册</el-button
-            >
+          <div class="d-flex justify-content-center">
+            <div class="h5 mb-3">极致优惠</div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <div>
+              <el-button
+                :round="true"
+                type="primary"
+                style="width: 180px"
+                @click="$store.commit('showLogin')"
+                >登入</el-button
+              >
+            </div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <div class="pt-3">
+              <el-button
+                :round="true"
+                type="warning"
+                style="width: 180px"
+                @click="$store.commit('showRegister')"
+                >注册</el-button
+              >
+            </div>
           </div>
         </div>
         <!-- 登入后的下拉框 -->
         <div
           v-if="isLog"
           class="w-100 p-3 shadow-sm rounded-2"
-          style="height: 250px; background-color: #fff"
+          style="height: 250px; background-color: #eff4f7;z-index: -1;"
+          :style="{height:maxWidth<=1150?'320px':'250px'}"
         >
           <div class="h6 pb-3">{{ "username" }}</div>
+          <!-- 用户操作 -->
+          <transition name="el-zoom-in-center">
+            <div v-show="maxWidth <= 1150">
+              <div class="d-flex w-100 justify-content-evenly">
+                <router-link
+                  v-for="(item, index) in indexList"
+                  :key="index"
+                  class="h-100 hover-effect ps-3 pe-3"
+                  @mouseover="changeTextColor(item, true)"
+                  @mouseout="changeTextColor(item, false)"
+                  :style="$route.path == item.url ? 'color: #f53082' : ''"
+                  :to="item.url"
+                >
+                  <div class="w-100" style="height: 10px"></div>
+                  <div
+                    class="w-100 d-flex justify-content-center align-items-center"
+                    style="height: 30px"
+                  >
+                    <v-icon
+                      :name="item.name"
+                      style="font-size: 30px; color: #f53082"
+                      class="icon"
+                    ></v-icon>
+                  </div>
+                  <div
+                    class="w-100 d-flex justify-content-center align-items-center"
+                    style="height: 30px; font-size: 15px; color: #fafafa2f"
+                    :style="{ color: item.textColor }"
+                  >
+                    {{ item.inf }}
+                  </div>
+                </router-link>
+              </div>
+            </div>
+          </transition>
           <div
             class="d-flex justify-content-evenly rounded item align-items-center"
-            v-for="item,index in btnList"
+            v-for="(item, index) in btnList"
             :key="item.name"
-            style="height: 40px;cursor: pointer;"
+            style="height: 40px; cursor: pointer"
             @click="clickButton(index)"
           >
-            <v-icon :style="{color:item.color}" style="font-size: 20px" :name="item.icon"></v-icon>
+            <v-icon
+              :style="{ color: item.color }"
+              style="font-size: 20px"
+              :name="item.icon"
+            ></v-icon>
             <div class="d-flex" style="width: 100px; font-size: 15px">
               {{ item.name }}
             </div>
@@ -74,34 +123,40 @@
     </div>
 
     <!-- 用户操作 -->
-    <router-link
-      v-for="(item, index) in indexList"
-      :key="index"
-      class="h-100 hover-effect ps-3 pe-3"
-      @mouseover="changeTextColor(item, true)"
-      @mouseout="changeTextColor(item, false)"
-      :style="$route.path == item.url ? 'color: #f53082' : ''"
-      :to="item.url"
-    >
-      <div class="w-100" style="height: 10px"></div>
-      <div
-        class="w-100 d-flex justify-content-center align-items-center"
-        style="height: 30px"
-      >
-        <v-icon
-          :name="item.name"
-          style="font-size: 30px; color: #f53082"
-          class="icon"
-        ></v-icon>
+    <transition name="el-zoom-in-center">
+      <div v-show="maxWidth > 1150">
+        <div class="d-flex">
+          <router-link
+            v-for="(item, index) in indexList"
+            :key="index"
+            class="h-100 hover-effect ps-3 pe-3"
+            @mouseover="changeTextColor(item, true)"
+            @mouseout="changeTextColor(item, false)"
+            :style="$route.path == item.url ? 'color: #f53082' : ''"
+            :to="item.url"
+          >
+            <div class="w-100" style="height: 10px"></div>
+            <div
+              class="w-100 d-flex justify-content-center align-items-center"
+              style="height: 30px"
+            >
+              <v-icon
+                :name="item.name"
+                style="font-size: 30px; color: #f53082"
+                class="icon"
+              ></v-icon>
+            </div>
+            <div
+              class="w-100 d-flex justify-content-center align-items-center"
+              style="height: 30px; font-size: 15px; color: #fafafa2f"
+              :style="{ color: item.textColor }"
+            >
+              {{ item.inf }}
+            </div>
+          </router-link>
+        </div>
       </div>
-      <div
-        class="w-100 d-flex justify-content-center align-items-center"
-        style="height: 30px; font-size: 15px; color: #fafafa2f"
-        :style="{ color: item.textColor }"
-      >
-        {{ item.inf }}
-      </div>
-    </router-link>
+    </transition>
     <!-- 购物车按钮 -->
     <div @click="drawer = true" class="h-100 hover-effect ps-3 pe-3">
       <div class="w-100" style="height: 10px"></div>
@@ -117,7 +172,7 @@
       </div>
       <div
         class="w-100 d-flex justify-content-center align-items-center"
-        style="height: 30px; font-size: 15px"
+        style="height: 30px; font-size: 15px;min-width: 45px;"
       >
         购物车
       </div>
@@ -142,6 +197,7 @@ export default {
 
   data() {
     return {
+      maxWidth: window.innerWidth, // 最外层div的宽度
       isDropdownVisible: false,
       indexList: [
         { name: "shoucang", inf: "收藏", url: "/ss/favorite" },
@@ -150,10 +206,10 @@ export default {
         // { name: "gouwuche", inf: "购物车",url:"" },
       ],
       btnList: [
-        {color:"blue", name: "个人中心", icon: "person", jiantou: true },
-        {color:"orange", name: "商家管理", icon: "shangjia", jiantou: true },
-        {color:"green", name: "后台管理", icon: "houtai", jiantou: true },
-        {color:"red", name: "退出登入", icon: "tuichu", jiantou: false },
+        { color: "blue", name: "个人中心", icon: "person", jiantou: true },
+        { color: "orange", name: "商家管理", icon: "shangjia", jiantou: true },
+        { color: "green", name: "后台管理", icon: "houtai", jiantou: true },
+        { color: "red", name: "退出登入", icon: "tuichu", jiantou: false },
       ],
       drawer: false,
       dialogVisible: false,
@@ -189,20 +245,30 @@ export default {
     clickButton(index) {
       // 个人中心
       if (index == 0) {
-
         // 商家管理
       } else if (index == 1) {
-        this.$router.push("/ms/productAdd")
+        if (this.$route.path != "/ms/productAdd") {
+          this.$router.push("/ms/productAdd");
+        }
         // 后台管理
       } else if (index == 2) {
+        if (this.$route.path != "/as/dataShow") {
+          this.$router.push("/as/dataShow");
+        }
 
         // 退出登入
       } else if (index == 3) {
         this.$cookies.set("isLog", false);
       }
     },
+    setOuterDivSize() {
+      this.maxWidth = window.innerWidth;
+      console.log("maxwidth", this.maxWidth);
+    },
   },
   mounted() {
+    this.setOuterDivSize(); // 初始化时设置最外层div的尺寸
+    window.addEventListener("resize", this.setOuterDivSize);
     setInterval(() => {
       if (this.$cookies.get("isLog") == "true") {
         this.isLog = true;
@@ -210,6 +276,10 @@ export default {
         this.isLog = false;
       }
     }, 100);
+  },
+  beforeDestroy() {
+    // 组件销毁时，移除窗口大小改变事件的监听
+    window.removeEventListener("resize", this.setOuterDivSize);
   },
 };
 </script>
@@ -245,6 +315,11 @@ a {
 
   /* 设置背景颜色为#fafafa*/
 }
+.photo:hover {
+  border: 5px solid#fff9a7;
+}
+
+
 
 /* 定义名为photo的类中的img元素*/
 .photo img {

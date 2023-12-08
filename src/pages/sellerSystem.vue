@@ -32,26 +32,32 @@ export default {
         },
         {
           name: "商品管理",
-          to: "/ms/productAdd",
+          to: "/ms/productManage",
           num: 2,
           icon: "shangpinguanli",
         },
-        { name: "库存管理", to: "/ms/productAdd", num: 0, icon: "kucuntongji" },
-        { name: "订单查看", to: "/ms/productAdd", num: 11, icon: "dingdan1" },
-        { name: "退货审核", to: "/ms/productAdd", num: 9, icon: "ruihuo" },
-        { name: "商家资料", to: "/ms/productAdd", num: 0, icon: "ziliao" },
-        { name: "数据统计", to: "/ms/productAdd", num: 0, icon: "shujutongji" },
+        { name: "库存管理", to: "/ms/inventoryManage", num: 0, icon: "kucuntongji" },
+        { name: "订单管理", to: "/ms/sellerOrder", num: 11, icon: "dingdan1" },
+        { name: "退货审核", to: "/ms/returnCheck", num: 9, icon: "ruihuo" },
+        { name: "商家资料", to: "/ms/sellerInf", num: 0, icon: "ziliao" },
+        { name: "数据统计", to: "/ms/dataStatistics", num: 0, icon: "shujutongji" },
       ],
     };
   },
   methods: {
     setOuterDivSize() {
       this.outerDivHeight = window.innerHeight - 70 + "px";
+      console.log("dsfasd")
     },
+
   },
   mounted() {
     this.setOuterDivSize(); // 初始化时设置最外层div的尺寸
+    window.addEventListener("resize", this.setOuterDivSize);
   },
+  beforeDestroy(){
+    window.removeEventListener("resize", this.setOuterDivSize);
+  }
 };
 </script>
 

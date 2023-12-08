@@ -1,12 +1,14 @@
 <template>
-    <div>
-        <div class="search">
-            <div class="icon">
-                <span class="btuSearch" @click="starSearch"></span>
-                <div class="input">
-                    <input type="text" placeholder="搜索相关商品" v-model="searchText" />
-                </div>
-                <span class="clear" v-show="searchText!=''" @click="clearSearch"></span>
+    <div class="mainDiv">
+        <div class="search-Box">
+            <searchBox />
+        </div>
+        <div class="Hr">
+            <hr />
+        </div>
+        <div class="background-plate">
+            <div class="Card-box">
+                <commodityCard />
             </div>
         </div>
     </div>
@@ -15,133 +17,54 @@
 <!-- http://localhost:8080/#/ss/search -->
 
 <script>
+import commodityCard from "../components/productItem.vue";
+import searchBox from "../components/searchPages.vue";
+
 export default {
-    data() {
-        return {
-            searchText: ''  // 初始化为一个空字符串
-        };
-    },
-    methods: {
-        starSearch() {
-            alert("搜索功能");
-            console.log(this.searchText);
-        },
-        clearSearch() {
-            this.searchText = "";
-        },
+    components: {
+        commodityCard, // 注册commodityCard组件
+        searchBox,   // 注册searchBox搜索框组件
     },
 };
 </script>
 
 <style lang="scss" scoped>
-// 不加width属性的话 该组件就是居中了
-.search {
-    height: 60px;
-    // background-color: rgb(62, 62, 255);
+.Hr {
+    padding: 0;
+    display: flex;
+    justify-content: center; // 水平居中
+    // background-color: burlywood;
+}
 
-    // 将 .search 设置为 Flex 容器
+div hr {
+    height: 3px;
+    width: 86%;
+    background-color: black;
+}
+
+.background-plate {
+    // 确定整个卡片页面
+    // background-color: cyan;
+    // height: 1200px; // 这里注释掉可以自适应高度
+    display: flex;
+    justify-content: center; // 水平居中
+    // align-items: center; // 垂直居中
+}
+
+.search-Box {
+    margin-top: 10px;
+    // 同上，只是让搜索框水平居中
     display: flex;
     justify-content: center;
-    align-items: center;
-    overflow: hidden;
 }
 
-.search .icon {
-    background-color: #fff;
-    border: 2px solid #000; // 2px的黑色边框
-    position: absolute;
-    width: 60%;
-    height: 60px;
-    border-radius: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+.Card-box {
+    // 确定卡片的盒子位置
+    background-color: rgb(255, 236, 236);
+    height: 100%;
+    width: 70%;
+    border-radius: 10px;
 
-// 被 input 标签铺满
-.input {
-    // background-color: brown;
-    position: relative;
-    width: calc(100% - 140px);
-    height: 60px;
-    margin-left: 60px;
-    margin-right: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.input input {
-    // background-color: lightgray;
-    position: absolute;
-    width: 100%;
-    border: none;
-    outline: none;
-    font-size: 20px;
-    padding: 10px 0;
-}
-
-.btuSearch {
-    // background-color: #ff0;
-    position: absolute;
-
-    border-radius: 50%;
-    width: 60px;
-    height: 54px;
-    right: 2px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.btuSearch::before {
-    position: absolute;
-    content: "";
-    width: 25px;
-    height: 25px;
-    border: 3px solid #000;
-    border-radius: 50%;
-    transform: translate(-3px, -3px);
-}
-
-.btuSearch::after {
-    position: absolute;
-    content: "";
-    width: 3px;
-    height: 12px;
-    background: #000;
-    transform: translate(9px, 9px) rotate(315deg);
-}
-
-.clear {
-    position: absolute;
-    right: 60px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 20px;
-    height: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-}
-
-.clear::before{
-    position: absolute;
-    content: "";
-    width: 2px;
-    height: 20px;
-    background-color: #000;
-    transform: rotate(45deg);
-}
-
-.clear::after{
-    position: absolute;
-    content: "";
-    width: 2px;
-    height: 20px;
-    background-color: #000;
-    transform: rotate(315deg);
+    padding: 30px;
 }
 </style>

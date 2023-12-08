@@ -1,5 +1,5 @@
 <template>
-  <div class=" w-100" style=" min-width: 1300px;">
+  <div class=" w-100" style=" ">
 
     <!-- 导航栏 -->
     <!-- <div class=" w-100 myhead " style="height: 70px;position: fixed;top: 0;z-index: 100000;">

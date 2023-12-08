@@ -185,8 +185,8 @@ hr{
   border-bottom-right-radius: 20px;
     border-bottom-left-radius: 20px;
 }
-.item_child{
-  display: flex;
+.item_child{ 
+  display: flex;  
     width: 100%;
     margin-bottom: 20px;
 }

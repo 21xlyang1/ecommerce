@@ -1,15 +1,14 @@
 <template>
   <div
     :style="{
-      'background-image': `url(${require('../../public/img/log/' +
-        '8' +
-        '.png')})`,
+      'background-image': `url(${require('../../public/img/bg/2.png')})`,
     }"
   >
     <div class="container-xl d-flex justify-content-center">
       <el-scrollbar
-        style="width: 200px; background: rgba(255, 255, 255, 0.7)"
-        :style="{ height: outerDivHeight + 'px' }"
+        style=" background: rgba(255, 255, 255, 0.7)"
+      
+        :style="{ height: outerDivHeight + 'px' ,width:outerDivWidth>800?'200px':'140px'}"
       >
         <div
           class="w-100 d-flex justify-content-center align-items-center"
@@ -60,6 +59,7 @@ export default {
   data() {
     return {
       outerDivHeight: "", // 最外层div的高度
+      outerDivWidth:"",
       itemList: [
         { ID: 1, name: "全部" },
         { ID: 2, name: "待付款" },
@@ -73,6 +73,7 @@ export default {
   methods: {
     setOuterDivSize() {
       this.outerDivHeight = window.innerHeight - 70;
+      this.outerDivWidth = window.innerWidth;
     },
   },
   mounted() {

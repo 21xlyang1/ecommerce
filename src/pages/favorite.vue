@@ -186,6 +186,7 @@ export default {
       nowIndex: 0,
       dialogShow: false,
       updateIndex: -1,
+      padding:50
     };
   },
   methods: {

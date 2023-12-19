@@ -1,12 +1,12 @@
 <template>
-  <div style="min-width: 250px  ; height: 350px;padding: 10px">
-    <div class="w-100 h-100  rounded-2 " style="background: #eaeceb">
+  <div style="min-width: 250px ;max-width:250px ; height: 350px;padding: 10px">
+    <div class="w-100 h-100  rounded-2 pro-card ">
       <!--      图片-->
       <div class="" style="width: 100%;height: 230px;padding:5px">
         <img style="height: 220px;width: 220px" :src="getProductImage(proId)" alt="Product Image"/>
       </div>
       <!--      商品名称-->
-      <div class=" d-flex align-items-center" style="width: 100%;height: 35px">
+      <div class=" d-flex align-items-center" style="width: 100%;height: 24px">
         <div class="ms-3">
           {{ productName }}
         </div>
@@ -15,31 +15,31 @@
         <!--      详细信息-->
         <div style="height: 100%">
           <!--      商品小标签-->
-          <div class="d-flex" style="height: 40%">
+          <div class="d-flex ms-2" style="height: 40%">
             <div v-for="item in dataList" :key="item.ID" class="bg-danger rounded-1 d-flex align-items-center"
-                 style="font-size: 10px;width: auto;color: #fff;padding: 2px;margin: 5px 5px;">
+                 style="font-size: 10px;width: auto;color: #fff;padding: 2px;margin: 5px 5px;min-width:54px;">
               {{ item.name }}
             </div>
           </div>
           <!--      月销量-->
-          <div class="d-flex" style="height: 20%; font-size: 10px; padding-left: 5px;">
+          <div class="d-flex ms-2" style="height: 20%; font-size: 10px; padding-left: 5px;color:#666">
             月销量{{ saleNum }}件
           </div>
           <!--      商品价格-->
-          <div class="d-flex" style="height: 40%; padding-left: 5px">
+          <div class="d-flex ms-2 text-danger" style=" font-size:22px ;font-weight:700;height: 40%; padding-left: 5px">
             ￥{{ price }}
           </div>
         </div>
         <div>
         </div>
         <!--      店铺-->
-        <div class=" d-flex align-items-center" style="height: 100%;font-size: 14px ">
-          <div>
-            店铺名称
+        <div class=" d-flex  align-items-center" style="height: 100%;font-size: 14px ">
+          <div class="d-flex" style="font-size:12px">
+            店铺
           </div>
           <img src="../assets/img/1.png"
-               style="border-radius: 50%;height: 34px;width: 34px;margin: 4px;border: solid 3px #cccccc">
-          </img>
+               style="border-radius: 50%;height: 34px;width: 34px;margin-right: 4px;border: solid 3px #cccccc">
+
         </div>
       </div>
     </div>
@@ -63,7 +63,7 @@ export default {
   methods: {
     getProductImage(productId) {
       // 根据商品ID获取对应的商品图片路径，可以根据实际情况替换为真实的图片路径
-      return `../../public/product` + productId % 10 + '.jpg';
+      return './img/product/'+ productId % 2 + '.jpg';
     },
     getProductInfo(productId) {
       // 根据商品ID获取对应的商品信息，可以根据实际情况替换为真实的商品信息
@@ -78,11 +78,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.pro-card{
+  transition: 0.2s;
+  background: #fff;
+}
+.pro-card:hover{
+
+  transform: translateY(-4px);
+  box-shadow: 4px 4px 10px #888888;
+}
+
+
 .product-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid #ccc;
+  border: 1px solid #e7edee;
   border-radius: 8px;
   padding: 16px;
   margin: 16px;

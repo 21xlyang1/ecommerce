@@ -5,7 +5,7 @@
       :sideList="sideList"
     ></myAside>
 
-    <el-scrollbar style="flex-grow: 1" :style="{ height: outerDivHeight }">
+    <el-scrollbar style="flex-grow: 1;background:#eff1f5" :style="{ height: outerDivHeight }">
 
       <!-- <loadingVue class=" m-4"  v-show="isLoading" :size="40" ></loadingVue> -->
       <router-view name="tow"></router-view>
@@ -47,7 +47,7 @@ export default {
   methods: {
     setOuterDivSize() {
       this.outerDivHeight = window.innerHeight - 70 + "px";
-      console.log("dsfasd")
+
     },
 
   },

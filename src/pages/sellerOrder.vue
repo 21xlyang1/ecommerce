@@ -296,6 +296,15 @@ export default {
     margin-top: 30px;
     margin-left: 30px;
   }
+  .tab{
+    box-shadow: 0 0.125rem 0.25rem rgba(var(--bs-body-color-rgb), 0.075) !important;
+    padding: 1rem !important;
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--bs-body-bg-rgb), var(--bs-bg-opacity)) !important;
+    margin-right: 30px;
+    margin-top: 20px;
+    border-radius: 8px
+  }
   .custom-table {
     width: 100%;
     border-collapse: collapse;
@@ -307,14 +316,8 @@ export default {
     overflow: hidden;
     /* 保证边框圆润效果 */
   }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
 
-  th,
-  td {
+  th,td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;

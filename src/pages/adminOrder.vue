@@ -101,7 +101,6 @@ export default {
         { productId: 3, name: '商品3', price: '19.9', orderNumber: 456456456455, deliveryStatus: '未发货' },
         { productId: 4, name: '商品4', price: '9.9', orderNumber: 121321231321, deliveryStatus: '已发货' },
         { productId: 5, name: '商品5', price: '19.9', orderNumber: 78789899891, deliveryStatus: '已发货' },
-        { productId: 6, name: '商品6', price: '29.9', orderNumber: 121321231321, deliveryStatus: '未发货' },
       ],
       editedProduct: {
         orderNumber: '',
@@ -194,6 +193,12 @@ handleCurrentChange(page) {
 }
 .order-table {
   margin-top: 20px;
+  box-shadow: 0 0.125rem 0.25rem rgba(var(--bs-body-color-rgb), 0.075) !important;
+  padding: 1rem !important;
+  --bs-bg-opacity: 1;
+  background-color: rgba(var(--bs-body-bg-rgb), var(--bs-bg-opacity)) !important;
+  margin-right: 30px;
+  border-radius: 8px
 }
 
 .custom-table {

@@ -315,8 +315,6 @@ export default {
         display: flex;
         // justify-content: space-between; /* 文字水平居中，span 右对齐 */
         align-items: center; /* 文字垂直居中 */
-        span {
-        }
       }
       .pagination {
         // background-color: chartreuse;

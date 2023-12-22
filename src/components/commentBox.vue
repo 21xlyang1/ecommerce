@@ -273,6 +273,7 @@ export default {
     justify-content: flex-start;
 }
 .Box .action {
+    background-color: #fff;
     // background-color: cadetblue;
 }
 </style>

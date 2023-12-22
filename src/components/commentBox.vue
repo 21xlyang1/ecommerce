@@ -1,23 +1,24 @@
 <template>
     <div class="MainDiv">
         <div class="Box">
-            <div class="checkbox-Box"><input type="checkbox" /></div>
+            <div class="checkbox-Box"><input type="checkbox" @input="handleCheckboxChange" v-model="data.selected" /></div>
             <div class="user">
                 <div class="l">
                     <img src="../assets/img/默认头像.svg" alt="头像" height="35px" />
                 </div>
                 <div class="r">
                     <div class="userName" @mouseover="showTooltip" @mouseout="hideTooltip"> {{ data.name }} </div>
-                    <div class="toolTip" :class="{'visible': tooltipVisible }"> {{ data.name }} </div>
+                    <div class="toolTip" :class="{ 'visible': tooltipVisible }"> {{ data.name }} </div>
                 </div>
             </div>
             <div class="phone_box">
-                <div class="phone" @mouseover="showTooltip_phone" @mouseout="hideTooltip_phone"> {{ data.photonumber }} </div>
-                <div class="toolTip_phone" :class="{'visible_phone': tooltipVisible_phone }"> {{ data.photonumber }} </div>
+                <div class="phone" @mouseover="showTooltip_phone" @mouseout="hideTooltip_phone"> {{ data.photonumber }}
+                </div>
+                <div class="toolTip_phone" :class="{ 'visible_phone': tooltipVisible_phone }"> {{ data.photonumber }} </div>
             </div>
             <div class="email_box">
                 <div class="email" @mouseover="showTooltip_email" @mouseout="hideTooltip_email"> {{ data.email }} </div>
-                <div class="toolTip_email" :class="{'visible_email': tooltipVisible_email }"> {{ data.email }} </div>
+                <div class="toolTip_email" :class="{ 'visible_email': tooltipVisible_email }"> {{ data.email }} </div>
             </div>
             <div class="comment_box">
                 <div class="box">
@@ -30,7 +31,11 @@
                 </div>
             </div>
             <div class="submission-time"> {{ data.submission }} </div>
-            <div class="action"></div>
+            <div class="action">
+                <i class="el-icon-edit" v-show="!data.selected"></i>
+                <i class="el-icon-delete" @click="deleteComment" v-show="!data.selected"></i>
+                <i class="el-icon-delete" @click="triggerDeleteEvent" v-show="data.selected"></i>
+            </div>
         </div>
     </div>
 </template>
@@ -73,13 +78,26 @@ export default {
         hideTooltip_email() {
             this.tooltipVisible_email = false;
         },
+        deleteComment() {
+            console.log("点击了删除");
+            this.$emit('delete-comment', this.data);
+        },
+        handleCheckboxChange() {
+            this.$emit('checkbox-change', this.data);
+            // this.$nextTick(() => {
+            //     this.$emit('checkbox-change', this.data);
+            // })
+        },
+        triggerDeleteEvent() {
+            this.$emit('trigger-delete', this.data);
+        },
     },
 };
 </script>
 <style lang="scss" scoped>
 .MainDiv {
     /* 设置通用的边框 */
-    border: 1px solid #ccc;
+    border: 1px solid #e3eaef;
     /* 上方边框不显示 */
     border-top: none;
     /* 右边框不显示 */
@@ -104,7 +122,9 @@ export default {
     cursor: pointer; // 悬浮改为手型
 }
 
-.userName, .phone, .email{
+.userName,
+.phone,
+.email {
     overflow: hidden;
     /* 防止文字换行 */
     white-space: nowrap;
@@ -115,7 +135,7 @@ export default {
 
 .Box {
     display: grid; // 评论列表的标题设置为grid布局
-    grid-template-columns: 70px 140px 120px 160px minmax(200px, 1fr) 190px 140px 100px; // 八列，左右布局
+    grid-template-columns: 60px 140px 120px 160px minmax(200px, 1fr) 170px 140px 100px; // 八列，左右布局
     // grid-template-columns: repeat(8, minmax(70px, 1fr) minmax(140px, 1fr) minmax(120px, 1fr) minmax(160px, 1fr) minmax(200px, 1fr) minmax(160px, 1fr) minmax(140px, 1fr) minmax(100px, 1fr));
     // background-color: rgba(253, 247, 241, 1);
     height: 60px;
@@ -138,6 +158,7 @@ export default {
         display: flex;
         align-items: center;
         position: relative;
+
         .toolTip {
             background-color: rgba(0, 0, 0, 0.8);
             // background-color: lightblue;
@@ -145,14 +166,13 @@ export default {
             padding: 5px;
             border-radius: 3px;
             z-index: 999;
-
             position: absolute;
             top: -25%;
             left: -5px;
-            // transform: translate(-50%, 50%);
             opacity: 0;
             transition: opacity 0.5s;
         }
+
         .toolTip.visible {
             opacity: 1;
         }
@@ -165,23 +185,6 @@ export default {
     align-items: center;
     justify-content: center;
     position: relative;
-    .toolTip_phone {
-        background-color: rgba(0, 0, 0, 0.8);
-        color: #fff;
-        padding: 5px;
-        border-radius: 3px;
-        z-index: 999;
-
-        position: absolute;
-        top: -50%;
-        left: 50%;
-        transform: translate(-50%, 50%);
-        opacity: 0;
-        transition: opacity 0.5s;
-    }
-    .toolTip_phone.visible_phone {
-        opacity: 1;
-    }
 }
 
 .Box .email_box {
@@ -190,24 +193,27 @@ export default {
     align-items: center;
     justify-content: center;
     position: relative;
+}
 
-    .toolTip_email {
-        background-color: rgba(0, 0, 0, 0.8);
-        color: #fff;
-        padding: 5px;
-        border-radius: 3px;
-        z-index: 999;
+.toolTip_phone,
+.toolTip_email {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    z-index: 999;
 
-        position: absolute;
-        top: -50%;
-        left: 50%;
-        transform: translate(-50%, 50%);
-        opacity: 0;
-        transition: opacity 0.5s;
-    }
-    .toolTip_email.visible_email {
-        opacity: 1;
-    }
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.visible_phone,
+.visible_email {
+    opacity: 1;
 }
 
 .Box .comment_box {
@@ -216,17 +222,11 @@ export default {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+
     .box {
         box-sizing: border-box;
-        // background-color: bisque;
-        // margin: 10px;
-        // margin-top: 100px;
-        // width: 100%;
-        // height: 100%;
-        // margin-left: 10px;
-        // margin-right: 10px;
-        // border:1px solid black;
         height: 50px;
+
         .comment {
             box-sizing: border-box;
             // background-color: cornflowerblue;
@@ -244,6 +244,7 @@ export default {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+
     .box {
         box-sizing: border-box;
         // background-color: aqua;
@@ -255,6 +256,7 @@ export default {
         // margin-right: 10px;
         // border:1px solid black;
         height: 50px;
+
         .reply {
             box-sizing: border-box;
             // background-color: cornflowerblue;
@@ -272,8 +274,36 @@ export default {
     align-items: center;
     justify-content: flex-start;
 }
+
 .Box .action {
-    background-color: #fff;
+    // background-color: #fff;
     // background-color: cadetblue;
-}
-</style>
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .el-icon-edit,
+    .el-icon-delete {
+        width: 25px;
+        height: 25px;
+
+        font-size: 25px;
+        // background-color: burlywood;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        cursor: pointer;
+        color: #98a6ad;
+        transition: color 0.3s ease;
+    }
+
+    .el-icon-edit {
+        margin-right: 10px;
+    }
+
+    .el-icon-edit:hover,
+    .el-icon-delete:hover {
+        color: #6c757d;
+    }
+}</style>

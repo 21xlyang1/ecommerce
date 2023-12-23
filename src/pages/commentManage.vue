@@ -33,6 +33,7 @@
         <commentBox v-for="(item, index) in showList" :key="index" :data="item"
           :class="{ even_color: index % 2 === 0, odd_color: index % 2 === 1 }" @delete-comment="deleteComment"
           @checkbox-change="handleCheckboxChange" @trigger-delete="deleteSelectedComments" />
+        <div v-show="showNone" class="no-data-message">暂无数据</div>
       </div>
     </div>
   </div>
@@ -355,6 +356,9 @@ export default {
     },
   },
   computed: {
+    showNone() {
+      return !this.dataList.length && !this.searchList.length;
+    },
     selectAllChecked: {
       get() {
         // 如果 showList 为空，则不选中
@@ -517,5 +521,12 @@ export default {
 .g {
   display: flex;
   justify-content: center;
+}
+
+.no-data-message {
+  text-align: center;
+  font-size: 1.7rem;
+  font-weight: 600;
+  margin-top: 20px;
 }
 </style>

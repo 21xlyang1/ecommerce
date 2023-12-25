@@ -179,7 +179,9 @@ export default {
       searchQuery: '',
     };
   },
-  computed: {},
+  computed: {
+  
+  },
   methods: {
     // 更新 showList 的方法
     updateShowList() {
@@ -507,7 +509,7 @@ export default {
 }
 
 .navigation .a,
-.b, 
+.b,
 .c,
 .d,
 .e,

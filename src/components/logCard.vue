@@ -7,6 +7,7 @@
             </el-card>
         </el-timeline-item>
         <div>
+            <!-- <BTN  :color="'blue'" :icon="'updata'" :showBorder="false" @click="editLog(); dialogVisible = true" :icon-size="'29px'"/> -->
             <div class="edit" @click="editLog(); dialogVisible = true"><i class="el-icon-edit"></i></div>
             <el-dialog title="添加日志" :visible.sync="dialogVisible" width="700px" :modal-append-to-body="false"
                 :close-on-press-escape="true" style="z-index: 100;">
@@ -32,7 +33,11 @@
 </template>
 
 <script>
+import BTN from "./iconbutton.vue";
 export default {
+    components: {
+        BTN,
+    },
     props: {
         data: {
             type: Object,
@@ -188,14 +193,37 @@ export default {
     height: 30px;
 
     box-sizing: border-box;
-    border: 0.5px solid #ccc;
+    // border: 0.5px solid #ccc;
+    border: transparent;
     box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.0);
-    transition: box-shadow 0.2s ease, border 0.5s ease;
+    transition: all 0.2s ease, border 0.5s ease;
 }
 
 .edit:hover,
 .del:hover {
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-    border: 0.5px solid #fff;
+    // border: 0.5px solid #fff;
+    border: transparent;
+}
+
+.edit {
+    background-color: #fff;
+    color: #409EFF;
+}
+
+.del {
+    background-color: #fff;
+    color: #fa5c7c;
+}
+
+.edit:hover {
+    color: #fff;
+    background-color: #409EFF;
+    box-shadow: 0px 0px 10px rgba(64, 158, 255, 0.3);
+}
+
+.del:hover {
+    color: #fff;
+    background-color: #fa5c7c;
+    box-shadow: 0px 0px 10px rgba(250, 92, 124, .3);
 }
 </style>

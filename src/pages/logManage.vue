@@ -255,7 +255,7 @@ export default {
   top: 70px;
   width: calc(100% - 30px);
   transition: width 0.5s ease;
-  box-shadow: -1px 7px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: -1px 7px 35px rgba(154, 161, 171, .15);
 
   z-index: 3;
 

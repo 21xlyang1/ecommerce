@@ -507,7 +507,7 @@ export default {
 }
 
 .navigation .a,
-.b,
+.b, 
 .c,
 .d,
 .e,

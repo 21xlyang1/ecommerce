@@ -4,7 +4,7 @@
     <div class="header p-3 mb-3 shadow-sm">
       <h2>商家管理</h2>
     </div>
-    
+
     <!-- 搜索栏 -->
     <div class="search-bar mb-4">
       <input v-model="searchQuery" placeholder="搜索商家...">
@@ -18,94 +18,137 @@
           <tr>
             <th>商家ID</th>
             <th>商家名称</th>
-            <th>商品数量</th>
             <th>邮箱</th>
-            <th>电话</th>
+            <th>号码</th>
+            <th>地址</th>
             <th>操作</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="seller in sellers" :key="seller.id">
+          <tr v-for="seller in filteredSellers" :key="seller.id">
             <td>{{ seller.id }}</td>
             <td>{{ seller.sellername }}</td>
-            <td>{{ seller.member }}</td>
             <td>{{ seller.email }}</td>
             <td>{{ seller.phone }}</td>
-            
+            <td>{{ seller.address }}</td>
             <td>
-            <button class="btn-neumorphism edit" @click="editSeller(seller.id)">编辑</button>
-            <button class="btn-neumorphism delete" @click="deleteSeller(seller.id)">删除</button>
+              <button class="btn-neumorphism edit" @click="editSeller(seller)">编辑</button>
+              <button class="btn-neumorphism delete" @click="deleteSeller(seller.id)">删除</button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
+    <!-- 编辑商家信息的模态框 -->
+    <div class="modal" :class="{ active: editingSeller }">
+      <div class="modal-content">
+        <h3>编辑商家信息</h3>
+        <form @submit.prevent="saveEditedSeller">
+          <label for="edit-sellername">商家名:</label>
+          <input type="text" id="edit-sellername" v-model="editedSeller.sellername" required>
+
+          <label for="edit-email">邮箱:</label>
+          <input type="email" id="edit-email" v-model="editedSeller.email" required>
+
+          <label for="edit-phone">号码:</label>
+          <input type="text" id="edit-phone" v-model="editedSeller.phone" required>
+
+          <label for="edit-address">地址:</label>
+          <input type="text" id="edit-address" v-model="editedSeller.address" required>
+            <!-- 添加更多角色选项 -->
+          </select>
+
+          <div class="modal-footer">
+            <button type="submit">保存</button>
+            <button type="button" @click="cancelEdit">取消</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-//import { get, post, deleter, put } from 'A:\stu\use\ecommerce\src\utils\http.js'; // 确保路径正确
-
-
 export default {
   name: "SellerManagement",
   data() {
     return {
-      searchQuery: '',
+      searchQuery: "",
       sellers: [
-        { id: 1, sellername: 'JaneDoe', member: '7', email: 'janedoe@example.com', phone:'13579' },
-        { id: 2, sellername: 'JohnDoe', member: '489', email: 'johndoe@example.com', phone:'24680' },
-        // 更多用户数据...
+      { id: 1, sellername: "JaneDoe", email: "janedoe@example.com", phone: "13579", address: "US" },
+      { id: 2, sellername: "JohnDoe", email: "johndoe@example.com", phone: "24680", address: "UK" },
+        // 更多商家数据...
       ],
+      editingSeller: false,
+      editedSeller: { id: null, sellername: "", email: "", phone: "", address: "" },
     };
   },
+  computed: {
+    filteredSellers() {
+      // 根据搜索查询过滤商家
+      return this.sellers.filter(seller =>
+        Object.values(seller).some(value =>
+          value.toString().toLowerCase().includes(this.searchQuery.toLowerCase())
+        )
+      );
+    },
+  },
   methods: {
-    fetchSellers() {
-      get('/api/sellers')
-        .then(response => {
-          this.sellers = response.data;
-        })
-        .catch(error => {
-          console.error("Error fetching sellers:", error);
-        });
-    },
     searchSellers() {
-      get('/api/sellers/search', { query: this.searchQuery })
-        .then(response => {
-          this.sellers = response;
-        })
-        .catch(error => {
-          console.error("Error searching sellers:", error);
-        });
+      // 搜索商家的逻辑
     },
-    editSeller(sellerId) {
-      // 替换为实际需要编辑的商家信息
-      const sellerData = { sellername: 'NewName', member: '10', email: 'newemail@example.com', phone:'12345' };
-      put(`/api/sellers/${sellerId}`, sellerData)
-        .then(() => {
-          this.fetchSellers(); // 重新获取商家列表
-        })
-        .catch(error => {
-          console.error("Error editing seller:", error);
-        });
+    editSeller(seller) {
+      this.editingSeller = true;
+      this.editedSeller = { ...seller };
+    },
+    saveEditedSeller() {
+      const index = this.sellers.findIndex(s => s.id === this.editedSeller.id);
+      if (index !== -1) {
+        this.$set(this.sellers, index, { ...this.editedSeller }); 
+      }
+      this.cancelEdit();
+    },
+    cancelEdit() {
+      this.editingSeller = false;
+      this.editedSeller = { id: null, sellername: "", email: "", phone: "", address: "" };
     },
     deleteSeller(sellerId) {
-      deleter(`/api/sellers/${sellerId}`)
-        .then(() => {
-          this.fetchSellers(); // 重新获取商家列表
-        })
-        .catch(error => {
-          console.error("Error deleting seller:", error);
-        });
-    }
+      const index = this.sellers.findIndex(s => s.id === sellerId);
+      if (index !== -1) {
+        this.sellers.splice(index, 1);
+      }
+    },
   },
-  mounted() {
-    this.fetchSellers(); // 组件加载完成时获取商家列表
-  }
 };
 </script>
 
 <style lang="scss" scoped>
+
+/* 添加样式以适应模态框的显示和隐藏 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  visibility: hidden;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.modal.active {
+  visibility: visible;
+}
 .seller-management {
   background-color: #f0f0f3;
   padding: 20px;

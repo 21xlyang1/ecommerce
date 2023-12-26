@@ -19,7 +19,7 @@
             <th>用户ID</th>
             <th>用户名</th>
             <th>邮箱</th>
-            <th>注册日期</th>
+            <th>号码</th>
             <th>角色</th>
             <th>操作</th>
           </tr>
@@ -29,7 +29,7 @@
             <td>{{ user.id }}</td>
             <td>{{ user.username }}</td>
             <td>{{ user.email }}</td>
-            <td>{{ user.registeredAt }}</td>
+            <td>{{ user.phone }}</td>
             <td>{{ user.role }}</td>
             <td>
             <button class="btn-neumorphism edit">编辑</button>
@@ -43,28 +43,62 @@
 </template>
 
 <script>
+//import { get, post, deleter, put } from 'A:\stu\use\ecommerce\src\utils\http.js'; // 确保路径正确
+
 export default {
   name: "UserManagement",
   data() {
     return {
       searchQuery: '',
       users: [
-        { id: 1, username: 'JaneDoe', email: 'janedoe@example.com', registeredAt: '2021-01-01', role: '管理员' },
-        { id: 2, username: 'JohnDoe', email: 'johndoe@example.com', registeredAt: '2021-02-01', role: '普通用户' },
+        { id: 1, username: 'JaneDoe', email: 'janedoe@example.com', phone:'13579', role: '管理员' },
+        { id: 2, username: 'JohnDoe', email: 'johndoe@example.com', phone:'24680', role: '普通用户' },
         // 更多用户数据...
       ],
     };
   },
   methods: {
-    searchUsers() {
-      // TODO: 实现搜索逻辑
+    fetchUers() {
+      get('/api/users')
+        .then(response => {
+          this.users = response.data;
+        })
+        .catch(error => {
+          console.error("Error fetching users:", error);
+        });
     },
-    editUser(userId) {
-      // TODO: 实现编辑用户逻辑
+    searchUers() {
+      get('/api/users/search', { query: this.searchQuery })
+        .then(response => {
+          this.users = response;
+        })
+        .catch(error => {
+          console.error("Error searching users:", error);
+        });
+    },
+    editUer(userId) {
+      // 替换为实际需要编辑的用户信息
+      const userData = { username: 'NewName', email: 'newemail@example.com', phone:'12345',role:'用户' };
+      put(`/api/users/${userId}`, userData)
+        .then(() => {
+          this.fetchUsers(); // 重新获取用户列表
+        })
+        .catch(error => {
+          console.error("Error editing seller:", error);
+        });
     },
     deleteUser(userId) {
-      // TODO: 实现删除用户逻辑
+      deleter(`/api/users/${userId}`)
+        .then(() => {
+          this.fetchUsers(); // 重新获取商家列表
+        })
+        .catch(error => {
+          console.error("Error deleting seller:", error);
+        });
     }
+  },
+  mounted() {
+    this.fetchUsers(); // 组件加载完成时获取商家列表
   }
 };
 </script>

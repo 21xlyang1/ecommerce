@@ -1,153 +1,209 @@
 <template>
-  <div class="store-management-system">
-    <h1>店铺管理系统</h1>
+  <div class="seller-management">
+    <!-- 标题栏 -->
+    <div class="header p-3 mb-3 shadow-sm">
+      <h2>商家管理</h2>
+    </div>
     
-    <!-- 店铺信息管理区域 -->
-    <section class="store-info">
-      <h2>店铺信息管理</h2>
-      <form>
-        <input type="text" placeholder="店铺名称" />
-        <input type="text" placeholder="地址" />
-        <input type="text" placeholder="联系信息" />
-        <input type="file" placeholde="上传店铺LOGO" accept="image/*" /> <!-- 上传店铺Logo -->
-        <button type="submit">创建店铺</button>
-      </form>
-    </section>
-    
-    <!-- 店铺列表和详情 -->
-    <div class="store-list">
-      <!-- 示例店铺 -->
-      <div class="store-example" >
-        <h3>示例店铺1</h3>
-        <!-- 点击此按钮展开/收回店铺设置和促销 -->
-        <button class="toggle-button" @click="toggleDetails('store1')">*</button>
+    <!-- 搜索栏 -->
+    <div class="search-bar mb-4">
+      <input v-model="searchQuery" placeholder="搜索商家...">
+      <button @click="searchSellers">搜索</button>
+    </div>
 
-        <div class="store-details" v-show="activeStore === 'store1'">
-          <!-- 店铺设置区域 -->
-          <section class="store-settings">
-            <h4>店铺设置</h4>
-            <form @submit.prevent="updateSettings">
-              <input type="text" v-model="settings.operatingHours" placeholder="经营时间" />
-              <input type="text" v-model="settings.businessDays" placeholder="营业日期" />
-              <!-- 定义服务范围或配送区域 -->
-              <!-- 更多设置... -->
-              <button type="submit">更新设置</button>
-            </form>
-          </section>
-          <!-- 促销和折扣区域 -->
-          <section class="promotions">
-            <h4>促销和折扣</h4>
-            <form @submit.prevent="createPromotion">
-              <input type="text" v-model="promotion.name" placeholder="促销活动名称" />
-              <input type="text" v-model="promotion.discount" placeholder="折扣优惠" />
-              <input type="text" v-model="promotion.conditions" placeholder="促销条件" />
-              <input type="date" v-model="promotion.expiry" placeholder="有效期" />
-              <!-- 更多促销设置... -->
-              <button type="submit">创建促销</button>
-            </form>
-          </section>
-        </div>
-      </div>
-
-      <!-- 更多店铺... -->
+    <!-- 商家列表 -->
+    <div class="seller-list">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>商家ID</th>
+            <th>商家名称</th>
+            <th>商品数量</th>
+            <th>邮箱</th>
+            <th>电话</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="seller in sellers" :key="seller.id">
+            <td>{{ seller.id }}</td>
+            <td>{{ seller.sellername }}</td>
+            <td>{{ seller.member }}</td>
+            <td>{{ seller.email }}</td>
+            <td>{{ seller.phone }}</td>
+            
+            <td>
+            <button class="btn-neumorphism edit" @click="editSeller(seller.id)">编辑</button>
+            <button class="btn-neumorphism delete" @click="deleteSeller(seller.id)">删除</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
 
 <script>
+//import { get, post, deleter, put } from 'A:\stu\use\ecommerce\src\utils\http.js'; // 确保路径正确
+
+
 export default {
-  name: "StoreManagementSystem",
+  name: "SellerManagement",
   data() {
     return {
-      activeStore: null, // 当前展开的店铺详情
-      settings: {
-        operatingHours: '',
-        businessDays: '',
-        // 其他设置...
-      },
-      promotion: {
-        name: '',
-        discount: '',
-        conditions: '',
-        expiry: '',
-        // 其他促销信息...
-      },
+      searchQuery: '',
+      sellers: [
+        { id: 1, sellername: 'JaneDoe', member: '7', email: 'janedoe@example.com', phone:'13579' },
+        { id: 2, sellername: 'JohnDoe', member: '489', email: 'johndoe@example.com', phone:'24680' },
+        // 更多用户数据...
+      ],
     };
   },
   methods: {
-    toggleDetails(storeId) {
-      this.activeStore = this.activeStore === storeId ? null : storeId;
+    fetchSellers() {
+      get('/api/sellers')
+        .then(response => {
+          this.sellers = response.data;
+        })
+        .catch(error => {
+          console.error("Error fetching sellers:", error);
+        });
     },
-    updateSettings() {
-      // 在这里添加更新店铺设置的逻辑...
+    searchSellers() {
+      get('/api/sellers/search', { query: this.searchQuery })
+        .then(response => {
+          this.sellers = response;
+        })
+        .catch(error => {
+          console.error("Error searching sellers:", error);
+        });
     },
-    createPromotion() {
-      // 在这里添加创建促销活动的逻辑...
+    editSeller(sellerId) {
+      // 替换为实际需要编辑的商家信息
+      const sellerData = { sellername: 'NewName', member: '10', email: 'newemail@example.com', phone:'12345' };
+      put(`/api/sellers/${sellerId}`, sellerData)
+        .then(() => {
+          this.fetchSellers(); // 重新获取商家列表
+        })
+        .catch(error => {
+          console.error("Error editing seller:", error);
+        });
     },
+    deleteSeller(sellerId) {
+      deleter(`/api/sellers/${sellerId}`)
+        .then(() => {
+          this.fetchSellers(); // 重新获取商家列表
+        })
+        .catch(error => {
+          console.error("Error deleting seller:", error);
+        });
+    }
   },
-}
+  mounted() {
+    this.fetchSellers(); // 组件加载完成时获取商家列表
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-.store-management-system {
-  // 定义页面样式
-  // 使用阴影、圆角等效果
-  h1, h2 {
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+.seller-management {
+  background-color: #f0f0f3;
+  padding: 20px;
+  border-radius: 20px;
+  .neumorphism-container {
+    box-shadow: -10px -10px 20px #ffffff, 10px 10px 20px rgba(174, 174, 192, 0.4);
   }
-  section {
-    background: #f0f0f0;
-    border-radius: 10px;
-    box-shadow: 8px 8px 15px #a7a7a7,
-                -8px -8px 15px #ffffff;
-    padding: 20px;
-    margin: 20px 0;
+
+  .neumorphism {
+    background-color: #f0f0f3;
+    border-radius: 20px;
+    box-shadow: -5px -5px 10px #ffffff, 5px 5px 15px rgba(174, 174, 192, 0.4);
+    margin-bottom: 20px;
   }
-  input, button {
+
+  .header {
+    text-align: center;
+  }
+
+  .search-bar {
+    display: flex;
+    align-items: center;
+    input {
+      flex-grow: 1;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 20px;
+      background-color: #f0f0f3;
+      box-shadow: inset -2px -2px 5px #ffffff, inset 2px 2px 5px rgba(174, 174, 192, 0.4);
+      &:focus {
+        outline: none;
+      }
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #f0f0f3;
+      border-radius: 20px;
+      box-shadow: -2px -2px 5px #ffffff, 2px 2px 5px rgba(174, 174, 192, 0.4);
+      color: #007bff;
+      cursor: pointer;
+      &:hover {
+        background-color: #e0e0e3;
+      }
+    }
+  }
+  .btn-neumorphism {
+    padding: 5px 15px;
     border: none;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
-    box-shadow: inset 2px 2px 5px #a7a7a7,
-                inset -2px -2px 5px #ffffff;
+    background-color: #f0f0f3;
+    border-radius: 20px;
+    box-shadow: -2px -2px 5px #ffffff, 2px 2px 5px rgba(174, 174, 192, 0.4);
+    color: #6c757d;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 14px;
+
+    &:hover {
+      background-color: #e0e0e3;
+    }
+
+    &.edit {
+      color: #007bff;
+    }
+
+    &.delete {
+      color: #dc3545;
+    }
   }
-  // 预设其它风格的CSS...
-}
-.store-list .store-example {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.toggle-button {
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
-  text-align: center;
-  background-color: #4CAF50; /* 可以调节的颜色 */
-  color: white;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: transform 0.3s;
-}
-
-.store-title {
-  margin-left: 10px;
-}
-
-.store-list .store-details {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease-in-out;
-}
-
-.store-list .store-example .store-details {
-  display: block;
-  max-height: 500px; /* 调整为内容的最大高度 */
-}
-
-.store-example[aria-expanded="true"] .toggle-button {
-  transform: rotate(180deg);
+  .seller-list {
+    .table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 15px;
+      thead {
+        tr {
+          background-color: transparent;
+          th {
+            padding: 10px;
+            border: none;
+            text-align: left;
+            color: #6c757d;
+          }
+        }
+      }
+      tbody {
+        tr {
+          background-color: #f0f0f3;
+          box-shadow: -5px -5px 10px #ffffff, 5px 5px 15px rgba(174, 174, 192, 0.4);
+          border-radius: 10px;
+          td {
+            padding: 10px;
+            border: none;
+            color: #6c757d;
+          }
+        }
+      }
+    }
+  }
 }
 </style>

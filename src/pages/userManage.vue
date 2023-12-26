@@ -4,7 +4,7 @@
     <div class="header p-3 mb-3 shadow-sm">
       <h2>用户管理</h2>
     </div>
-    
+
     <!-- 搜索栏 -->
     <div class="search-bar mb-4">
       <input v-model="searchQuery" placeholder="搜索用户...">
@@ -25,85 +25,133 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in users" :key="user.id">
+          <tr v-for="user in filteredUsers" :key="user.id">
             <td>{{ user.id }}</td>
             <td>{{ user.username }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.phone }}</td>
             <td>{{ user.role }}</td>
             <td>
-            <button class="btn-neumorphism edit">编辑</button>
-            <button class="btn-neumorphism delete">删除</button>
+              <button class="btn-neumorphism edit" @click="editUser(user)">编辑</button>
+              <button class="btn-neumorphism delete" @click="deleteUser(user.id)">删除</button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
+    <!-- 编辑用户信息的模态框 -->
+    <div class="modal" :class="{ active: editingUser }">
+      <div class="modal-content">
+        <h3>编辑用户信息</h3>
+        <form @submit.prevent="saveEditedUser">
+          <label for="edit-username">用户名:</label>
+          <input type="text" id="edit-username" v-model="editedUser.username" required>
+
+          <label for="edit-email">邮箱:</label>
+          <input type="email" id="edit-email" v-model="editedUser.email" required>
+
+          <label for="edit-phone">号码:</label>
+          <input type="text" id="edit-phone" v-model="editedUser.phone" required>
+
+          <label for="edit-role">角色:</label>
+          <select id="edit-role" v-model="editedUser.role" required>
+            <option value="管理员">管理员</option>
+            <option value="普通用户">普通用户</option>
+            <option value="商家">商家</option>
+            <!-- 添加更多角色选项 -->
+          </select>
+
+          <div class="modal-footer">
+            <button type="submit">保存</button>
+            <button type="button" @click="cancelEdit">取消</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-//import { get, post, deleter, put } from 'A:\stu\use\ecommerce\src\utils\http.js'; // 确保路径正确
-
 export default {
   name: "UserManagement",
   data() {
     return {
-      searchQuery: '',
+      searchQuery: "",
       users: [
-        { id: 1, username: 'JaneDoe', email: 'janedoe@example.com', phone:'13579', role: '管理员' },
-        { id: 2, username: 'JohnDoe', email: 'johndoe@example.com', phone:'24680', role: '普通用户' },
-        // 更多用户数据...
+      { id: 1, username: "JaneDoe", email: "janedoe@example.com", phone: "13579", role: "管理员" },
+      { id: 2, username: "JohnDoe", email: "johndoe@example.com", phone: "24680", role: "普通用户" },
+        // 更多用户数据...
       ],
+      editingUser: false,
+      editedUser: { id: null, username: "", email: "", phone: "", role: "" },
     };
   },
+  computed: {
+    filteredUsers() {
+      // 根据搜索查询过滤用户
+      return this.users.filter(user =>
+        Object.values(user).some(value =>
+          value.toString().toLowerCase().includes(this.searchQuery.toLowerCase())
+        )
+      );
+    },
+  },
   methods: {
-    fetchUers() {
-      get('/api/users')
-        .then(response => {
-          this.users = response.data;
-        })
-        .catch(error => {
-          console.error("Error fetching users:", error);
-        });
+    searchUsers() {
+      // 搜索用户的逻辑
     },
-    searchUers() {
-      get('/api/users/search', { query: this.searchQuery })
-        .then(response => {
-          this.users = response;
-        })
-        .catch(error => {
-          console.error("Error searching users:", error);
-        });
+    editUser(user) {
+      this.editingUser = true;
+      this.editedUser = { ...user };
     },
-    editUer(userId) {
-      // 替换为实际需要编辑的用户信息
-      const userData = { username: 'NewName', email: 'newemail@example.com', phone:'12345',role:'用户' };
-      put(`/api/users/${userId}`, userData)
-        .then(() => {
-          this.fetchUsers(); // 重新获取用户列表
-        })
-        .catch(error => {
-          console.error("Error editing seller:", error);
-        });
+    saveEditedUser() {
+      const index = this.users.findIndex(u => u.id === this.editedUser.id);
+      if (index !== -1) {
+        this.$set(this.users, index, { ...this.editedUser }); 
+      }
+      this.cancelEdit();
+    },
+    cancelEdit() {
+      this.editingUser = false;
+      this.editedUser = { id: null, username: "", email: "", phone: "", role: "" };
     },
     deleteUser(userId) {
-      deleter(`/api/users/${userId}`)
-        .then(() => {
-          this.fetchUsers(); // 重新获取商家列表
-        })
-        .catch(error => {
-          console.error("Error deleting seller:", error);
-        });
-    }
+      const index = this.users.findIndex(u => u.id === userId);
+      if (index !== -1) {
+        this.users.splice(index, 1);
+      }
+    },
   },
-  mounted() {
-    this.fetchUsers(); // 组件加载完成时获取商家列表
-  }
 };
 </script>
 
 <style lang="scss" scoped>
+
+/* 添加样式以适应模态框的显示和隐藏 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  visibility: hidden;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.modal.active {
+  visibility: visible;
+}
 .user-management {
   background-color: #f0f0f3;
   padding: 20px;

@@ -23,6 +23,10 @@
             <th>地址</th>
             <th>操作</th>
           </tr>
+          <tr><th colspan="6">
+              <button class="btn-neumorphism add" @click="addSellerer">添加</button>
+            </th>
+          </tr>
         </thead>
         <tbody>
           <tr v-for="seller in filteredSellers" :key="seller.id">
@@ -55,12 +59,34 @@
 
           <label for="edit-address">地址:</label>
           <input type="text" id="edit-address" v-model="editedSeller.address" required>
-            <!-- 添加更多角色选项 -->
-          </select>
 
           <div class="modal-footer">
             <button type="submit">保存</button>
             <button type="button" @click="cancelEdit">取消</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- 添加商家的模态框 -->
+    <div class="modal" :class="{ active: addingSeller }">
+      <div class="modal-content">
+        <h3>添加新商家</h3>
+        <form @submit.prevent="saveNewSeller">
+          <label for="add-sellername">商家名:</label>
+          <input type="text" id="add-sellername" v-model="newSeller.sellername" required>
+
+          <label for="add-email">邮箱:</label>
+          <input type="email" id="add-email" v-model="newSeller.email" required>
+
+          <label for="add-phone">号码:</label>
+          <input type="text" id="add-phone" v-model="newSeller.phone" required>
+
+          <label for="add-address">地址:</label>
+          <input type="text" id="add-address" v-model="newSeller.address" required>
+
+          <div class="modal-footer">
+            <button type="submit">保存</button>
+            <button type="button" @click="cancelAddSeller">取消</button>
           </div>
         </form>
       </div>
@@ -75,12 +101,14 @@ export default {
     return {
       searchQuery: "",
       sellers: [
-      { id: 1, sellername: "JaneDoe", email: "janedoe@example.com", phone: "13579", address: "US" },
-      { id: 2, sellername: "JohnDoe", email: "johndoe@example.com", phone: "24680", address: "UK" },
-        // 更多商家数据...
+        { id: 1, sellername: "JaneDoe", email: "janedoe@example.com", phone: "13579", address: "US" },
+        { id: 2, sellername: "JohnDoe", email: "johndoe@example.com", phone: "24680", address: "UK" },
+        // 更多商家数据...
       ],
       editingSeller: false,
       editedSeller: { id: null, sellername: "", email: "", phone: "", address: "" },
+      addingSeller: false, // 添加商家模态框的显示状态
+      newSeller: { sellername: "", email: "", phone: "", address: "" }, // 新商家的信息
     };
   },
   computed: {
@@ -118,9 +146,27 @@ export default {
         this.sellers.splice(index, 1);
       }
     },
+    addSellerer(){
+      this.addingSeller = true;
+    },
+    saveNewSeller() {
+      // 找到最大的商家ID
+      const maxSellerId = this.sellers.reduce((max, seller) => seller.id > max ? seller.id : max, 0);
+      // 计算新商家的ID为最大商家ID加一
+      const newSellerId = maxSellerId + 1;
+      // 将新商家信息保存到 sellers 数组中
+      this.$set(this.sellers, this.sellers.length, { ...this.newSeller, id: newSellerId });
+      // 关闭模态框并清空新商家信息
+      this.cancelAddSeller();
+    },
+    cancelAddSeller() {
+      this.addingSeller = false;
+      this.newSeller = { sellername: "", email: "", phone: "", address: "" };
+    },
   },
 };
 </script>
+
 
 <style lang="scss" scoped>
 

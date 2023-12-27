@@ -24,7 +24,7 @@
             <th>操作</th>
           </tr>
           <tr><th colspan="6">
-              <button class="btn-neumorphism add" @click="addUser">添加</button>
+              <button class="btn-neumorphism add" @click="addingUser = true">添加</button>
             </th>
           </tr>
         </thead>
@@ -36,7 +36,7 @@
             <td>{{ user.phone }}</td>
             <td>{{ user.role }}</td>
             <td>
-              <button class="btn-neumorphism edit" @click="editUser(user)">编辑</button>
+              <button class="btn-neumorphism edit" @click="editingUser = true">编辑</button>
               <button class="btn-neumorphism delete" @click="deleteUser(user.id)">删除</button>
             </td>
           </tr>
@@ -47,7 +47,7 @@
     <div class="modal" :class="{ active: editingUser }">
       <div class="modal-content">
         <h3>编辑用户信息</h3>
-        <form @submit.prevent="saveEditedUser">
+        <form>
           <label for="edit-username">用户名:</label>
           <input type="text" id="edit-username" v-model="editedUser.username" required>
 
@@ -61,12 +61,11 @@
           <select id="edit-role" v-model="editedUser.role" required>
             <option value="管理员">管理员</option>
             <option value="普通用户">普通用户</option>
-            <option value="商家">商家</option>
+            <option value="用户">用户</option>
             <!-- 添加更多角色选项 -->
           </select>
-
           <div class="modal-footer">
-            <button type="submit">保存</button>
+            <button type="submit" @click="handleEdit">保存</button>
             <button type="button" @click="cancelEdit">取消</button>
           </div>
         </form>
@@ -90,12 +89,11 @@
           <select id="add-role" v-model="newUser.role" required>
             <option value="管理员">管理员</option>
             <option value="普通用户">普通用户</option>
-            <option value="商家">商家</option>
+            <option value="用户">用户</option>
             <!-- 添加更多角色选项 -->
           </select>
-      
           <div class="modal-footer">
-            <button type="submit">保存</button>
+            <button type="submit" @click="addUser">保存</button>
             <button type="button" @click="cancelAddUser">取消</button>
           </div>
         </form>
@@ -105,22 +103,45 @@
 </template>
 
 <script>
+import { get, post } from "@/utils/http";
+
 export default {
   name: "UserManagement",
   data() {
     return {
       searchQuery: "",
       users: [
-      { id: 1, username: "JaneDoe", email: "janedoe@example.com", phone: "13579", role: "管理员" },
-      { id: 2, username: "JohnDoe", email: "johndoe@example.com", phone: "24680", role: "普通用户" },
-        // 更多用户数据...
+        { id: 1, username: "JaneDoe", email: "janedoe@example.com", phone: "13579", role: "管理员" },
+        { id: 2, username: "JohnDoe", email: "johndoe@example.com", phone: "24680", role: "用户" },
+        // 更多用户数据...
       ],
+      tempUser:{
+        username: "", 
+        email: "", 
+        phone: "", 
+        role: ""
+      },
       editingUser: false,
       editedUser: { id: null, username: "", email: "", phone: "", role: "" },
       addingUser: false, // 添加用户模态框的显示状态
       newUser: { username: "", email: "", phone: "", role: "" }, // 新用户的信息
     };
+  },  
+  mounted() {
+    //""填入url地址，{}为请求参数
+    get("/user/getList", {}).then(
+      (Response) => {
+        users = Response.data;
+        console.log("请求成功", Response);
+        //Response是返回的参数
+      },
+      (error) => {
+        console.log("请求失败", error.message);
+      }
+    );
   },
+
+
   computed: {
     filteredUsers() {
       // 根据搜索查询过滤用户
@@ -135,52 +156,50 @@ export default {
     searchUsers() {
       // 搜索用户的逻辑
     },
-    editUser(user) {
-      this.editingUser = true;
-      this.editedUser = { ...user };
-    },
-    saveEditedUser() {
-      const index = this.users.findIndex(u => u.id === this.editedUser.id);
-      if (index !== -1) {
-        this.$set(this.users, index, { ...this.editedUser }); 
-      }
-      this.cancelEdit();
-    },
-    cancelEdit() {
+    handleEdit(){
       this.editingUser = false;
-      this.editedUser = { id: null, username: "", email: "", phone: "", role: "" };
+      post("/user/update", this.editedUser).then(
+        (Response) => {
+          this.users = Response.data;
+          console.log("请求成功", Response);
+        },
+        (error) => {
+          alert("修改失败");
+          console.log("请求失败", error.message);
+        }
+      );
+    },
+    cancelEdit(){
+      this.editingUser = false;
     },
     deleteUser(userId) {
-      const index = this.users.findIndex(u => u.id === userId);
-      if (index !== -1) {
-        this.users.splice(index, 1);
-      }
+      post("/user/delete", { id: userId }).then(
+        (Response) => {
+          this.users = Response.data;
+          console.log("请求成功", Response);
+        },
+        (error) => {
+          alert("删除失败");
+          console.log("请求失败", error.message);
+        }
+      );
     },
-    addUser(){
-      this.addingUser = true;
+    addUser() {
+      this.addingUser = false;
+      post("/user/addUser", this.newUser).then(
+        (Response) => {
+          this.users = Response.data;
+          console.log("请求成功", Response);
+        },
+        (error) => {
+          alert("添加失败");
+          console.log("请求失败", error.message);
+        }
+      );
     },
-    saveNewUser() {
-    // 找到最大的用户ID
-    const maxUserId = this.users.reduce((max, user) => {
-      return user.id > max ? user.id : max;
-    }, 0);
-
-    // 计算新用户的ID为最大用户ID加一
-    const newUserId = maxUserId + 1;
-
-    // 将新用户信息保存到 users 数组中
-    this.$set(this.users, this.users.length, { ...this.newUser, id: newUserId });
-    
-    // 关闭模态框并清空新用户信息
-    this.cancelAddUser();
-  },
-
-
-  cancelAddUser() {
-    this.addingUser = false;
-    this.newUser = { username: "", email: "", phone: "", role: "" };
-  },
-
+    cancelAddUser() {
+      this.addingUser = false;
+    },
   },
 };
 </script>

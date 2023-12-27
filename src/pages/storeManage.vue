@@ -24,7 +24,7 @@
             <th>操作</th>
           </tr>
           <tr><th colspan="6">
-              <button class="btn-neumorphism add" @click="addSellerer">添加</button>
+              <button class="btn-neumorphism add" @click="addingSeller= true">添加</button>
             </th>
           </tr>
         </thead>
@@ -36,7 +36,7 @@
             <td>{{ seller.phone }}</td>
             <td>{{ seller.address }}</td>
             <td>
-              <button class="btn-neumorphism edit" @click="editSeller(seller)">编辑</button>
+              <button class="btn-neumorphism edit" @click="editingSeller = true">编辑</button>
               <button class="btn-neumorphism delete" @click="deleteSeller(seller.id)">删除</button>
             </td>
           </tr>
@@ -47,7 +47,7 @@
     <div class="modal" :class="{ active: editingSeller }">
       <div class="modal-content">
         <h3>编辑商家信息</h3>
-        <form @submit.prevent="saveEditedSeller">
+        <form>
           <label for="edit-sellername">商家名:</label>
           <input type="text" id="edit-sellername" v-model="editedSeller.sellername" required>
 
@@ -61,7 +61,7 @@
           <input type="text" id="edit-address" v-model="editedSeller.address" required>
 
           <div class="modal-footer">
-            <button type="submit">保存</button>
+            <button type="submit" @click="handleEdit">保存</button>
             <button type="button" @click="cancelEdit">取消</button>
           </div>
         </form>
@@ -85,7 +85,7 @@
           <input type="text" id="add-address" v-model="newSeller.address" required>
 
           <div class="modal-footer">
-            <button type="submit">保存</button>
+            <button type="submit" @click="addSeller">保存</button>
             <button type="button" @click="cancelAddSeller">取消</button>
           </div>
         </form>
@@ -95,22 +95,45 @@
 </template>
 
 <script>
+
+import { get,post } from "@/utils/http";
+
 export default {
   name: "SellerManagement",
   data() {
     return {
       searchQuery: "",
       sellers: [
-        { id: 1, sellername: "JaneDoe", email: "janedoe@example.com", phone: "13579", address: "US" },
-        { id: 2, sellername: "JohnDoe", email: "johndoe@example.com", phone: "24680", address: "UK" },
-        // 更多商家数据...
+     
       ],
+      tempSeller:{
+        sellername: "", 
+        email: "", 
+        phone: "", 
+        address: ""
+      },
       editingSeller: false,
       editedSeller: { id: null, sellername: "", email: "", phone: "", address: "" },
       addingSeller: false, // 添加商家模态框的显示状态
       newSeller: { sellername: "", email: "", phone: "", address: "" }, // 新商家的信息
     };
+  },  
+  mounted() {
+    
+  //""填入url地址，{}为请求参数
+    get("/seller/getList", {}).then(
+      (Response) => {
+        sellers = Response.data;
+        console.log("请求成功", Response);
+        //Response是返回的参数
+      },
+      (error) => {
+        console.log("请求失败", error.message);
+      }
+    );
   },
+
+
   computed: {
     filteredSellers() {
       // 根据搜索查询过滤商家
@@ -125,44 +148,55 @@ export default {
     searchSellers() {
       // 搜索商家的逻辑
     },
-    editSeller(seller) {
-      this.editingSeller = true;
-      this.editedSeller = { ...seller };
-    },
-    saveEditedSeller() {
-      const index = this.sellers.findIndex(s => s.id === this.editedSeller.id);
-      if (index !== -1) {
-        this.$set(this.sellers, index, { ...this.editedSeller }); 
+     handleEdit(){
+      this.editingSeller = false
+       get("/seller/updata",this.editedSeller).then(
+      (Response) => {
+        sellers = Response.data;
+        console.log("请求成功", Response);
+      },
+      (error) => {
+        alert("修改失败")
+        console.log("请求失败", error.message);
       }
-      this.cancelEdit();
+    );
     },
-    cancelEdit() {
+    cancelEdit(){
       this.editingSeller = false;
-      this.editedSeller = { id: null, sellername: "", email: "", phone: "", address: "" };
     },
+    
     deleteSeller(sellerId) {
-      const index = this.sellers.findIndex(s => s.id === sellerId);
-      if (index !== -1) {
-        this.sellers.splice(index, 1);
+      post("/seller/delete",sellerId).then(
+      (Response) => {
+        sellers = Response.data;
+        console.log("请求成功", Response);
+      },
+      (error) => {
+        alert("修改失败")
+        console.log("请求失败", error.message);
       }
+    );
+    
     },
-    addSellerer(){
-      this.addingSeller = true;
-    },
-    saveNewSeller() {
-      // 找到最大的商家ID
-      const maxSellerId = this.sellers.reduce((max, seller) => seller.id > max ? seller.id : max, 0);
-      // 计算新商家的ID为最大商家ID加一
-      const newSellerId = maxSellerId + 1;
-      // 将新商家信息保存到 sellers 数组中
-      this.$set(this.sellers, this.sellers.length, { ...this.newSeller, id: newSellerId });
-      // 关闭模态框并清空新商家信息
-      this.cancelAddSeller();
+    
+    addSeller() {
+    this.addingSeller = false;
+    post("/sellerr/addSeller",this.newSeller).then(
+      (Response) => {
+        sellers = Response.data;
+        console.log("请求成功", Response);
+      },
+      (error) => {
+        alert("修改失败")
+        console.log("请求失败", error.message);
+      }
+    );
+       
     },
     cancelAddSeller() {
-      this.addingSeller = false;
-      this.newSeller = { sellername: "", email: "", phone: "", address: "" };
-    },
+       this.addingSeller = false;
+
+     },
   },
 };
 </script>

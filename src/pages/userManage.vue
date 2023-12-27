@@ -23,6 +23,10 @@
             <th>角色</th>
             <th>操作</th>
           </tr>
+          <tr><th colspan="6">
+              <button class="btn-neumorphism add" @click="addUser">添加</button>
+            </th>
+          </tr>
         </thead>
         <tbody>
           <tr v-for="user in filteredUsers" :key="user.id">
@@ -68,6 +72,35 @@
         </form>
       </div>
     </div>
+    <!-- 添加用户的模态框 -->
+    <div class="modal" :class="{ active: addingUser }">
+      <div class="modal-content">
+        <h3>添加新用户</h3>
+        <form @submit.prevent="saveNewUser">
+          <label for="add-username">用户名:</label>
+          <input type="text" id="add-username" v-model="newUser.username" required>
+
+          <label for="add-email">邮箱:</label>
+          <input type="email" id="add-email" v-model="newUser.email" required>
+
+          <label for="add-phone">号码:</label>
+          <input type="text" id="add-phone" v-model="newUser.phone" required>
+
+          <label for="add-role">角色:</label>
+          <select id="add-role" v-model="newUser.role" required>
+            <option value="管理员">管理员</option>
+            <option value="普通用户">普通用户</option>
+            <option value="商家">商家</option>
+            <!-- 添加更多角色选项 -->
+          </select>
+      
+          <div class="modal-footer">
+            <button type="submit">保存</button>
+            <button type="button" @click="cancelAddUser">取消</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -84,6 +117,8 @@ export default {
       ],
       editingUser: false,
       editedUser: { id: null, username: "", email: "", phone: "", role: "" },
+      addingUser: false, // 添加用户模态框的显示状态
+      newUser: { username: "", email: "", phone: "", role: "" }, // 新用户的信息
     };
   },
   computed: {
@@ -121,6 +156,31 @@ export default {
         this.users.splice(index, 1);
       }
     },
+    addUser(){
+      this.addingUser = true;
+    },
+    saveNewUser() {
+    // 找到最大的用户ID
+    const maxUserId = this.users.reduce((max, user) => {
+      return user.id > max ? user.id : max;
+    }, 0);
+
+    // 计算新用户的ID为最大用户ID加一
+    const newUserId = maxUserId + 1;
+
+    // 将新用户信息保存到 users 数组中
+    this.$set(this.users, this.users.length, { ...this.newUser, id: newUserId });
+    
+    // 关闭模态框并清空新用户信息
+    this.cancelAddUser();
+  },
+
+
+  cancelAddUser() {
+    this.addingUser = false;
+    this.newUser = { username: "", email: "", phone: "", role: "" };
+  },
+
   },
 };
 </script>

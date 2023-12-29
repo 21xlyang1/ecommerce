@@ -59,6 +59,9 @@
           <label for="edit-phone">号码:</label>
           <input type="text" id="edit-phone" v-model="editedUser.phone" required>
 
+          <label for="edit-password">密码：</label>
+          <input type="text" id="edit-password" v-model="editedUser.password" required>
+
           <label for="edit-role">角色:</label>
           <select id="edit-role" v-model="editedUser.role" required>
             <option value="管理员">管理员</option>
@@ -86,6 +89,9 @@
 
           <label for="add-phone">号码:</label>
           <input type="text" id="add-phone" v-model="newUser.phone" required>
+
+          <label for="add-password">密码：</label>
+          <input type="text" id="add-password" v-model="newUser.password" required>
 
           <label for="add-role">角色:</label>
           <select id="add-role" v-model="newUser.role" required>
@@ -124,9 +130,9 @@ export default {
         role: ""
       },
       editingUser: false,
-      editedUser: { id: null, username: "", email: "", phone: "", role: "" },
+      editedUser: { id: null, username: "", email: "", phone: "", password:"",role: "" },
       addingUser: false, // 添加用户模态框的显示状态
-      newUser: { username: "", email: "", phone: "", role: "" }, // 新用户的信息
+      newUser: { username: "", email: "", phone: "",password:"", role: "" }, // 新用户的信息
     };
   },  
   mounted() {

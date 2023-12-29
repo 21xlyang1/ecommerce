@@ -1,12 +1,12 @@
 <template>
   <div class="user-management">
     <!-- 标题栏 -->
-    <div class="header p-3 mb-3 shadow-sm">
-      <h2>用户管理</h2>
+    <div class=" d-flex mb-3 mt-2 shadow-sm">
+      <div style="font-weight: 700; font-size: 18px">用户管理</div>
     </div>
-
-    <!-- 搜索栏 -->
-    <div class="search-bar mb-4">
+    <div class="w-100 mt-3 rounded-2  bg-body shadow p-3 " >
+        <!-- 搜索栏 -->
+        <div class="search-bar mb-4">
       <input v-model="searchQuery" placeholder="搜索用户...">
       <button @click="searchUsers">搜索</button>
     </div>
@@ -43,6 +43,8 @@
         </tbody>
       </table>
     </div>
+    </div>
+
     <!-- 编辑用户信息的模态框 -->
     <div class="modal" :class="{ active: editingUser }">
       <div class="modal-content">

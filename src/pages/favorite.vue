@@ -26,7 +26,9 @@
               @click="addInf.show = true"
             ></iconbutton>
           </div>
-          <div style="width: 80%"></div>
+          <div class="h-100 d-flex align-items-center p-4" style="width: 80%">
+            <div style="font-size:22px;font-weight:700">{{collectList[nowIndex].name}}</div>
+          </div>
         </div>
         <div class="w-100 d-flex">
           <!-- 收藏夹 -->
@@ -106,7 +108,7 @@
                         :size="'28px'"
                         :color="'green'"
                         :showBorder="false"
-                        @click="updateInf.show=true"
+                        @click="updateInf.show = true"
                       ></iconbutton>
                     </div>
                     <div
@@ -119,7 +121,6 @@
                         :size="'28px'"
                         :color="'red'"
                         :showBorder="false"
-
                       ></iconbutton>
                     </div>
                   </div>
@@ -132,12 +133,15 @@
             :style="{ height: outerDivHeight - 170 + 'px' }"
             style="width: 80%"
           >
-            <div class="w-100" style="height: 1000px"></div>
+            <div style="width: 100%; padding: 10px;">
+              <productItem v-for="item in 10" :key="item" :proId="item" ></productItem>
+            </div>
+
           </el-scrollbar>
         </div>
       </div>
     </div>
-<!-- 添加对话框 -->
+    <!-- 添加对话框 -->
     <el-dialog title="添加收藏夹" width="500px" :visible.sync="addInf.show">
       <div class="d-flex w-100 align-items-center p-4">
         <div style="width: 100px">收藏夹名称</div>
@@ -151,7 +155,11 @@
       </div>
     </el-dialog>
     <!-- 修改对话框 -->
-        <el-dialog title="修改收藏夹信息" width="500px" :visible.sync="updateInf.show">
+    <el-dialog
+      title="修改收藏夹信息"
+      width="500px"
+      :visible.sync="updateInf.show"
+    >
       <div class="d-flex w-100 align-items-center p-4">
         <div style="width: 100px">收藏夹名称</div>
         <el-input placeholder="请输入内容" v-model="updateInf.name" clearable>
@@ -167,26 +175,27 @@
 </template>
 <script>
 import iconbutton from "@/components/iconbutton.vue";
-
+import { post } from "@/utils/http";
+import productItem from '@/components/productItem.vue';
 export default {
   name: "",
-  components: { iconbutton },
+  components: { iconbutton,productItem },
   data() {
     return {
       outerDivHeight: "", // 最外层div的高度
       collectList: [
-        { ID: 1, name: "电子产品", num: 2 },
-        { ID: 2, name: "服装用品", num: 11 },
-        { ID: 3, name: "智能手表", num: 4 },
-        { ID: 4, name: "休闲食品", num: 6 },
+        { id: 1, name: "电子产品", num: 2 },
+        { id: 2, name: "服装用品", num: 11 },
+        { id: 3, name: "智能手表", num: 4 },
+        { id: 4, name: "休闲食品", num: 6 },
       ],
-      addInf: { name: "",show:false },
-      updateInf: { name: "",show:false },
+      addInf: { name: "", show: false },
+      updateInf: { name: "", show: false },
       overIndex: -1,
       nowIndex: 0,
       dialogShow: false,
       updateIndex: -1,
-      padding:50
+      padding: 50,
     };
   },
   methods: {
@@ -197,6 +206,19 @@ export default {
   mounted() {
     this.setOuterDivSize(); // 初始化时设置最外层div的尺寸
     window.addEventListener("resize", this.setOuterDivSize);
+
+    post("/favorites/geList", { userId:this.$cookies.get("userId") }).then(
+      (Response) => {
+        console.log("请求成功", Response);
+        //Response是返回的参数
+        var data=Response.data
+        this.collectList=data
+
+      },
+      (error) => {
+        console.log("请求失败", error.message);
+      }
+    );
   },
   beforeDestroy() {
     // 组件销毁时，移除窗口大小改变事件的监听

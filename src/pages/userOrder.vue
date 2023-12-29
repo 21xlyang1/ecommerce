@@ -47,15 +47,21 @@
           class="w-100 bg-body rounded-2"
           :style="{ height: outerDivHeight - 70 + 'px' }"
         >
-          <div class="w-100" style="height: 1000px"></div>
+          <div class="w-100" style="padding:10px">
+            <div style="width: 100%; padding: 10px;">
+              <productItem v-for="item in 10" :key="item" :proId="item" ></productItem>
+            </div>
+          </div>
         </el-scrollbar>
       </div>
     </div>
   </div>
 </template>
 <script>
+import productItem from '@/components/productItem.vue';
 export default {
   name: "",
+  components: { productItem },
   data() {
     return {
       outerDivHeight: "", // 最外层div的高度

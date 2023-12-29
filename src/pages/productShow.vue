@@ -390,13 +390,14 @@
   </div>
 </template>
 <script>
+import { post } from "@/utils/http";
 export default {
   name: "",
   data() {
     return {
       imgNum: 6,
       productInf: {
-        name: "商品名称",
+        name: "商品名称"+this.$route.params.id,
         fahuodi: "发货地",
         xiaoliang: "80万+",
         num: 1,
@@ -422,6 +423,23 @@ export default {
       return res + "px";
     },
   },
+  mounted() {
+  //""填入url地址，{}为请求参数
+    post("/product/getProductInfo", {productId:this.$route.params.id}).then(
+      (Response) => {
+        console.log("请求成功", Response);
+        //Response是返回的参数
+        var data=Response
+        this.productInf.name=data.productName
+        this.productInf.price=data.price
+
+      },
+      (error) => {
+        console.log("请求失败", error.message);
+      }
+    );
+  },
+
 };
 </script>
 

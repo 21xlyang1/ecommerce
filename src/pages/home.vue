@@ -85,7 +85,7 @@
 
 <script>
 import productCard from "@/components/productCard.vue";
-
+import { post } from "@/utils/http";
 export default {
   name: "",
   components: { productCard },
@@ -164,6 +164,21 @@ export default {
 
     // 监听窗口大小变化，当窗口大小变化时重新获取宽度
     window.addEventListener("resize", this.handleResize);
+    post("/product/recommend", {}).then(
+      (Response) => {
+        console.log("请求成功", Response);
+        //Response是返回的参数
+        var data=Response.data
+        for( var i=0;i<data.length;i++){
+          this.productList[i].ID=data[i].productId
+        }
+      },
+      (error) => {
+        console.log("请求失败", error.message);
+      }
+    );
+
+    
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.handleResize);

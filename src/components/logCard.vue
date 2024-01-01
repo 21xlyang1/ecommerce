@@ -19,6 +19,16 @@
                     <el-form-item label="正文" class="text" prop="text">
                         <el-input type="textarea" v-model="form.text"></el-input>
                     </el-form-item>
+                    <el-form-item>
+                        <el-date-picker v-model="form.valueDay" type="date" placeholder="选择日期">
+                        </el-date-picker>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-time-picker v-model="form.valueTime" :picker-options="{
+                            selectableRange: '00:00:00 - 23:59:59'
+                        }" :editable=false placeholder="选择时间">
+                        </el-time-picker>
+                    </el-form-item>
                     <el-form-item class="btn_box">
                         <el-button @click="onSubmitAndClose">确认添加</el-button>
                         <el-button @click="dialogVisible = false">取消</el-button>
@@ -57,7 +67,9 @@ export default {
                 delivery: false,
                 type: [],
                 resource: '',
-                desc: ''
+                desc: '',
+                valueDay: '',
+                valueTime: '',
             },
             pickerOptions: {
                 disabledDate(time) {
@@ -148,7 +160,9 @@ export default {
                 delivery: false,
                 type: [],
                 resource: '',
-                desc: ''
+                desc: '',
+                valueDay: '',
+                valueTime: '',
             };
         },
     },

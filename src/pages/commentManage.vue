@@ -43,6 +43,7 @@
 // 引入组件
 import commentBox from "../components/commentBox.vue";
 import Search from "../components/search_small.vue";
+import { post } from "@/utils/http";
 
 // 定义vm
 export default {
@@ -68,6 +69,7 @@ export default {
           reply: "这是回复",
           submission: "1234:12:12 12:12",
           selected: false,
+          ID: 1,
         },
         {
           name: "123",
@@ -80,6 +82,7 @@ export default {
             "这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复",
           submission: "1234:12:12 12:12",
           selected: false,
+          ID: 2,
         },
         {
           name: "123",
@@ -90,6 +93,7 @@ export default {
           reply: "这是回复",
           submission: "1234:12:12 12:12",
           selected: false,
+          ID: 3,
         },
         {
           name: "12345678910111213141516",
@@ -100,6 +104,7 @@ export default {
           reply: "这是回复",
           submission: "1234:12:12 12:12",
           selected: false,
+          ID: 4,
         },
         {
           name: "123",
@@ -110,6 +115,7 @@ export default {
           reply: "这是回复",
           submission: "1234:12:12 12:12",
           selected: false,
+          ID: 5,
         },
         {
           name: "123&",
@@ -120,6 +126,7 @@ export default {
           reply: "这是回复",
           submission: "1234:12:12 12:12",
           selected: false,
+          ID: 6,
         },
         {
           name: "123&",
@@ -130,6 +137,7 @@ export default {
           reply: "这是回复",
           submission: "1234:12:12 12:12",
           selected: false,
+          ID: 7,
         },
         {
           name: "123&",
@@ -140,6 +148,7 @@ export default {
           reply: "这是回复",
           submission: "1234:12:12 12:12",
           selected: false,
+          ID: 8,
         },
         {
           name: "123&",
@@ -150,6 +159,7 @@ export default {
           reply: "这是回复",
           submission: "1234:12:12 12:12",
           selected: false,
+          ID: 9,
         },
         {
           name: "123&",
@@ -160,6 +170,7 @@ export default {
           reply: "这是回复",
           submission: "1234:12:12 12:12",
           selected: false,
+          ID: 10,
         },
         {
           name: "123&",
@@ -170,6 +181,40 @@ export default {
           reply: "这是回复",
           submission: "1234:12:12 12:12",
           selected: false,
+          ID: 11,
+        },
+        {
+          name: "123&",
+          email: "6789@123123.com",
+          wechat: "1289abcd",
+          photonumber: "1239abcdefg",
+          comments: "第十一条评论",
+          reply: "这是回复",
+          submission: "1234:12:12 12:12",
+          selected: false,
+          ID: 12,
+        },
+        {
+          name: "123&",
+          email: "6789@123123.com",
+          wechat: "1289abcd",
+          photonumber: "1239abcdefg",
+          comments: "第十一条评论",
+          reply: "这是回复",
+          submission: "1234:12:12 12:12",
+          selected: false,
+          ID: 13,
+        },
+        {
+          name: "123&",
+          email: "6789@123123.com",
+          wechat: "1289abcd",
+          photonumber: "1239abcdefg",
+          comments: "第十一条评论",
+          reply: "这是回复",
+          submission: "1234:12:12 12:12",
+          selected: false,
+          ID: 14,
         },
       ],
       searchList: [],
@@ -180,9 +225,19 @@ export default {
     };
   },
   computed: {
-  
+
   },
   methods: {
+    // post("", {}).then(
+    //   (Response) => {
+    //     console.log("请求成功", Response);
+    //     var data = Response
+    //     console.log(this.cameraList)
+    //   },
+    //   (error) => {
+    //     console.log("请求失败", error.message);
+    //   }
+    // ),
     // 更新 showList 的方法
     updateShowList() {
       let baseList = this.searchQuery ? this.searchList : this.dataList; // 判断是否存在搜索关键字
@@ -259,12 +314,15 @@ export default {
               item.selected = false;
             }
           });
-          this.tablePage.currentPage = 1; // 重置为第一页
+          if (this.showList.length === 1 && this.tablePage.currentPage > 1) {
+            this.tablePage.currentPage--; // 减一页
+          }
           this.updateShowList();
         }
       }
       // 如果不是搜索模式
       else {
+        console.log("不是搜索模式");
         if (index !== -1) {
           this.dataList.splice(index, 1);
           // 更新评论总数
@@ -276,7 +334,9 @@ export default {
               item.selected = false;
             }
           });
-          this.tablePage.currentPage = 1; // 重置为第一页
+          if (this.showList.length == 1 && this.tablePage.currentPage > 1) {
+            this.tablePage.currentPage--; // 减一页
+          }
           this.updateShowList();
         }
       }

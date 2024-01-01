@@ -24,6 +24,23 @@
           <el-form-item label="正文" class="text" prop="text">
             <el-input type="textarea" v-model="form.text"></el-input>
           </el-form-item>
+          <el-form-item>
+            <el-date-picker
+              v-model="form.valueDay"
+              type="date"
+              placeholder="选择日期">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item>
+            <el-time-picker
+              v-model="form.valueTime"
+              :picker-options="{
+                selectableRange: '00:00:00 - 23:59:59'
+              }"
+              :editable=false
+              placeholder="选择时间">
+            </el-time-picker>
+          </el-form-item>
           <el-form-item class="btn_box">
             <el-button @click="onSubmit">确认添加</el-button>
             <el-button @click="dialogVisible = false">取消</el-button>
@@ -46,6 +63,7 @@
 
 <script>
 import Card from "../components/logCard.vue";
+import homeVue from './home.vue';
 export default {
   components: {
     Card, // 注册卡片的组件
@@ -57,8 +75,8 @@ export default {
         title: '',
         text: '',
         time_data: '',
-        date1: '',
-        date2: '',
+        valueDay: '',
+        valueTime: '',
         delivery: false,
         type: [],
         resource: '',
@@ -68,6 +86,11 @@ export default {
         {
           time_data: "2023/12/22 11:12:59",
           title: "标题1",
+          text: "内容",
+        },
+        {
+          time_data: "2023/11/11 11:12:59",
+          title: "标题2",
           text: "内容",
         },
         {
@@ -108,7 +131,7 @@ export default {
         ],
         text: [
           { required: true, message: '请输入日志内容', trigger: 'blur' }
-        ]
+        ],
       },
     };
   },
@@ -117,16 +140,18 @@ export default {
       this.$refs.form.validate((valid) => {
         if (valid) {
           // 获取当前时间
-          const currentTime = new Date();
-          const formattedDateTime = currentTime.toLocaleString('zh-CN', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: false, // 使用24小时制
-          });
+          console.log("this.form.valueTime" + this.form.valueTime);
+          console.log("this.form.valueDay" + this.form.valueDay);
+          const year = this.form.valueDay.getFullYear();
+          const month = this.form.valueDay.getMonth() + 1;
+          const day = this.form.valueDay.getDate();
+          const hours = this.form.valueTime.getHours();
+          const minutes = this.form.valueTime.getMinutes();
+          const seconds = this.form.valueTime.getSeconds();
+          console.log(year + " " + month + " " + day + " " + hours + " " + minutes + " " + seconds);
+          const formattedDateTime = `${year}/${month.toString().padStart(2, '0')}/${day.toString().padStart(2, '0')} ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+
           // 创建新的对象，使用表单数据填充
           const newEntry = {
             time_data: formattedDateTime,
@@ -134,12 +159,14 @@ export default {
             text: this.form.text, // 使用表单中的描述作为文本内容，根据实际需求调整
           };
 
-          // console.log(newEntry);
-          // console.log(this.form.time_data);
-          // console.log(this.form);
+          console.log(newEntry);
+          console.log(this.form.time_data);
+          console.log(this.form);
 
           // 将新的对象添加到 dataList 数组中
           this.dataList.push(newEntry);
+
+          this.form.valueDay = this.form.valueTime = ''
 
           // 按照时间排序
           this.sortDataList();
@@ -165,7 +192,9 @@ export default {
         delivery: false,
         type: [],
         resource: '',
-        desc: ''
+        desc: '',
+        valueDay: '',
+        valueTime: '',
       };
     },
     updateLog({ identifier, newData }) {

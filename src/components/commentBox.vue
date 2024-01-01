@@ -7,8 +7,8 @@
                     <img src="../assets/img/默认头像.svg" alt="头像" height="35px" />
                 </div>
                 <div class="r">
-                    <div class="userName" @mouseover="showTooltip" @mouseout="hideTooltip"> {{ data.name }} </div>
-                    <div class="toolTip" :class="{ 'visible': tooltipVisible }"> {{ data.name }} </div>
+                    <div class="userName" @mouseover="showTooltip" @mouseout="hideTooltip"> {{ data.commentId }} </div>
+                    <div class="toolTip" :class="{ 'visible': tooltipVisible }"> {{ data.commentId }} </div>
                 </div>
             </div>
             <div class="phone_box">
@@ -22,12 +22,7 @@
             </div>
             <div class="comment_box">
                 <div class="box">
-                    <p class="comment"> {{ data.comments }} </p>
-                </div>
-            </div>
-            <div class="reply_box">
-                <div class="box">
-                    <p class="reply"> {{ data.reply }} </p>
+                    <p class="comment"> {{ data.content }} </p>
                 </div>
             </div>
             <div class="submission-time"> {{ data.submission }} </div>
@@ -135,7 +130,7 @@ export default {
 
 .Box {
     display: grid; // 评论列表的标题设置为grid布局
-    grid-template-columns: 60px 140px 120px 160px minmax(200px, 1fr) 170px 140px 100px; // 八列，左右布局
+    grid-template-columns: 60px 140px 120px 160px minmax(200px, 1fr) 140px 100px; // 七列，左右布局
     // grid-template-columns: repeat(8, minmax(70px, 1fr) minmax(140px, 1fr) minmax(120px, 1fr) minmax(160px, 1fr) minmax(200px, 1fr) minmax(160px, 1fr) minmax(140px, 1fr) minmax(100px, 1fr));
     // background-color: rgba(253, 247, 241, 1);
     height: 60px;

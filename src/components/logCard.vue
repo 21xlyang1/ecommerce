@@ -30,7 +30,7 @@
                         </el-time-picker>
                     </el-form-item>
                     <el-form-item class="btn_box">
-                        <el-button @click="onSubmitAndClose">确认添加</el-button>
+                        <el-button @click="onSubmitAndClose">确定修改</el-button>
                         <el-button @click="dialogVisible = false">取消</el-button>
                         <el-button @click="onReset">重置</el-button>
                     </el-form-item>
@@ -120,22 +120,16 @@ export default {
             this.$refs.form.validate((valid) => {
                 if (valid) {
                     // 获取当前时间
-                    const currentTime = new Date();
-                    const formattedDateTime = currentTime.toLocaleString('zh-CN', {
-                        year: 'numeric',
-                        month: '2-digit',
-                        day: '2-digit',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        second: '2-digit',
-                        hour12: false, // 使用24小时制
-                    });
-                    // console.log(this.form.time_data);
+                    const year = this.form.valueDay.getFullYear();
+                    const month = this.form.valueDay.getMonth() + 1;
+                    const day = this.form.valueDay.getDate();
+                    const hours = this.form.valueTime.getHours();
+                    const minutes = this.form.valueTime.getMinutes();
+                    const seconds = this.form.valueTime.getSeconds();
+                    const formattedDateTime = `${year}/${month.toString().padStart(2, '0')}/${day.toString().padStart(2, '0')} ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                     this.form.time_data = formattedDateTime;
-                    // console.log(this.form.time_data);
                     console.log("提交更改了");
                     this.$emit('update-log', {
-                        identifier: this.dataIdentifier,
                         newData: this.form,
                     });
                     this.dialogVisible = false; // 关闭对话框

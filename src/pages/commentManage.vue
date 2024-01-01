@@ -24,7 +24,6 @@
           <div class="b">手机号</div>
           <div class="c">邮箱</div>
           <div class="d">评论内容</div>
-          <div class="e">回复至</div>
           <div class="f">创建时间</div>
           <div class="g">操作</div>
         </div>
@@ -62,159 +61,12 @@ export default {
       dataList: [
         {
           name: "Peanut",
-          email: "123456789@123123.com",
-          wechat: "123456789abcd",
+          email: "123456789@.com",
           photonumber: "123456789abcdefg",
-          comments: "第一条评论,第一条评论",
-          reply: "这是回复",
+          content: "第一条评论,第一条评论",
           submission: "1234:12:12 12:12",
           selected: false,
           ID: 1,
-        },
-        {
-          name: "123",
-          email: "6789@123123.com",
-          wechat: "1289abcd",
-          photonumber: "123456789ab",
-          comments:
-            "第二条评论,第二条评论,第二条评论,第二条评论,第二条评论,第二条评论,第二条评论",
-          reply:
-            "这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复",
-          submission: "1234:12:12 12:12",
-          selected: false,
-          ID: 2,
-        },
-        {
-          name: "123",
-          email: "6789@123123.com",
-          wechat: "1289abcd",
-          photonumber: "1239abcdefg",
-          comments: "第三条评论",
-          reply: "这是回复",
-          submission: "1234:12:12 12:12",
-          selected: false,
-          ID: 3,
-        },
-        {
-          name: "12345678910111213141516",
-          email: "6789@123123.com",
-          wechat: "1289abcd",
-          photonumber: "1239abcdefg",
-          comments: "第四条评论",
-          reply: "这是回复",
-          submission: "1234:12:12 12:12",
-          selected: false,
-          ID: 4,
-        },
-        {
-          name: "123",
-          email: "6789@123123.com",
-          wechat: "1289abcd",
-          photonumber: "1239abcdefg",
-          comments: "第五条评论",
-          reply: "这是回复",
-          submission: "1234:12:12 12:12",
-          selected: false,
-          ID: 5,
-        },
-        {
-          name: "123&",
-          email: "6789@123123.com",
-          wechat: "1289abcd",
-          photonumber: "1239abcdefg",
-          comments: "第六条评论",
-          reply: "这是回复",
-          submission: "1234:12:12 12:12",
-          selected: false,
-          ID: 6,
-        },
-        {
-          name: "123&",
-          email: "6789@123123.com",
-          wechat: "1289abcd",
-          photonumber: "1239abcdefg",
-          comments: "第七条评论",
-          reply: "这是回复",
-          submission: "1234:12:12 12:12",
-          selected: false,
-          ID: 7,
-        },
-        {
-          name: "123&",
-          email: "6789@123123.com",
-          wechat: "1289abcd",
-          photonumber: "1239abcdefg",
-          comments: "第八条评论",
-          reply: "这是回复",
-          submission: "1234:12:12 12:12",
-          selected: false,
-          ID: 8,
-        },
-        {
-          name: "123&",
-          email: "6789@123123.com",
-          wechat: "1289abcd",
-          photonumber: "1239abcdefg",
-          comments: "第九条评论",
-          reply: "这是回复",
-          submission: "1234:12:12 12:12",
-          selected: false,
-          ID: 9,
-        },
-        {
-          name: "123&",
-          email: "6789@123123.com",
-          wechat: "1289abcd",
-          photonumber: "1239abcdefg",
-          comments: "第十条评论",
-          reply: "这是回复",
-          submission: "1234:12:12 12:12",
-          selected: false,
-          ID: 10,
-        },
-        {
-          name: "123&",
-          email: "6789@123123.com",
-          wechat: "1289abcd",
-          photonumber: "1239abcdefg",
-          comments: "第十一条评论",
-          reply: "这是回复",
-          submission: "1234:12:12 12:12",
-          selected: false,
-          ID: 11,
-        },
-        {
-          name: "123&",
-          email: "6789@123123.com",
-          wechat: "1289abcd",
-          photonumber: "1239abcdefg",
-          comments: "第十一条评论",
-          reply: "这是回复",
-          submission: "1234:12:12 12:12",
-          selected: false,
-          ID: 12,
-        },
-        {
-          name: "123&",
-          email: "6789@123123.com",
-          wechat: "1289abcd",
-          photonumber: "1239abcdefg",
-          comments: "第十一条评论",
-          reply: "这是回复",
-          submission: "1234:12:12 12:12",
-          selected: false,
-          ID: 13,
-        },
-        {
-          name: "123&",
-          email: "6789@123123.com",
-          wechat: "1289abcd",
-          photonumber: "1239abcdefg",
-          comments: "第十一条评论",
-          reply: "这是回复",
-          submission: "1234:12:12 12:12",
-          selected: false,
-          ID: 14,
         },
       ],
       searchList: [],
@@ -228,16 +80,6 @@ export default {
 
   },
   methods: {
-    // post("", {}).then(
-    //   (Response) => {
-    //     console.log("请求成功", Response);
-    //     var data = Response
-    //     console.log(this.cameraList)
-    //   },
-    //   (error) => {
-    //     console.log("请求失败", error.message);
-    //   }
-    // ),
     // 更新 showList 的方法
     updateShowList() {
       let baseList = this.searchQuery ? this.searchList : this.dataList; // 判断是否存在搜索关键字
@@ -269,7 +111,7 @@ export default {
         return (
           item.name.toLowerCase().includes(searchString) ||
           item.email.toLowerCase().includes(searchString) ||
-          item.comments.toLowerCase().includes(searchString) ||
+          item.content.toLowerCase().includes(searchString) ||
           item.reply.toLowerCase().includes(searchString)
         );
       });
@@ -293,53 +135,62 @@ export default {
       // 根据实际的数据对象在 dataList 中查找索引并删除
       const index = this.dataList.findIndex(item => item === commentData);
       const index2 = this.searchList.findIndex(item => item === commentData);
-      // 如果在搜索模式
-      if (this.searchQuery) {
-        if (index2 !== -1) {
-          this.searchList.splice(index2, 1);
-          if (index !== -1) {
-            this.dataList.splice(index, 1);
-          }
-          // 更新评论总数
-          this.tablePage.totalComments = this.searchList.length;
-          // 更新当前显示的评论数量
-          this.data_num = this.tablePage.totalComments;
-          this.dataList.forEach((item) => {
-            if (item.selected) {
-              item.selected = !item.selected;
+      let commentId = index
+      post("/comment/delete", { commentId }).then(
+        (Response) => {
+          // 如果在搜索模式
+          if (this.searchQuery) {
+            if (index2 !== -1) {
+              this.searchList.splice(index2, 1);
+              if (index !== -1) {
+                this.dataList.splice(index, 1);
+              }
+              // 更新评论总数
+              this.tablePage.totalComments = this.searchList.length;
+              // 更新当前显示的评论数量
+              this.data_num = this.tablePage.totalComments;
+              this.dataList.forEach((item) => {
+                if (item.selected) {
+                  item.selected = !item.selected;
+                }
+              });
+              this.searchList.forEach((item) => {
+                if (item.selected) {
+                  item.selected = false;
+                }
+              });
+              if (this.showList.length === 1 && this.tablePage.currentPage > 1) {
+                this.tablePage.currentPage--; // 减一页
+              }
+              this.updateShowList();
             }
-          });
-          this.searchList.forEach((item) => {
-            if (item.selected) {
-              item.selected = false;
-            }
-          });
-          if (this.showList.length === 1 && this.tablePage.currentPage > 1) {
-            this.tablePage.currentPage--; // 减一页
           }
-          this.updateShowList();
+          // 如果不是搜索模式
+          else {
+            console.log("不是搜索模式");
+            if (index !== -1) {
+              this.dataList.splice(index, 1);
+              // 更新评论总数
+              this.tablePage.totalComments = this.dataList.length;
+              // 更新当前显示的评论数量
+              this.data_num = this.tablePage.totalComments;
+              this.dataList.forEach((item) => {
+                if (item.selected) {
+                  item.selected = false;
+                }
+              });
+              if (this.showList.length === 1 && this.tablePage.currentPage > 1) {
+                this.tablePage.currentPage--; // 减一页
+              }
+              this.updateShowList();
+            }
+          }
+          console.log("请求成功", Response);
+        },
+        (error) => {
+          console.log("请求失败", error.message);
         }
-      }
-      // 如果不是搜索模式
-      else {
-        console.log("不是搜索模式");
-        if (index !== -1) {
-          this.dataList.splice(index, 1);
-          // 更新评论总数
-          this.tablePage.totalComments = this.dataList.length;
-          // 更新当前显示的评论数量
-          this.data_num = this.tablePage.totalComments;
-          this.dataList.forEach((item) => {
-            if (item.selected) {
-              item.selected = false;
-            }
-          });
-          if (this.showList.length == 1 && this.tablePage.currentPage > 1) {
-            this.tablePage.currentPage--; // 减一页
-          }
-          this.updateShowList();
-        }
-      }
+      );
     },
     handleCheckboxChange(commentData) {
       // 处理非搜索模式
@@ -368,7 +219,21 @@ export default {
     deleteSelectedComments() {
       // 如果是非搜索模式
       if (!this.searchQuery) {
-        this.dataList = this.dataList.filter((item) => !item.selected);
+        // this.dataList = this.dataList.filter((item) => !item.selected);
+        this.dataList = forEach((item) => {
+          if (item.selected) {
+            let commentId = item.commentId;
+            post("/comment/delete", { commentId }).then(
+              (Response) => {
+                console.log("请求成功", Response);
+                this.dataList = this.dataList.splice(commentId);
+              },
+              (error) => {
+                console.log("请求失败", error.message);
+              }
+            );
+          }
+        });
         // 更新评论总数
         this.tablePage.totalComments = this.dataList.length;
         // 更新当前显示的评论数量
@@ -384,13 +249,29 @@ export default {
           console.log(item.selected);
         });
 
-        this.tablePage.currentPage = 1; // 重置为第一页
+        if (this.showList.length === 1 && this.tablePage.currentPage > 1) {
+          this.tablePage.currentPage--; // 减一页
+        }
 
         this.updateShowList();
       }
       else {
+        this.dataList = forEach((item) => {
+          if (item.selected) {
+            let commentId = item.commentId;
+            post("/comment/delete", { commentId }).then(
+              (Response) => {
+                console.log("请求成功", Response);
+                this.dataList = this.dataList.splice(commentId);
+              },
+              (error) => {
+                console.log("请求失败", error.message);
+              }
+            );
+          }
+        });
         this.searchList = this.searchList.filter((item) => !item.selected);
-        this.dataList = this.dataList.filter((item) => !item.selected);
+        // this.dataList = this.dataList.filter((item) => !item.selected);
         // 更新评论总数
         this.tablePage.totalComments = this.searchList.length;
         // 更新当前显示的评论数量
@@ -405,7 +286,9 @@ export default {
             item.selected = false;
           }
         });
-        this.tablePage.currentPage = 1; // 重置为第一页
+        if (this.showList.length === 1 && this.tablePage.currentPage > 1) {
+          this.tablePage.currentPage--; // 减一页
+        }
         this.updateShowList();
       }
       console.log("批量删除成功！");
@@ -442,6 +325,29 @@ export default {
     this.tablePage.totalComments = this.searchQuery ? this.searchList.length : this.dataList.length;
     this.updateShowList(); // 初始化时调用一次，显示第一页的数据
     this.data_num = this.searchQuery ? this.searchList.length : this.dataList.length;
+    post("/comment/all").then(
+      (Response) => {
+        console.log("评论数据请求成功", Response);
+        this.dataList = Response;
+      },
+      (error) => {
+        console.log("评论数据请求失败", error.message);
+      }
+    );
+    this.dataList.forEach((item) => {
+      let userId = item.commentId;
+      post("/user/getInf", { userId }).then(
+        (Response) => {
+          console.log("用户信息请求成功", Response);
+          this.dataList.email = Response.email;
+          this.dataList.phoneNumber = Response.phoneNumber;
+          this.dataList.name = Response.username;
+        },
+        (error) => {
+          console.log("用户信息请求失败", error.message);
+        }
+      );
+    });
   },
 };
 </script>
@@ -542,7 +448,7 @@ export default {
   background-color: #fff;
   font-size: 1.2rem; // 评论列表的标题字体
   display: grid; // 评论列表的标题设置为grid布局
-  grid-template-columns: 60px 140px 120px 160px minmax(200px, 1fr) 170px 140px 100px; // 八列，左右布局
+  grid-template-columns: 60px 140px 120px 160px minmax(200px, 1fr) 140px 100px; // 七列，左右布局
 
   width: 100%;
 

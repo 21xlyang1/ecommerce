@@ -25,20 +25,13 @@
             <el-input type="textarea" v-model="form.text"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-date-picker
-              v-model="form.valueDay"
-              type="date"
-              placeholder="选择日期">
+            <el-date-picker v-model="form.valueDay" type="date" placeholder="选择日期">
             </el-date-picker>
           </el-form-item>
           <el-form-item>
-            <el-time-picker
-              v-model="form.valueTime"
-              :picker-options="{
-                selectableRange: '00:00:00 - 23:59:59'
-              }"
-              :editable=false
-              placeholder="选择时间">
+            <el-time-picker v-model="form.valueTime" :picker-options="{
+              selectableRange: '00:00:00 - 23:59:59'
+            }" :editable=false placeholder="选择时间">
             </el-time-picker>
           </el-form-item>
           <el-form-item class="btn_box">
@@ -63,7 +56,8 @@
 
 <script>
 import Card from "../components/logCard.vue";
-import homeVue from './home.vue';
+import { post } from "@/utils/http";
+
 export default {
   components: {
     Card, // 注册卡片的组件
@@ -84,19 +78,11 @@ export default {
       },
       dataList: [
         {
+          Id: 1,
+          submitName: "测试人员",
           time_data: "2023/12/22 11:12:59",
-          title: "标题1",
-          text: "内容",
-        },
-        {
-          time_data: "2023/11/11 11:12:59",
-          title: "标题2",
-          text: "内容",
-        },
-        {
-          time_data: "2023/11/11 11:12:59",
-          title: "标题2",
-          text: "内容",
+          title: "测试用",
+          text: "文本文本文本",
         },
       ],
       formLabelWidth: '120px',
@@ -139,42 +125,63 @@ export default {
     onSubmit() {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          // 获取当前时间
-          console.log("this.form.valueTime" + this.form.valueTime);
-          console.log("this.form.valueDay" + this.form.valueDay);
+          // console.log("this.form.valueTime" + this.form.valueTime);
+          // console.log("this.form.valueDay" + this.form.valueDay);
           const year = this.form.valueDay.getFullYear();
           const month = this.form.valueDay.getMonth() + 1;
           const day = this.form.valueDay.getDate();
           const hours = this.form.valueTime.getHours();
           const minutes = this.form.valueTime.getMinutes();
           const seconds = this.form.valueTime.getSeconds();
-          console.log(year + " " + month + " " + day + " " + hours + " " + minutes + " " + seconds);
+          // console.log(year + " " + month + " " + day + " " + hours + " " + minutes + " " + seconds);
           const formattedDateTime = `${year}/${month.toString().padStart(2, '0')}/${day.toString().padStart(2, '0')} ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
+          const title = this.form.title;
+          const content = this.form.text;
+          let userId = '';
+          let Id = this.dataList[0].Id + 1;
+          const cookies = document.cookie.split(';');
+          for (const cookie of cookies) {
+            const [cookieName, cookieValue] = cookie.trim().split('=');
+            if (cookieName == 'userId') {
+              userId = cookieValue
+              break;
+            }
+            else userId = null
+          }
 
-          // 创建新的对象，使用表单数据填充
-          const newEntry = {
-            time_data: formattedDateTime,
-            title: this.form.title, // 使用表单中的名称作为标题
-            text: this.form.text, // 使用表单中的描述作为文本内容，根据实际需求调整
-          };
-
-          console.log(newEntry);
-          console.log(this.form.time_data);
-          console.log(this.form);
-
-          // 将新的对象添加到 dataList 数组中
-          this.dataList.push(newEntry);
-
-          this.form.valueDay = this.form.valueTime = ''
-
-          // 按照时间排序
-          this.sortDataList();
+          // console.log(newEntry);
+          // console.log(this.form.time_data);
+          // console.log(this.form);
 
           this.dialogVisible = false;
 
           // 重置表单
           this.onReset();
+
+          post("/log/addLog", { userId, title, content }).then(
+            (Response) => {
+              // 创建新的对象，使用表单数据填充
+              const newEntry = {
+                Id: Id,
+                time_data: formattedDateTime,
+                title: title, // 使用表单中的名称作为标题
+                text: content, // 使用表单中的描述作为文本内容，根据实际需求调整
+                submitName: userId,
+              };
+              // 将新的对象添加到 dataList 数组中
+              this.dataList.push(newEntry);
+              this.form.valueDay = this.form.valueTime = ''
+              // 按照时间排序
+              this.sortDataList();
+              console.log("请求成功", Response);
+              var D = Response
+            },
+            (error) => {
+              console.log("userId:", userId, "title:", title, "content:", content);
+              console.log("请求失败", error.message);
+            }
+          );
         }
         else {
           console.log('表单验证失败');
@@ -197,18 +204,41 @@ export default {
         valueTime: '',
       };
     },
-    updateLog({ identifier, newData }) {
+    updateLog( newData ) {
+      let identifier = newData.Id
       console.log(identifier);
       console.log(newData);
-      this.dataList[identifier].time_data = newData.time_data;
-      this.dataList[identifier].title = newData.title;
-      this.dataList[identifier].text = newData.text;
-      // 按照时间排序
-      this.sortDataList();
+      let logId = identifier;
+      let title = newData.title;
+      let content = newData.text;
+      post("/log/editLog", { logId, title, content }).then(
+        (Response) => {
+          this.dataList[identifier].time_data = newData.time_data;
+          this.dataList[identifier].title = title;
+          this.dataList[identifier].text = content;
+          // 按照时间排序
+          this.sortDataList();
+          console.log("请求成功", Response);
+        },
+        (error) => {
+          console.log("logId:", logId, "title:", title, "content:", content);
+          console.log("请求失败", error.message);
+        }
+      );
     },
     deleteLog(identifier) {
-      // Delete
-      this.dataList.splice(identifier, 1);
+      let logId = identifier;
+      post("/log/delLog", { logId }).then(
+        (Response) => {
+          console.log("请求成功", Response);
+          // Delete
+          this.dataList.splice(identifier, 1);
+        },
+        (error) => {
+          console.log("logId:", logId);
+          console.log("请求失败", error.message);
+        }
+      );
     },
     // 添加一个排序方法
     sortDataList() {
@@ -221,6 +251,18 @@ export default {
         return dateB - dateA;
       });
     },
+  },
+  mounted() {
+    post("/log/getInf").then(
+      (Response) => {
+        console.log("请求成功", Response);
+        this.dataList = Response;
+        // 按照时间排序
+        this.sortDataList();
+      },
+      (error) => {
+        console.log("请求失败", error.message);
+      });
   },
 }
 </script>

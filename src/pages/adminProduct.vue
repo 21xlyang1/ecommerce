@@ -7,9 +7,14 @@
 
     <!-- 商品显示数量和搜索 -->
     <div class="row" style="margin-bottom: 10px; color: #797171;">
+      <!-- 添加商品-->
+      <div style="height: 50px; margin-right: 10px">
+        <el-button>添加商品</el-button>
+      </div>
+
       <div class="col-md-6" style="font-size: 15px">
         显示
-        <input style="width: 50px; height: 23px; margin: 0 5px 0 5px" type="number" v-model="itemsPerPage" min="4"
+        <input style="width: 50px; height: 23px; margin: 0 5px 0 5px" type="number" v-model="itemsPerPage" min="5"
                max="10" @input="updatePageCount">
         商品
       </div>
@@ -22,6 +27,7 @@
         <el-button style="height: 40px; margin-right: 10px" @click="search">搜索</el-button>
       </div>
     </div>
+
 
     <!-- 商品列表 -->
     <div style="margin-bottom: 10px">
@@ -53,7 +59,7 @@
                   </div>
                   <div class="product-info"
                        style="flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                    {{ product.productName }}:{{ product.description}}
+                    {{ product.productName }}:{{ product.description }}
                   </div>
                 </td>
                 <td class="text-center">{{ product.storeId }}</td>
@@ -124,85 +130,88 @@
 </template>
 <script>
 import 'element-ui/lib/theme-chalk/index.css';
+import axios from 'axios';
+import repsonse from "core-js/internals/is-forced";
 
 export default {
   name: "adminProduct",
   data() {
     return {
       originalProducts: [],
-      products: [
-        {
-          productId: 1,
-          productName: '商品1',
-          description:'信息1',
-          storeId: 'AAA',
-          price: '20.9',
-          stock: '50',
-          status: '上架',
-          selected: false,
-        },
-        {
-          productId: 2,
-          productName: '商品2',
-          description:'信息2',
-          storeId: 'GGG',
-          price: '9.9',
-          stock: '20',
-          status: '售罄',
-          selected: false,
-        },
-        {
-          productId: 3,
-          productName: '商品3',
-          description:'信息3',
-          storeId: 'BBB',
-          price: '9.9',
-          stock: '20',
-          status: '下架',
-          selected: false,
-        },
-        {
-          productId: 4,
-          productName: '商品4',
-          description:'信息4',
-          storeId: 'CCC',
-          price: '9.9',
-          stock: '20',
-          status: '下架',
-          selected: false,
-        },
-        {
-          productId: 5,
-          productName: '商品5',
-          description:'信息5',
-          storeId: 'DDD',
-          price: '9.9',
-          stock: '20',
-          status: '上架',
-          selected: false,
-        },
-        {
-          productId: 6,
-          productName: '商品6',
-          description:'信息6',
-          storeId: 'EEE',
-          price: '9.9',
-          stock: '20',
-          status: '上架',
-          selected: false,
-        },
-        {
-          productId: 7,
-          productName: '商品7',
-          description:'信息7',
-          storeId: 'FFF',
-          price: '9.9',
-          stock: '20',
-          status: '上架',
-          selected: false,
-        }
-      ],
-      itemsPerPage: 4, // 初始每页显示的商品数量
+      // products: [
+      //   {
+      //     productId: 1,
+      //     productName: '商品1',
+      //     description: '信息1',
+      //     storeId: 'AAA',
+      //     price: '20.9',
+      //     stock: '50',
+      //     status: '上架',
+      //     selected: false,
+      //   },
+      //   {
+      //     productId: 2,
+      //     productName: '商品2',
+      //     description: '信息2',
+      //     storeId: 'GGG',
+      //     price: '9.9',
+      //     stock: '20',
+      //     status: '售罄',
+      //     selected: false,
+      //   },
+      //   {
+      //     productId: 3,
+      //     productName: '商品3',
+      //     description: '信息3',
+      //     storeId: 'BBB',
+      //     price: '9.9',
+      //     stock: '20',
+      //     status: '下架',
+      //     selected: false,
+      //   },
+      //   {
+      //     productId: 4,
+      //     productName: '商品4',
+      //     description: '信息4',
+      //     storeId: 'CCC',
+      //     price: '9.9',
+      //     stock: '20',
+      //     status: '下架',
+      //     selected: false,
+      //   },
+      //   {
+      //     productId: 5,
+      //     productName: '商品5',
+      //     description: '信息5',
+      //     storeId: 'DDD',
+      //     price: '9.9',
+      //     stock: '20',
+      //     status: '上架',
+      //     selected: false,
+      //   },
+      //   {
+      //     productId: 6,
+      //     productName: '商品6',
+      //     description: '信息6',
+      //     storeId: 'EEE',
+      //     price: '9.9',
+      //     stock: '20',
+      //     status: '上架',
+      //     selected: false,
+      //   },
+      //   {
+      //     productId: 7,
+      //     productName: '商品7',
+      //     description: '信息7',
+      //     storeId: 'FFF',
+      //     price: '9.9',
+      //     stock: '20',
+      //     status: '上架',
+      //     selected: false,
+      //   }
+      // ],
+      products: [],
+      itemsPerPage: 5, // 初始每页显示的商品数量
       currentPage: 1,  // 初始当前页码
       searchQuery: '', // 用户的搜索关键词
       totalPages: 0, // 总页数
@@ -212,7 +221,7 @@ export default {
       editedProduct: {
         productId: '',
         productName: '',
-        description:'',
+        description: '',
         storeId: '',
         price: '',
         stock: '',
@@ -235,7 +244,7 @@ export default {
 
       // 根据关键词进行搜索
       const filteredProducts = this.products.filter(item => {
-        return item.productName.includes(this.searchQuery);
+        return item.productName.includes(this.searchQuery) || item.storeId.includes(this.searchQuery) || item.description.includes(this.searchQuery);
       });
 
       // 更新商品
@@ -295,27 +304,38 @@ export default {
       // 关闭编辑对话框
       this.editProductVisible = false;
     },
+    // 更新商品数据
     saveEdit() {
-      if (!this.validEditForm()) {
-        // 数据验证失败，可以在这里添加提示或其他操作
-        return;
-      }
+      axios.post('/product/editProduct', {
+        productId: this.editedProduct.productId,
+        productName: this.editedProduct.productName,
+        description: this.editedProduct.description,
+        storeId: this.editedProduct.storeId,
+        price: this.editedProduct.price,
+        stock: this.editedProduct.stock,
+        productStatus: this.editedProduct.status,
+      }).then(response => {
+        const msg = response.msg;
+        alert(msg);
+      }).catch(error => {
+        console.log('商品数据更新失败：', error);
+      })
 
-      // 找到编辑项在原始数据中的索引
-      const index = this.products.findIndex(item => item.productId === this.editedProduct.productId)
-      // console.log("index:",index);
+      // // 找到编辑项在原始数据中的索引
+      // const index = this.products.findIndex(item => item.productId === this.editedProduct.productId)
+      // // console.log("index:",index);
 
-      if (index !== -1) {
-        const updatedProducts = {
-          productName: this.editedProduct.productName,
-          description: this.editedProduct.description,
-          storeId: this.editedProduct.storeId,
-          price: this.editedProduct.price,
-          stock: this.editedProduct.stock,
-          status: this.editedProduct.status,
-        };
-        this.products.splice(index, 1, Object.assign({}, this.products[index], updatedProducts));
-      }
+      // if (index !== -1) {
+      //   const updatedProducts = {
+      //     productName: this.editedProduct.productName,
+      //     description: this.editedProduct.description,
+      //     storeId: this.editedProduct.storeId,
+      //     price: this.editedProduct.price,
+      //     stock: this.editedProduct.stock,
+      //     status: this.editedProduct.status,
+      //   };
+      //   this.products.splice(index, 1, Object.assign({}, this.products[index], updatedProducts));
+      // }
 
       // 关闭编辑对话框
       this.editProductVisible = false;
@@ -346,7 +366,16 @@ export default {
       this.calculateTotalPages();
     },
   },
+  // 获取商品数据
   mounted() {
+    axios.post('/product/getList')
+        .then(response => {
+          this.products = response.data;
+        })
+        .catch(error => {
+          console.error('获取商品数据失败：', error);
+        });
+
     this.calculateTotalPages();
   },
 

@@ -41,7 +41,7 @@
                   style="height: 40px"
                   :style=" $route.path == item.url ? 'color: #f53082' : ''"
                   :to="item.url"
-                >
+                > 
                   {{ item.name }}
                 </router-link>
               </div>

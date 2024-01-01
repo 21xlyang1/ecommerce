@@ -1,7 +1,7 @@
 <template>
   <div class="user-management">
     <!-- 标题栏 -->
-    <div class=" d-flex mb-3 mt-2 shadow-sm">
+    <div class=" d-flex mb-3 mt-2">
       <div style="font-weight: 700; font-size: 18px">用户管理</div>
     </div>
     <div class="w-100 mt-3 rounded-2  bg-body shadow p-3 " >

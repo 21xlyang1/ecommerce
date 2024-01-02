@@ -481,11 +481,11 @@ export default {
   },
   mounted() {
     // 获取商品信息
-    post("/product/getProductInfo", { productId: this.$route.params.id }).then(
+    post("/product/getProductInfo", { productId: Number(this.$route.params.id) }).then(
       (Response) => {
         console.log("请求成功", Response);
         //Response是返回的参数
-        var data = Response;
+        var data = Response.data;
         this.productInf.name = data.productName;
         this.productInf.price = data.price;
       },
@@ -498,7 +498,7 @@ export default {
       (Response) => {
         console.log("请求成功", Response);
         //Response是返回的参数
-        var data = Response;
+        var data = Response.data;
         this.productInf.name = data.productName;
         this.productInf.price = data.price;
       },
@@ -589,4 +589,3 @@ export default {
 }
 </style>
 
- 

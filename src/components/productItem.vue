@@ -30,7 +30,7 @@
               <div><img src="../assets/img/1.png" alt="图片" /></div>
             </div>
             <div class="name">
-              <span>{{ shopName }}</span>
+              <span>{{ shopName }}{{ proId }}</span>
             </div>
           </div>
           <div class="saleVolume">
@@ -49,12 +49,12 @@ export default {
   props: ["proId"],
   data() {
     return {
-      commodityName: "这一行显示商品名称，(悬停变色)",
-      saleVolume: "4万",
-      shopName: "店铺名称",
-      prices: "1212.21",
+      commodityName: "",
+      saleVolume: "1000+",
+      shopName: "商铺",
+      prices: "",
       freeShipping: "包邮",
-      Review: "60",
+      Review: "99%",
     };
   },
   methods: {

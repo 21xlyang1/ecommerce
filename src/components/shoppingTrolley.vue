@@ -13,15 +13,13 @@
         <div v-for="(shop, shopIndex) in cartItems" :key="shopIndex">
           <div class="w-100 bg-body rounded-2 p-2" style="margin-bottom: 10px;">
             <div class="w-100 d-flex">
-              <el-checkbox style="padding-left: 10px;" :checked="shopSelections[shop.shopname]"
-                @change="toggleShopSelection(shop.shopname)">{{ shop.shopname }}</el-checkbox>
+              <el-checkbox style="padding-left: 10px;" :checked="shopSelections[shop.shopname]" @change="toggleShopSelection(shop.shopname)">{{ shop.shopname }}</el-checkbox>
             </div>
             <!-- 商品列表 -->
             <div v-for="(item, itemIndex) in shop.cartItems" :key="itemIndex" class="d-flex justify-content-between"
               style="height: 120px; width: 100%;">
               <div class="d-flex">
-                <div class="h-100 d-flex align-items-center"><el-checkbox style="padding-left: 10px;"
-                    v-model="item.selected"></el-checkbox></div>
+                <div class="h-100 d-flex align-items-center"><el-checkbox style="padding-left: 10px;" v-model="item.selected"></el-checkbox></div>
                 <img class="rounded-2" style="height: 110px; width: 110px; margin: 5px; margin-left: 10px;"
                   :src="require(`@/assets/img/${item.image}`)" alt="">
                 <div class="h-100 p-2" style="flex-grow: 1;">
@@ -61,10 +59,8 @@
 
 <script>
 import Iconbutton from './iconbutton.vue';
-import { post } from '@/utils/http';
+
 export default {
-
-
   name: "ShoppingCart",
   data() {
     return {
@@ -105,7 +101,7 @@ export default {
             {
               id:"",
               name: "商品3",
-              description: "商品3的描述",
+              description: "商品1的描述",
               price: 200,
               quantity: 2,
               image: "wallhaven-5dgw35.jpg",
@@ -115,7 +111,7 @@ export default {
             {
               id:"",
               name: "商品4",
-              description: "商品4的描述",
+              description: "商品2的描述",
               price: 100,
               quantity: 1,
               image: "1.png",
@@ -129,9 +125,8 @@ export default {
       overHeight: "",
       shopSelections: {}, // 用于追踪店铺选择框的状态
       selectAll: false, // 新增 selectAll 变量
-    }
+    };
   },
-
   methods: {
     // 提交订单方法
     submitOrder() {
@@ -189,29 +184,29 @@ export default {
     },
     // 切换店铺选择框状态
     toggleShopSelection(shopName) {
-      console.log(shopName);
-      console.log(this.shopSelections[shopName]);
-      this.$set(this.shopSelections, shopName, !this.shopSelections[shopName]);
-      console.log(this.shopSelections[shopName]);
-      // 更新该店铺下所有商品的选择框状态
-      const shop = this.cartItems.find(shop => shop.shopname === shopName);
-      for (const item of shop.cartItems) {
-        this.$set(item, 'selected', this.shopSelections[shopName]);
-      }
+  console.log(shopName);
+  console.log(this.shopSelections[shopName]);
+  this.$set(this.shopSelections, shopName, !this.shopSelections[shopName]);
+  console.log(this.shopSelections[shopName]);
+  // 更新该店铺下所有商品的选择框状态
+  const shop = this.cartItems.find(shop => shop.shopname === shopName);
+  for (const item of shop.cartItems) {
+    this.$set(item, 'selected', this.shopSelections[shopName]);
+  }
 
-      // 检查是否所有店铺都被选中，更新全选按钮状态
-      this.selectAll = this.isAllShopsSelected();
-    },
+  // 检查是否所有店铺都被选中，更新全选按钮状态
+  this.selectAll = this.isAllShopsSelected();
+},
 
 
 
-    // 切换全选状态
+// 切换全选状态
     toggleSelectAll() {
-      // 更新所有店铺和商品的选择框状态
-      for (const shop of this.cartItems) {
-        this.toggleShopSelection(shop.shopname);
-      }
-    },
+  // 更新所有店铺和商品的选择框状态
+  for (const shop of this.cartItems) {
+    this.toggleShopSelection(shop.shopname);
+  }
+},
 
     // 检查是否所有店铺都被选中
     isAllShopsSelected() {
@@ -287,6 +282,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 .cart-item {
   display: flex;
   margin-bottom: 20px;

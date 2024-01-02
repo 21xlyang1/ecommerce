@@ -62,7 +62,7 @@ export default {
         {
           name: "Peanut",
           email: "123456789@.com",
-          photonumber: "123456789abcdefg",
+          phoneNumber: "123456789abcdefg",
           content: "第一条评论,第一条评论",
           submission: "1234:12:12 12:12",
           selected: false,

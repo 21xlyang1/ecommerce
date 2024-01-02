@@ -181,6 +181,7 @@ export default {
 
       if(isSuccess){
       this.$cookies.set("isLog", true);
+      this.$cookies.set("userId", 1);
       this.$store.commit("closeLogin");
       setTimeout(() => {
         this.logLoad = false;

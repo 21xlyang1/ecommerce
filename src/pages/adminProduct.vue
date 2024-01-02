@@ -286,6 +286,16 @@ export default {
     // 删除商品
     deleteProduct(productId) {
       const index = productId;
+
+      axios.post('/product/deleteProduct', {
+        productId: index,
+      }).then(response => {
+        const msg = response.msg;
+        alert(msg);
+      }).catch(error => {
+        console.log('商品数据删除失败：', error);
+      });
+
       if (index !== -1) {
         this.products.splice(index, 1);
         this.calculateTotalPages(); // 更新总页数

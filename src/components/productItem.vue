@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import { post } from '@/utils/http';
+
 export default {
   props: ["proId"],
   data() {

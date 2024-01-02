@@ -19,9 +19,6 @@ module.exports = defineConfig({
         changeOrigin: true
 
       },
-      // '/foo': {
-      //   target: '<other_url>'
-      // }
     }
   }
 })

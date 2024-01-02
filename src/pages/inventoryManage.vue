@@ -95,5 +95,37 @@ export default {
       this.products = this.products.filter((p) => p.stock > 0);
     },
   },
+  mounted() {
+    post("/product/getCartList", { userId: this.$cookies.get("userId") }).then(
+      (Response) => {
+        console.log("请求成功", Response);
+        //Response是返回的参数
+        var data = Response.data;
+        var sortData = data.slice().sort((a, b) => {
+          // 根据name属性进行升序排序
+          return a.storeId.localeCompare(b.storeId);
+        });
+        this.cartItems = []
+        var lastId = undefined
+        var t = {}
+        for (var i = 0; i < data.length; i++) {
+          if (sortData[i].storeId != lastId) {
+            if (i != 0)
+              this.cartItems.push(t)
+            t = {
+              shopname: sortData[i].storeName,
+              cartItems: [],
+            }
+          }
+          t.cartItems.push(sortData[i])
+
+        }
+      },
+      (error) => {
+        console.log("请求失败", error.message);
+      }
+    );
+
+  },
 };
 </script>

@@ -47,9 +47,11 @@
   </div>
 </template>
 <script>
+import { post } from '@/utils/http';
 export default {
   data() {
     return {
+      shopId:undefined,
       productName: '',         // 商品名称
       productDescription: '',  // 商品描述
       productPrice: null,      // 商品价格
@@ -76,40 +78,46 @@ export default {
       }
     },
     submitForm() {
+
   // 构建商品数据对象
   const productData = {
-    productName: this.productName,
-    productDescription: this.productDescription,
-    productPrice: this.productPrice,
-    stockQuantity: this.stockQuantity,
-  };
-      // 打印数据到控制台
-      console.log('Product Data:', productData);
-
-  // 发送 POST 请求到后端
-  fetch('/api/products', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(productData),
-  })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+  storeId: this.storeId, // 店铺id
+  productName: this.productName, // 商品名称
+  description: this.productDescription, // 商品描述
+  stock: this.stockQuantity, // 商品数量
+  price: this.productPrice, // 商品价格
+};
+  post("/product/getCartList", productData).then(
+      (Response) => {
+        console.log("请求成功", Response);
+        //Response是返回的参数
+        var data = Response.data;
+        if(data.isSuccess){
+          alert("发布商品成功");
+        }
+      },
+      (error) => {
+        console.log("请求失败", error.message);
       }
-      return response.json();
-    })
-    .then(data => {
-      console.log('商品发布成功', data);
-      // 清空表单或跳转到其他页面
-    })
-    .catch(error => {
-      console.error('商品发布失败', error);
-    });
+    );
+
 },
 
   },
+  mounted(){
+    // 获取商铺id
+    post("/store/getStoreInfo", { userId: this.$cookies.get("userId") }).then(
+      (Response) => {
+        console.log("请求成功", Response);
+        //Response是返回的参数
+        var data = Response.data;
+        this.shopId=data.shopId
+      },
+      (error) => {
+        console.log("请求失败", error.message);
+      }
+    );
+  }
 
 };
 </script>

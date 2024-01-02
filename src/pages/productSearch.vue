@@ -8,7 +8,7 @@
         </div>
         <div class="background-plate">
             <div class="Card-box">
-                <commodityCard v-for="(item, index) in searchList" :key="index" :data="item"/>
+                <commodityCard v-for="(item, index) in searchList" :key="index" :proId="item.productId"/>
             </div>
         </div>
     </div>
@@ -30,8 +30,10 @@ export default {
         return {
             placeholder: "请输入关键字进行搜索...",
             searchText: '',
-            dataList: [
-
+            searchList: [
+                {
+                    productId: 1,
+                }
             ],
         }
     },
@@ -43,23 +45,12 @@ export default {
             post("/product/getList", { keyword }).then(
                 (Response) => {
                     console.log("搜索商品请求成功", Response);
-                    this.dataList = Response.data;
+                    this.searchList = Response.data;
                 },
                 (error) => {
                     console.log("搜索商品请求失败", error.message);
                 }
             );
-            this.dataList.forEach((item) => {
-                post("/product/getProductInfo", { item }).then(
-                    (Response) => {
-                        console.log("获取商品请求成功", Response);
-                        this.dataList.push(Response.data);
-                    },
-                    (error) => {
-                        console.log("获取商品请求失败", error.message);
-                    }
-                );
-            });
         },
     },
 };

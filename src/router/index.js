@@ -64,7 +64,7 @@ const routes = [
       //   }
       // },
       {
-        path: 'productShow',
+        path: 'productShow/:id',
         components: {
           tow: () => import('@/pages/productShow.vue')
         }

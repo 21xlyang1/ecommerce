@@ -6,8 +6,9 @@
   >
     <div class="container-xl d-flex justify-content-center">
       <el-scrollbar
-        style="width: 200px; background: rgba(255, 255, 255, 0.7)"
-        :style="{ height: outerDivHeight + 'px' }"
+        style=" background: rgba(255, 255, 255, 0.7)"
+      
+        :style="{ height: outerDivHeight + 'px' ,width:outerDivWidth>800?'200px':'140px'}"
       >
         <div
           class="w-100 d-flex justify-content-center align-items-center"
@@ -46,18 +47,25 @@
           class="w-100 bg-body rounded-2"
           :style="{ height: outerDivHeight - 70 + 'px' }"
         >
-          <div class="w-100" style="height: 1000px"></div>
+          <div class="w-100" style="padding:10px">
+            <div style="width: 100%; padding: 10px;">
+              <productItem v-for="item in 10" :key="item" :proId="item" ></productItem>
+            </div>
+          </div>
         </el-scrollbar>
       </div>
     </div>
   </div>
 </template>
 <script>
+import productItem from '@/components/productItem.vue';
 export default {
   name: "",
+  components: { productItem },
   data() {
     return {
       outerDivHeight: "", // 最外层div的高度
+      outerDivWidth:"",
       itemList: [
         { ID: 1, name: "全部" },
         { ID: 2, name: "待付款" },
@@ -71,6 +79,7 @@ export default {
   methods: {
     setOuterDivSize() {
       this.outerDivHeight = window.innerHeight - 70;
+      this.outerDivWidth = window.innerWidth;
     },
   },
   mounted() {

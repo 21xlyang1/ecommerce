@@ -17,7 +17,7 @@ export default {
   components: { myHead, myAside, loadingVue },
   data() {
     return {
-      outerDivHeight: "", // 最外层div的高度
+      outerDivHeight: window.innerHeight - 70 + "px", // 最外层div的高度
       isLoading: false,
       sideList: [
         {

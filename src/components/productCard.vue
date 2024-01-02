@@ -1,5 +1,5 @@
 <template>
-  <div style="min-width: 250px ;max-width:250px ; height: 350px;padding: 10px">
+  <div @click="toShow" style="min-width: 250px ;max-width:250px ; height: 350px;padding: 10px;cursor: pointer;">
     <div class="w-100 h-100  rounded-2 pro-card ">
       <!--      图片-->
       <div class="" style="width: 100%;height: 230px;padding:5px">
@@ -47,6 +47,8 @@
 </template>
 <script>
 
+import { post } from "@/utils/http";
+import router from '@/router';
 export default {
   name: "productCard",
   props: ['proId'],
@@ -73,7 +75,26 @@ export default {
       // 根据商品ID获取对应的商品价格，可以根据实际情况替换为真实的商品价格
       return `$99.99`; // 举例价格
     },
+    toShow(){
+      this.$router.push("/ss/productShow/"+this.proId)
+    }
   },
+  mounted() {
+  //""填入url地址，{}为请求参数
+    post("/product/getProductInfo", {productId:this.proId}).then(
+      (Response) => {
+        console.log("请求成功", Response);
+        //Response是返回的参数
+        var data=Response.data
+        this.productName=data.productName
+        this.price=data.price
+      },
+      (error) => {
+        console.log("请求失败", error.message);
+      }
+    );
+  },
+
 };
 </script>
 

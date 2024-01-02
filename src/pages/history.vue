@@ -5,7 +5,7 @@
       <div class="title_name">
         <div class="text">
           <em></em> 
-          我的足迹 
+          我的足迹
           <b>MY TRACKS</b>
         </div>
           <div @click="clearHistory" class="btn boom">
@@ -75,7 +75,7 @@ export default {
 
   display: flex;
   width: 100%;
-  background: url(../assets/img/bac.jpg);
+  //background: url(../assets/img/bac.jpg);
   background-repeat:no-repeat;
   background-size:100% 100%;
 background-attachment:fixed;
@@ -92,27 +92,25 @@ background-attachment:fixed;
     // border-bottom: groove 5px rgba(115, 113, 113, 0.5);
     border-radius: 20px;
     flex-direction: column;
-    background: #333333;
+    // background: #333333;
     flex-wrap: nowrap;
 }
 .title_name{
   display: flex;
-  padding: 5px;
-  // border-bottom: rgb(148, 150, 150) solid;
-  // border-right: rgb(148, 150, 150) solid;
-
-  border-radius: 15px;
-  margin-top: 30px;
-  margin-left: 20px;
-  margin-right: 20px;
-  justify-content: space-between;
+    padding: 5px;
+    border: #dad3d3 solid;
+    border-radius: 15px;
+    margin-top: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+    justify-content: space-between;
 }
 .text{
   text-align: center;
     display: flex;
     align-items: center;
     font-size: 18px;
-    color: #ffffff;
+    color: #000000;
 }
 em{
   margin-left: 2px;
@@ -138,7 +136,7 @@ hr{
   border-radius: 15px;
 }
 .boom {
-    background-color: #cccccc;
+   //background-color: #cccccc;
     color: #000000;
     position: relative;
     z-index: 1;
@@ -183,12 +181,12 @@ hr{
   justify-content: space-evenly;
   flex-wrap: nowrap;
   padding-top: 50px;
-  background: #cacaca;
+  //background: #cacaca;
   border-bottom-right-radius: 20px;
     border-bottom-left-radius: 20px;
 }
-.item_child{
-  display: flex;
+.item_child{ 
+  display: flex;  
     width: 100%;
     margin-bottom: 20px;
 }

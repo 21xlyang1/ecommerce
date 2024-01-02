@@ -77,13 +77,7 @@ export default {
         desc: ''
       },
       dataList: [
-        {
-          Id: 1,
-          submitName: "测试人员",
-          time_data: "2023/12/22 11:12:59",
-          title: "测试用",
-          text: "文本文本文本",
-        },
+
       ],
       formLabelWidth: '120px',
       pickerOptions: {
@@ -256,7 +250,7 @@ export default {
     post("/log/getInf").then(
       (Response) => {
         console.log("请求成功", Response);
-        this.dataList = Response;
+        this.dataList = Response.data;
         // 按照时间排序
         this.sortDataList();
       },

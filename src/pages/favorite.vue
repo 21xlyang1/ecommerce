@@ -216,7 +216,7 @@ export default {
     },
     getProList() {
       this.isLoading = true;
-      post("/favorites/getProduct", { favoritesId:this.collectList[this.nowIndex]  }).then(
+      post("/favorites/getProduct", { favoritesId:this.collectList[this.nowIndex].id  }).then(
         (Response) => {
           console.log("请求成功", Response);
           //Response是返回的参数
@@ -237,7 +237,7 @@ export default {
   mounted() {
     this.setOuterDivSize(); // 初始化时设置最外层div的尺寸
     window.addEventListener("resize", this.setOuterDivSize);
-    post("/favorites/getList", { userId: this.$cookies.get("userId") }).then(
+    post("/favorites/getList", { userId: 1 }).then(
         (Response) => {
           console.log("请求成功", Response);
           //Response是返回的参数

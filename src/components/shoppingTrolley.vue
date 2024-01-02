@@ -217,6 +217,7 @@ export default {
       }
       return true;
     },
+    // 根据用户id，商铺id，商品id，更改该用户的购物车中的商铺为shopid的商品productid的数量为quantity
     changeDataQuantity(shopId,productId,quantity){
       post("/shoppingCart/updataQuantity", {userId: this.$cookies.get("userId"),shopId:shopId,productId:productId,quantity:quantity}).then(
       (Response) => {

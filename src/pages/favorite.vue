@@ -140,9 +140,9 @@
             </div>
             <div v-show="!isLoading" style="width: 100%; padding: 10px">
               <productItem
-                v-for="item in 10"
-                :key="item"
-                :proId="item"
+                v-for="item in productList"
+                :key="item.productId"
+                :proId="item.productId"
               ></productItem>
             </div>
           </el-scrollbar>
@@ -207,6 +207,7 @@ export default {
       dialogShow: false,
       updateIndex: -1,
       padding: 50,
+      productList:[]
     };
   },
   methods: {
@@ -215,12 +216,12 @@ export default {
     },
     getProList() {
       this.isLoading = true;
-      post("/favorites/geList", { userId: this.$cookies.get("userId") }).then(
+      post("/favorites/getProduct", { favoritesId:this.collectList[this.nowIndex]  }).then(
         (Response) => {
           console.log("请求成功", Response);
           //Response是返回的参数
           var data = Response.data;
-          this.collectList = data;
+          this.productList = data;
           this.isLoading = false;
         },
         (error) => {
@@ -230,12 +231,26 @@ export default {
 
       setTimeout(() => {
          this.isLoading = false;
-      }, 1000); 
+      }, 1000);
     },
   },
   mounted() {
     this.setOuterDivSize(); // 初始化时设置最外层div的尺寸
     window.addEventListener("resize", this.setOuterDivSize);
+    post("/favorites/geList", { userId: this.$cookies.get("userId") }).then(
+        (Response) => {
+          console.log("请求成功", Response);
+          //Response是返回的参数
+          var data = Response.data;
+          this.collectList = data;
+          this.getProList()
+        },
+        (error) => {
+          console.log("请求失败", error.message);
+        }
+      );
+
+
 
     this.getProList();
   },

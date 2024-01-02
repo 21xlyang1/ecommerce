@@ -134,7 +134,7 @@ export default {
         this.logList = data;
         if (this.logList != [])
           for (var i = 0; i < this.logList.length; i++) {
-            dateTime = new Date(data[i].time_data);
+            var dateTime = new Date(data[i].time_data);
             var t = {
               y: dateTime.getFullYear(),
               m: dateTime.getMonth() + 1,

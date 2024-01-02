@@ -140,9 +140,9 @@
             </div>
             <div v-show="!isLoading" style="width: 100%; padding: 10px">
               <productItem
-                v-for="item in 10"
-                :key="item"
-                :proId="item"
+                v-for="item in productList"
+                :key="item.productId"
+                :proId="item.productId"
               ></productItem>
             </div>
           </el-scrollbar>
@@ -207,6 +207,7 @@ export default {
       dialogShow: false,
       updateIndex: -1,
       padding: 50,
+      productList:[]
     };
   },
   methods: {
@@ -230,7 +231,7 @@ export default {
 
       setTimeout(() => {
          this.isLoading = false;
-      }, 1000); 
+      }, 1000);
     },
   },
   mounted() {

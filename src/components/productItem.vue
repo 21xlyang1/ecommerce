@@ -70,7 +70,7 @@ export default {
         //Response是返回的参数
         var data = Response.data;
         this.commodityName = data.productName;
-        this.price = data.price;
+        this.prices = data.price;
       },
       (error) => {
         console.log("请求失败", error.message);

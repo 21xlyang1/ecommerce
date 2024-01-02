@@ -132,17 +132,8 @@ export default {
 
           const title = this.form.title;
           const content = this.form.text;
-          let userId = '';
-          let Id = this.dataList[0].Id + 1;
-          const cookies = document.cookie.split(';');
-          for (const cookie of cookies) {
-            const [cookieName, cookieValue] = cookie.trim().split('=');
-            if (cookieName == 'userId') {
-              userId = cookieValue
-              break;
-            }
-            else userId = null
-          }
+
+          let userId = this.$cookies.get("userId");
 
           // console.log(newEntry);
           // console.log(this.form.time_data);

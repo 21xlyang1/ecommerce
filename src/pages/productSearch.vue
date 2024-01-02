@@ -1,14 +1,14 @@
 <template>
     <div class="mainDiv">
         <div class="search-Box">
-            <searchBox />
+            <searchBox v-model="searchText" @search="Search" :placeholder="placeholder" />
         </div>
         <div class="Hr">
             <hr />
         </div>
         <div class="background-plate">
             <div class="Card-box">
-                <commodityCard />
+                <commodityCard v-for="(item, index) in searchList" :key="index" :data="item"/>
             </div>
         </div>
     </div>
@@ -17,6 +17,7 @@
 <!-- http://localhost:8080/#/ss/search -->
 
 <script>
+import { post } from '@/utils/http';
 import commodityCard from "../components/productItem.vue";
 import searchBox from "../components/searchPages.vue";
 
@@ -24,6 +25,42 @@ export default {
     components: {
         commodityCard, // 注册commodityCard组件
         searchBox,   // 注册searchBox搜索框组件
+    },
+    data () {
+        return {
+            placeholder: "请输入关键字进行搜索...",
+            searchText: '',
+            dataList: [
+
+            ],
+        }
+    },
+    methods: {
+        Search( data ) {
+            let keyword = data[0];
+            let type = data[1];
+            console.log("父组件:", "'", data[0], "' '", data[1], "'");
+            post("/product/getList", { keyword }).then(
+                (Response) => {
+                    console.log("搜索商品请求成功", Response);
+                    this.dataList = Response.data;
+                },
+                (error) => {
+                    console.log("搜索商品请求失败", error.message);
+                }
+            );
+            this.dataList.forEach((item) => {
+                post("/product/getProductInfo", { item }).then(
+                    (Response) => {
+                        console.log("获取商品请求成功", Response);
+                        this.dataList.push(Response.data);
+                    },
+                    (error) => {
+                        console.log("获取商品请求失败", error.message);
+                    }
+                );
+            });
+        },
     },
 };
 </script>

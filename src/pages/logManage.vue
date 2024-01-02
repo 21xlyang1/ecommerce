@@ -44,7 +44,7 @@
       </el-dialog>
 
       <el-timeline v-if="dataList.length > 0">
-        <Card v-for="(item, index) in dataList" :key="index" :data="item" @update-log="updateLog" :data-identifier="index"
+        <Card v-for="(item, index) in dataList" :key="index" :data="item" @update-log="updateLog" :data-identifier="item.Id"
           @delete-log="deleteLog" />
       </el-timeline>
       <div v-else class="non_log">
@@ -138,6 +138,7 @@ export default {
           // console.log(newEntry);
           // console.log(this.form.time_data);
           // console.log(this.form);
+          console.log(userId);
 
           this.dialogVisible = false;
 
@@ -146,21 +147,22 @@ export default {
 
           post("/log/addLog", { userId, title, content }).then(
             (Response) => {
-              // 创建新的对象，使用表单数据填充
-              const newEntry = {
-                Id: Id,
-                time_data: formattedDateTime,
-                title: title, // 使用表单中的名称作为标题
-                text: content, // 使用表单中的描述作为文本内容，根据实际需求调整
-                submitName: userId,
-              };
-              // 将新的对象添加到 dataList 数组中
-              this.dataList.push(newEntry);
-              this.form.valueDay = this.form.valueTime = ''
+              // // 创建新的对象，使用表单数据填充
+              // const newEntry = {
+              //   Id: userId,
+              //   time_data: formattedDateTime,
+              //   title: title, // 使用表单中的名称作为标题
+              //   text: content, // 使用表单中的描述作为文本内容，根据实际需求调整
+              //   submitName: userId,
+              // };
+              // // 将新的对象添加到 dataList 数组中
+              // this.dataList.push(newEntry);
+              // this.form.valueDay = this.form.valueTime = ''
               // 按照时间排序
-              this.sortDataList();
+              // this.sortDataList();
               console.log("请求成功", Response);
-              var D = Response
+              this.update();
+
             },
             (error) => {
               console.log("userId:", userId, "title:", title, "content:", content);
@@ -217,7 +219,7 @@ export default {
         (Response) => {
           console.log("请求成功", Response);
           // Delete
-          this.dataList.splice(identifier, 1);
+          this.update()
         },
         (error) => {
           console.log("logId:", logId);
@@ -236,9 +238,8 @@ export default {
         return dateB - dateA;
       });
     },
-  },
-  mounted() {
-    post("/log/getInf").then(
+    update(){
+      post("/log/getInf").then(
       (Response) => {
         console.log("请求成功", Response);
         this.dataList = Response.data;
@@ -248,6 +249,11 @@ export default {
       (error) => {
         console.log("请求失败", error.message);
       });
+      this.sortDataList();
+    }
+  },
+  mounted() {
+    this.update();
   },
 }
 </script>

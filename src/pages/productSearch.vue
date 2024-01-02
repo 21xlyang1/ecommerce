@@ -42,7 +42,7 @@ export default {
             let keyword = data[0];
             let type = data[1];
             console.log("父组件:", "'", data[0], "' '", data[1], "'");
-            post("/product/getList", { keyword }).then(
+            post("/product/getList", { searchKey: keyword }).then(
                 (Response) => {
                     console.log("搜索商品请求成功", Response);
                     this.searchList = Response.data;

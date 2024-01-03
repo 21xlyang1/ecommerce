@@ -84,14 +84,14 @@ export default {
   storeId: this.storeId, // 店铺id
   productName: this.productName, // 商品名称
   description: this.productDescription, // 商品描述
-  stock: this.stockQuantity, // 商品数量
-  price: this.productPrice, // 商品价格
+  stock: Number(this.stockQuantity), // 商品数量
+  price: Number(this.productPrice), // 商品价格
 };
-  post("/product/getCartList", productData).then(
+  post("/product/addProduct", productData).then(
       (Response) => {
         console.log("请求成功", Response);
         //Response是返回的参数
-        var data = Response.data;
+        var data = Response;
         if(data.isSuccess){
           alert("发布商品成功");
         }

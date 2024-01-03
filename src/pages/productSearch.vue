@@ -1,14 +1,14 @@
 <template>
     <div class="mainDiv">
         <div class="search-Box">
-            <searchBox />
+            <searchBox v-model="searchText" @search="Search" :placeholder="placeholder" />
         </div>
         <div class="Hr">
             <hr />
         </div>
         <div class="background-plate">
             <div class="Card-box">
-                <commodityCard />
+                <commodityCard v-for="(item, index) in searchList" :key="index" :proId="item.productId"/>
             </div>
         </div>
     </div>
@@ -17,6 +17,7 @@
 <!-- http://localhost:8080/#/ss/search -->
 
 <script>
+import { post } from '@/utils/http';
 import commodityCard from "../components/productItem.vue";
 import searchBox from "../components/searchPages.vue";
 
@@ -25,6 +26,42 @@ export default {
         commodityCard, // 注册commodityCard组件
         searchBox,   // 注册searchBox搜索框组件
     },
+    data () {
+        return {
+            placeholder: "请输入关键字进行搜索...",
+            searchText: '',
+            searchList: [],
+        }
+    },
+    methods: {
+        Search( data ) {
+            let keyword = data[0];
+            console.log("父组件:", "searchKey:", data[0]);
+            post("/product/getList", { searchKey: keyword }).then(
+                (Response) => {
+                    console.log("搜索商品请求成功", Response);
+                    this.searchList = Response.data;
+                },
+                (error) => {
+                    console.log("搜索商品请求失败", error.message);
+                }
+            );
+        },
+    },
+    mounted() {
+        console.log("父组件:", "searchKey:", this.searchText);
+        post("/product/getList", { searchKey: this.searchText }).then(
+            (Response) => {
+                console.log("搜索商品请求成功", Response);
+                this.searchList = Response.data;
+                // this.$set(this, 'searchList', Response.data);
+            },
+            (error) => {
+                console.log("搜索商品请求失败", error.message);
+            }
+        );
+        // 好好好
+    }
 };
 </script>
 

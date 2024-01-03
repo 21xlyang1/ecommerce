@@ -7,7 +7,7 @@
         </div>
         <div class="search-input-container">
             <div class="search-wrapper">
-                <input type="text" v-model="searchQuery" placeholder="请输入搜索关键字" class="search-input">
+                <input type="text" v-model="searchQuery" :placeholder="placeholder" class="search-input">
                 <button @click="startSearch" class="search-button">
                     <img src="../assets/img/search-icon.png" alt="搜索" class="search-icon">
                     <span class="sr-only">搜索</span>
@@ -25,49 +25,38 @@
 
 <script>
 export default {
+    props: {
+        placeholder: {
+            type: String,
+            default: '请输入关键字进行搜索...'
+        }
+    },
     data() {
         return {
-            searchQuery: '', // 搜索关键字
+            searchQuery: '',        // 搜索关键字
             activeCategory: '商品', // 当前选中的分类
             activeSort: '综合排序', // 当前选中的排序方式
         };
     },
     methods: {
         changeCategory(category) {
+            console.log("当前的类型是", category);
             // 切换分类
             this.activeCategory = category;
         },
         changeSort(sort) {
+            console.log("当前的类型是", sort);
             // 切换排序方式
             this.activeSort = sort;
         },
         startSearch() {
-            // 发起搜索请求，与后端进行通信
-            console.log('开始搜索:', this.searchQuery);
-            // 清空搜索框
-            this.searchQuery = '';
-            // 隐藏模糊搜索的提示
-            this.showSuggestions = false;
-
-            // 使用异步请求库发送请求
-            axios.post('/api/search', {
-                query: this.searchQuery,
-                category: this.activeCategory,
-                sort: this.activeSort,
-            })
-                .then(response => {
-                    // 处理请求成功的响应
-                    console.log('搜索结果:', response.data);
-                })
-                .catch(error => {
-                    // 处理请求失败的错误
-                    console.error('搜索请求失败:', error);
-                });
+            this.$emit("search", [this.searchQuery, this.activeCategory])
+            console.log("子组件中的数据 keyword：", this.searchQuery);
         },
     },
 };
 </script>
-  
+
 <style>
 .search-container {
     display: flex;
@@ -98,7 +87,6 @@ export default {
 
 .search-wrapper {
     position: relative;
-    /* 添加这行代码 */
     display: flex;
     align-items: center;
 }
@@ -121,7 +109,7 @@ export default {
     padding: 10px;
     margin-left: -40px;
     /* 负边距调整按钮位置 */
-    z-index: 1;
+    /* z-index: 1; */
     /* 确保按钮位于输入框上层 */
     position: relative;
     right: 5px;

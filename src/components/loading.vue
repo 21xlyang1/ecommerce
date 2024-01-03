@@ -1,5 +1,5 @@
 <template>
-  <div  class=" d-flex justify-content-center">
+  <div>
     <div id="app" :style="{ height: size + 'px', width: size + 'px' }">
       <div
         v-for="(ball, index) in balls"

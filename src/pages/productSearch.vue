@@ -1,14 +1,14 @@
 <template>
     <div class="mainDiv">
         <div class="search-Box">
-            <searchBox v-model="searchText" @search="Search" :placeholder="placeholder" />
+            <searchBox />
         </div>
         <div class="Hr">
             <hr />
         </div>
         <div class="background-plate">
             <div class="Card-box">
-                <commodityCard v-for="(item, index) in searchList" :key="index" :proId="item.productId"/>
+                <commodityCard />
             </div>
         </div>
     </div>
@@ -17,7 +17,6 @@
 <!-- http://localhost:8080/#/ss/search -->
 
 <script>
-import { post } from '@/utils/http';
 import commodityCard from "../components/productItem.vue";
 import searchBox from "../components/searchPages.vue";
 

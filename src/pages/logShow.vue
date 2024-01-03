@@ -3,7 +3,7 @@
     class="bg"
     :style="{
       'background-image': `url(${require('../../public/img/log/' +
-        (bgIndex % 10) +
+        bgIndex%10 +
         '.png')})`,
     }"
     style="z-index: -2"
@@ -22,18 +22,18 @@
         :key="index"
         :class="index % 2 == 0 ? '' : 'flex-row-reverse'"
         class="w-100 d-flex"
-        :style="{ opacity: index == bgIndex ? 1 : 0.5 }"
+        :style="{opacity:index==bgIndex?1:0.5}"
       >
         <div class="w-50" :class="index % 2 == 0 ? 'xianl' : 'xianr'"></div>
         <div class="w-50 father" :class="index % 2 == 0 ? 'xianr' : 'xianl'">
           <div :class="index % 2 == 0 ? 'dian' : 'a-dian'"></div>
           <div :class="index % 2 == 0 ? 'data' : 'a-data'">
             <div class="d-flex align-items-end" style="height: 40px">
-              <div class="riqi">{{ item.time.y }}</div>
+              <div class="riqi">2023</div>
               <div class="danwei">年</div>
-              <div class="riqi">{{ item.time.m }}</div>
+              <div class="riqi">11</div>
               <div class="danwei">月</div>
-              <div class="riqi">{{ item.time.d }}</div>
+              <div class="riqi">15</div>
               <div class="danwei">日</div>
             </div>
           </div>
@@ -43,19 +43,12 @@
               style="text-align: left; padding: 35px"
             >
               <div class="w-100">
-                {{ item.text }}
+                {{ item.content }}
               </div>
               <div class="line"></div>
               <div class="w-100 d-flex mt-3">
-                <div class="pe-1" style="color: #ff7575">
-                  {{ item.submitName }}
-                </div>
-                <div style="color: #5e6d82">
-                  提交于
-                  {{
-                    item.time.hour + ":" + item.time.min + ":" + item.time.sec
-                  }}
-                </div>
+                <div class="pe-1" style="color: #ff7575">{{ "清菱悦风" }}</div>
+                <div style="color: #5e6d82">提交于 2018/11/15 13:36:47</div>
               </div>
             </div>
           </div>
@@ -70,25 +63,85 @@
   </div>
 </template>
 <script>
-import { post } from "@/utils/http";
-
 export default {
   name: "",
   data() {
     return {
       logList: [
         {
-          Id: 1,
-          time: {
-            y: 2023,
-            m: 11,
-            d: 15,
-            hour: 12,
-            min: 23,
-            sec: 56,
-          },
-          submitName: "清菱悦风",
-          text: "Use align-self utilities on flexbox items to individually change their alignment on the cross axis (the y-axis to start, x-axis if flex-direction: column). Choose from the same options as align-items: start, end, center, baseline, or stretch (browser default).",
+          time: "",
+          content:
+            "Use align-self utilities on flexbox items to individually change their alignment on the cross axis (the y-axis to start, x-axis if flex-direction: column). Choose from the same options as align-items: start, end, center, baseline, or stretch (browser default).",
+        },
+        {
+          time: "",
+          content:
+            "Use align-items utilities on flexbox containers to change the alignment of flex items on the cross axis (the y-axis to start, x-axis if flex-direction: column). Choose from start, end, center, baseline, or stretch (browser default).",
+        },
+        {
+          time: "",
+          content:
+            "Set the direction of flex items in a flex container with direction utilities. In most cases you can omit the horizontal class here as the browser default is row. However, you may encounter situations where you needed to explicitly set this value (like responsive layouts).",
+        },
+        {
+          time: "",
+          content:
+            "Quickly manage the layout, alignment, and sizing of grid columns, navigation, components, and more with a full suite of responsive flexbox utilities. For more complex implementations, custom CSS may be necessary.",
+        },
+        {
+          time: "",
+          content:
+            "Apply display utilities to create a flexbox container and transform direct children elements into flex items. Flex containers and items are able to be modified further with additional flex properties.",
+        },
+        {
+          time: "",
+          content:
+            "Use align-self utilities on flexbox items to individually change their alignment on the cross axis (the y-axis to start, x-axis if flex-direction: column). Choose from the same options as align-items: start, end, center, baseline, or stretch (browser default).",
+        },
+        {
+          time: "",
+          content:
+            "Use align-items utilities on flexbox containers to change the alignment of flex items on the cross axis (the y-axis to start, x-axis if flex-direction: column). Choose from start, end, center, baseline, or stretch (browser default).",
+        },
+        {
+          time: "",
+          content:
+            "Set the direction of flex items in a flex container with direction utilities. In most cases you can omit the horizontal class here as the browser default is row. However, you may encounter situations where you needed to explicitly set this value (like responsive layouts).",
+        },
+        {
+          time: "",
+          content:
+            "Quickly manage the layout, alignment, and sizing of grid columns, navigation, components, and more with a full suite of responsive flexbox utilities. For more complex implementations, custom CSS may be necessary.",
+        },
+        {
+          time: "",
+          content:
+            "Apply display utilities to create a flexbox container and transform direct children elements into flex items. Flex containers and items are able to be modified further with additional flex properties.",
+        },
+        {
+          time: "",
+          content:
+            "Use align-self utilities on flexbox items to individually change their alignment on the cross axis (the y-axis to start, x-axis if flex-direction: column). Choose from the same options as align-items: start, end, center, baseline, or stretch (browser default).",
+        },
+        {
+          time: "",
+          content:
+            "Use align-items utilities on flexbox containers to change the alignment of flex items on the cross axis (the y-axis to start, x-axis if flex-direction: column). Choose from start, end, center, baseline, or stretch (browser default).",
+        },
+        {
+          time: "",
+          content:
+            "Set the direction of flex items in a flex container with direction utilities. In most cases you can omit the horizontal class here as the browser default is row. However, you may encounter situations where you needed to explicitly set this value (like responsive layouts).",
+        },
+        {
+          time: "",
+          content:
+            "Quickly manage the layout, alignment, and sizing of grid columns, navigation, components, and more with a full suite of responsive flexbox utilities. For more complex implementations, custom CSS may be necessary.",
+        },
+        {
+          time: "",
+          content:
+            "Apply display utilities to create a flexbox container and transform direct children elements into flex items. Flex containers and items are able to be modified further with additional flex properties.",
         },
       ],
       relativePositions: [],
@@ -124,41 +177,15 @@ export default {
     // this.$nextTick(() => {
     //   this.getRelativePositions();
     // });
-
-    post("/log/getInf", {}).then(
-      (Response) => {
-        console.log("请求成功", Response);
-        //Response是返回的参数
-        var data = Response.data;
-
-        this.logList = data;
-        if (this.logList != [])
-          for (var i = 0; i < this.logList.length; i++) {
-            var dateTime = new Date(data[i].time_data);
-            var t = {
-              y: dateTime.getFullYear(),
-              m: dateTime.getMonth() + 1,
-              d: dateTime.getDate(),
-              hour: dateTime.getHours(),
-              min: dateTime.getMinutes(),
-              sec: dateTime.getSeconds(),
-            };
-            this.logList[i].time = t;
-          }
-      },
-      (error) => {
-        console.log("请求失败", error.message);
-      }
-    );
   },
   watch: {
     isMethodBTriggered(high) {
       // this.bgIndex = Math.floor(high / 300);
       this.getRelativePositions();
-      console.log("high" + high);
+      console.log("high"+high)
       var t = this.relativePositions;
       for (var i = 0; i < t.length; i++) {
-        console.log("top" + t[i].top);
+        console.log("top"+t[i].top)
         if (high + 100 < t[i].top) {
           this.bgIndex = i;
           break;
@@ -252,6 +279,7 @@ export default {
   padding-bottom: 12px;
 }
 .card {
+  
   background: rgba($color: #ffffff, $alpha: 0.8);
   backdrop-filter: blur(6px);
   font-size: 18px;

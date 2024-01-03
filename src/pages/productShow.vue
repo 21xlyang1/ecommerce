@@ -140,7 +140,7 @@
                       style="height: 60px; width: 60px"
                     />
                     <div class="ms-2 text-secondary" style="font-size: 22px">
-                      {{ "套装 " + index }}
+                      套装一
                     </div>
                   </div>
                 </div>
@@ -201,7 +201,7 @@
           </div>
           <div class="w-100" style="margin-top: 40px">
             <!-- 选项 -->
-            <div class="d-flex ms-5">
+            <div class="d-flex ms-4">
               <button
                 class="itembtn"
                 @click="choosed = '商品详情'"
@@ -231,7 +231,7 @@
             <div v-show="choosed == '商品详情'" style="height: 500px"></div>
             <!-- 评论区 -->
             <div v-show="choosed == '评论'">
-              <div class="d-flex ms-5 mb-4">
+              <div class="d-flex ms-3">
                 <button
                   @click="plflchoosed = item"
                   class="plbtn"
@@ -245,7 +245,7 @@
                   {{ item }}
                 </button>
               </div>
-              <div class="d-flex w-100 ps-5 pe-5 mt-4" v-for="item in commentsList" :key="item.commentId">
+              <div class="d-flex w-100 p-4 pt-5">
                 <!-- 头像 -->
                 <div style="height: 100%; width: 60px">
                   <img
@@ -262,7 +262,7 @@
                 <div class="pe-3 ps-3 mt-1" style="flex-grow: 1">
                   <div class="d-flex align-items-center">
                     <!-- 昵称 -->
-                    <div style="color: #fb7299">{{item.username}}</div>
+                    <div style="color: #fb7299">普普通通Tony大叔</div>
                     <!-- 标签 -->
                     <div
                       class="pe-1 ps-1 ms-2 rounded-1 d-flex align-items-center"
@@ -276,11 +276,10 @@
                       买家
                     </div>
                   </div>
-                  <!-- 星级 -->
                   <div class="d-flex mt-1">
                     <v-icon
                       class="me-1"
-                      :style="{ color: index <= item.star ? 'orange' : '#bbb' }"
+                      :style="{ color: index <= 4 ? 'orange' : '#bbb' }"
                       v-for="index in 5"
                       :key="index"
                       name="xingxing"
@@ -288,7 +287,9 @@
                   </div>
                   <!-- 内容 -->
                   <div class="mt-1" style="font-size: 18px">
-                    {{item.content}}
+                    许多小伙伴在问这张M.2
+                    4060Ti何时开售，预计是11月22号晚上上架各大电商平台，价格比普通版Dual
+                    4060Ti贵100块
                   </div>
                   <div
                     class="d-flex align-items-center mt-2"
@@ -297,24 +298,23 @@
                     <!-- 时间 -->
                     <div class="d-flex">
                       <!-- 日期 -->
-                      <!-- <div>{{ "2023-11-20" }}</div> -->
+                      <div>{{ "2023-11-20" }}</div>
                       <!-- 时间 -->
-                      <!-- <div class="ms-1">{{ "18:26" }}</div> -->
-                      <div>{{item.time}}</div>
+                      <div class="ms-1">{{ "18:26" }}</div>
                     </div>
                     <!-- 点赞 -->
                     <div class="ms-4 d-flex align-items-center">
                       <button class="goodbtn">
                         <v-icon name="good"></v-icon>
                       </button>
-                      <div class="ms-1">{{ item.goodNum }}</div>
+                      <div class="ms-1">{{ 13 }}</div>
                     </div>
                     <!-- 回复按钮 -->
                     <button class="ms-4 chakanbtn">回复</button>
                   </div>
                   <!-- 回复区 -->
                   <div class="mt-2">
-                    <div v-for="item2 in item.reply" :key="item2.commentId" class="d-flex mt-3">
+                    <div v-for="index in 3" :key="index" class="d-flex mt-3">
                       <div style="width: 50px">
                         <img
                           src="../assets/img/1.png"
@@ -331,7 +331,7 @@
                           <!-- 昵称 -->
                           <div class="d-flex align-items-center pe-3">
                             <div style="color: #fb7299; font-size: 14px">
-                              {{item2.username}}
+                              普普通通Tony大叔
                             </div>
                             <!-- 标签 -->
                             <div
@@ -346,8 +346,8 @@
                               买家
                             </div>
                           </div>
-                          <div v-for="index in item2.content.length" :key="index">
-                            {{ item2.content[index - 1] }}
+                          <div v-for="index in content.length" :key="index">
+                            {{ content[index - 1] }}
                           </div>
                         </div>
                         <div
@@ -357,10 +357,9 @@
                           <!-- 时间 -->
                           <div class="d-flex">
                             <!-- 日期 -->
-                            <!-- <div>{{ "2023-11-20" }}</div> -->
+                            <div>{{ "2023-11-20" }}</div>
                             <!-- 时间 -->
-                            <!-- <div class="ms-1">{{ "18:26" }}</div> -->
-                            <div>{{item2.time}}</div>
+                            <div class="ms-1">{{ "18:26" }}</div>
                           </div>
                           <!-- 点赞 -->
                           <div class="ms-4 d-flex align-items-center">
@@ -368,7 +367,7 @@
                               <v-icon name="good"></v-icon>
                             </button>
 
-                            <div class="ms-1">{{ item2.goodNum }}</div>
+                            <div class="ms-1">{{ 13 }}</div>
                           </div>
                           <!-- 回复按钮 -->
                           <button class="ms-4 chakanbtn">回复</button>
@@ -378,7 +377,7 @@
                   </div>
                   <!-- 回复统计 -->
                   <div class="mt-3 d-flex" style="color: #888; font-size: 16px">
-                    <div>共有{{item.reply.length}}条回复，</div>
+                    <div>共有12条回复，</div>
                     <button class="chakanbtn">点击查看</button>
                   </div>
                 </div>
@@ -398,7 +397,7 @@ export default {
     return {
       imgNum: 6,
       productInf: {
-        name: "商品名称" + this.$route.params.id,
+        name: "商品名称"+this.$route.params.id,
         fahuodi: "发货地",
         xiaoliang: "80万+",
         num: 1,
@@ -413,63 +412,8 @@ export default {
       choosed: "评论",
       plflList: ["全部", "有图/视频", "差评"],
       plflchoosed: "全部",
-      commentsList: [
-        {
-          commentId:1,
-          userId:12,
-          username:'普普通通Tony大叔',
-          content:"许多小伙伴在问这张M.2 4060Ti何时开售，预计是11月22号晚上上架各大电商平台，价格比普通版Dual 4060Ti贵100块",
-          time:"2023-11-20 18:26",
-          goodNum:113,
-          star:4,
-          reply: [
-            {
-              commentId:12,
-              userId:34,
-              username:"吊带上",
-              content:"带显示器啊，能丐的只剩内存和机箱了。",
-              time:"2023-11-20 20:12",
-              goodNum:25,
-            },
-            {
-              commentId:32,
-              userId:20,
-              username:"八點鐘有骨気",
-              content:"散热还能丐，240足矣。",
-              time:"2023-11-20 21:02",
-              goodNum:25,
-            },
-          ],
-        },
-        {
-          commentId:5,
-          userId:29,
-          username:'新时代的奥楚蔑洛夫',
-          content:"正常情况下，I514600kf+4060台，在别的地方，感觉11000很贵，但在荣仔这瞬间就觉得非常有性价比，果然，他们家视频还是不能多看",
-          time:"2023-11-21 10:47",
-          goodNum:93,
-          star:3,
-          reply: [
-            {
-              commentId:93,
-              userId:24,
-              username:"千灯LYX",
-              content:"不还有个显示器吗",
-              time:"2023-11-21 20:12",
-              goodNum:54,
-            },
-            {
-              commentId:32,
-              userId:20,
-              username:"眠雪千寻贴贴",
-              content:"还带了个比较高端的显示器，他这套性价比还真不算差[笑哭]内存省一点，把内存省下来的钱换到主板上，应该够上吹雪，ROG的产品又多了一个",
-              time:"2023-11-21 21:02",
-              goodNum:27,
-            },
-          ],
-        }
-      ],
-
+      content:
+        "许多小伙伴在问这张M.2 4060Ti何时开售，预计是11月22号晚上上架各大电商平台，价格比普通版Dual 4060Ti贵100块",
     };
   },
   methods: {
@@ -480,33 +424,22 @@ export default {
     },
   },
   mounted() {
-    // 获取商品信息
-    post("/product/getProductInfo", { productId: Number(this.$route.params.id) }).then(
+  //""填入url地址，{}为请求参数
+    post("/product/getProductInfo", {productId:this.$route.params.id}).then(
       (Response) => {
         console.log("请求成功", Response);
         //Response是返回的参数
-        var data = Response.data;
-        this.productInf.name = data.productName;
-        this.productInf.price = data.price;
-      },
-      (error) => {
-        console.log("请求失败", error.message);
-      }
-    );
-    // 获取商品评论
-    post("/product/getComment", { productId: this.$route.params.id }).then(
-      (Response) => {
-        console.log("请求成功", Response);
-        //Response是返回的参数
-        var data = Response.data;
-        this.productInf.name = data.productName;
-        this.productInf.price = data.price;
+        var data=Response
+        this.productInf.name=data.productName
+        this.productInf.price=data.price
+
       },
       (error) => {
         console.log("请求失败", error.message);
       }
     );
   },
+
 };
 </script>
 
@@ -589,3 +522,4 @@ export default {
 }
 </style>
 
+ 

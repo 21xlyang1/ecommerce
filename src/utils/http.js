@@ -36,11 +36,11 @@ instance.interceptors.response.use(
   },
   function (error) {
     // 对响应错误做点什么
-    // Message({
-    //   message: error,
-    //   type: 'error',
-    //   duration: 10000, // 设置显示时间为10秒
-    // });
+    Message({
+      message: error,
+      type: 'error',
+      duration: 10000, // 设置显示时间为10秒
+    });
     return Promise.reject(error);
 
   }

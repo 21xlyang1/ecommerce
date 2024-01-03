@@ -27,9 +27,7 @@
             ></iconbutton>
           </div>
           <div class="h-100 d-flex align-items-center p-4" style="width: 80%">
-            <div style="font-size: 22px; font-weight: 700">
-              {{ collectList[nowIndex].name }}
-            </div>
+            <div style="font-size:22px;font-weight:700">{{collectList[nowIndex].name}}</div>
           </div>
         </div>
         <div class="w-100 d-flex">
@@ -135,16 +133,10 @@
             :style="{ height: outerDivHeight - 170 + 'px' }"
             style="width: 80%"
           >
-            <div class="w-100 mt-3" v-show="isLoading">
-              <loading :size="60"></loading>
+            <div style="width: 100%; padding: 10px;">
+              <productItem v-for="item in 10" :key="item" :proId="item" ></productItem>
             </div>
-            <div v-show="!isLoading" style="width: 100%; padding: 10px">
-              <productItem
-                v-for="item in productList"
-                :key="item.productId"
-                :proId="item.productId"
-              ></productItem>
-            </div>
+
           </el-scrollbar>
         </div>
       </div>
@@ -184,15 +176,12 @@
 <script>
 import iconbutton from "@/components/iconbutton.vue";
 import { post } from "@/utils/http";
-import productItem from "@/components/productItem.vue";
-
-import loading from "@/components/loading.vue";
+import productItem from '@/components/productItem.vue';
 export default {
   name: "",
-  components: { iconbutton, productItem, loading },
+  components: { iconbutton,productItem },
   data() {
     return {
-      isLoading: true,
       outerDivHeight: "", // 最外层div的高度
       collectList: [
         { id: 1, name: "电子产品", num: 2 },
@@ -207,61 +196,33 @@ export default {
       dialogShow: false,
       updateIndex: -1,
       padding: 50,
-      productList:[]
     };
   },
   methods: {
     setOuterDivSize() {
       this.outerDivHeight = window.innerHeight - 70;
     },
-    getProList() {
-      this.isLoading = true;
-      post("/favorites/getProduct", { favoritesId:this.collectList[this.nowIndex].id  }).then(
-        (Response) => {
-          console.log("请求成功", Response);
-          //Response是返回的参数
-          var data = Response.data;
-          this.productList = data;
-          this.isLoading = false;
-        },
-        (error) => {
-          console.log("请求失败", error.message);
-        }
-      );
-
-      setTimeout(() => {
-         this.isLoading = false;
-      }, 1000);
-    },
   },
   mounted() {
     this.setOuterDivSize(); // 初始化时设置最外层div的尺寸
     window.addEventListener("resize", this.setOuterDivSize);
-    post("/favorites/getList", { userId: Number(this.$cookies.get("userId")) }).then(
-        (Response) => {
-          console.log("请求成功", Response);
-          //Response是返回的参数
-          var data = Response.data;
-          this.collectList = data;
-          this.getProList()
-        },
-        (error) => {
-          console.log("请求失败", error.message);
-        }
-      );
 
+    post("/favorites/geList", { userId:this.$cookies.get("userId") }).then(
+      (Response) => {
+        console.log("请求成功", Response);
+        //Response是返回的参数
+        var data=Response.data
+        this.collectList=data
 
-
-    this.getProList();
+      },
+      (error) => {
+        console.log("请求失败", error.message);
+      }
+    );
   },
   beforeDestroy() {
     // 组件销毁时，移除窗口大小改变事件的监听
     window.removeEventListener("resize", this.setOuterDivSize);
-  },
-  watch: {
-    nowIndex(form, to) {
-      this.getProList();
-    },
   },
 };
 </script>

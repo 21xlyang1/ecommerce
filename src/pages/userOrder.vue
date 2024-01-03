@@ -32,7 +32,7 @@
         style="
           flex-grow: 1;
           padding: 10px;
-          background: rgba(255, 255, 255, 0.6);
+          background: rgba(255, 255, 255, 0.3);
         "
         :style="{ height: outerDivHeight + 'px' }"
       >
@@ -44,16 +44,12 @@
         </div>
 
         <el-scrollbar
-          class="w-100  rounded-2"
-
+          class="w-100 bg-body rounded-2"
           :style="{ height: outerDivHeight - 70 + 'px' }"
         >
           <div class="w-100" style="padding:10px">
-            <div v-show="isLoading">
-              <loading :size="60"></loading>
-            </div>
-            <div v-show="!isLoading" style="width: 100%; padding: 10px;">
-              <productItem v-for="item in orderList" :key="item" :proId="item.productId" ></productItem>
+            <div style="width: 100%; padding: 10px;">
+              <productItem v-for="item in 10" :key="item" :proId="item" ></productItem>
             </div>
           </div>
         </el-scrollbar>
@@ -63,28 +59,13 @@
 </template>
 <script>
 import productItem from '@/components/productItem.vue';
-
-import loading from '@/components/loading.vue';
-import { post } from '@/utils/http';
 export default {
   name: "",
-  components: { productItem,loading },
+  components: { productItem },
   data() {
     return {
       outerDivHeight: "", // 最外层div的高度
       outerDivWidth:"",
-      isLoading:true,
-      orderList:[
-        {productId:1},
-        {productId:2},
-        {productId:3},
-        {productId:4},
-        {productId:5},
-        {productId:6},
-        {productId:7},
-        {productId:8},
-        {productId:9},
-      ],
       itemList: [
         { ID: 1, name: "全部" },
         { ID: 2, name: "待付款" },
@@ -100,40 +81,15 @@ export default {
       this.outerDivHeight = window.innerHeight - 70;
       this.outerDivWidth = window.innerWidth;
     },
-    getOrdList() {
-      this.isLoading = true;
-      post("/order/useGetList", { userId: this.$cookies.get("userId") }).then(
-        (Response) => {
-          console.log("请求成功", Response);
-          //Response是返回的参数
-          var data = Response.data;
-          this.orderList = data;
-          this.isLoading = false;
-        },
-        (error) => {
-          console.log("请求失败", error.message);
-        }
-      );
-      setTimeout(() => {
-         this.isLoading = false;
-      }, 1000); 
-    },
   },
   mounted() {
     this.setOuterDivSize(); // 初始化时设置最外层div的尺寸
     window.addEventListener("resize", this.setOuterDivSize);
-
-    this.getOrdList()
   },
   beforeDestroy() {
     // 组件销毁时，移除窗口大小改变事件的监听
     window.removeEventListener("resize", this.setOuterDivSize);
   },
-  watch:{
-    itemChosed(){
-      this.getOrdList()
-    }
-  }
 };
 </script>
 

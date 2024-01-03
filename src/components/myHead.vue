@@ -81,8 +81,7 @@
   </div>
 </template>
 <script>
-// import Search from "@/pages/search.vue";
-import Search from "../components/searchPages.vue";
+import Search from "@/pages/search.vue";
 import searchBox from "./searchBox.vue";
 import usercard from "./usercard.vue";
 import shoppingTrolley from "./shoppingTrolley.vue";

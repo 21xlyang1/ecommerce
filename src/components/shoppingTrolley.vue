@@ -67,11 +67,9 @@ export default {
       // 初始购物车商品数据
       cartItems: [
         {
-          shopid:"",
           shopname: "商铺1",
           cartItems: [
             {
-              id:"",
               name: "商品1",
               description: "商品1的描述",
               price: 100,
@@ -81,7 +79,6 @@ export default {
               selected: false,
             },
             {
-              id:"",
               name: "商品2",
               description: "商品2的描述",
               price: 50,
@@ -94,12 +91,10 @@ export default {
           ],
         },
         {
-          shopid:"",
           shopname: "商铺2",
           cartItems: [
             // 商铺2的购物车商品列表
             {
-              id:"",
               name: "商品3",
               description: "商品1的描述",
               price: 200,
@@ -109,7 +104,6 @@ export default {
               selected: false,
             },
             {
-              id:"",
               name: "商品4",
               description: "商品2的描述",
               price: 100,
@@ -134,10 +128,7 @@ export default {
     },
     // 更新购物车中商品数量的方法
     updateQuantity(shopIndex, itemIndex, change) {
-      
       const updatedQuantity = this.cartItems[shopIndex].cartItems[itemIndex].quantity + change;
-      // 此处写一个接口定义发送后端数据
-      this.changeDataQuantity(this.cartItems[shopIndex].shopid,this.cartItems[shopIndex].cartItems[itemIndex].productId,updatedQuantity);
       if (updatedQuantity > 0) {
         this.cartItems[shopIndex].cartItems[itemIndex].quantity = updatedQuantity;
         // 更新单个商品价格
@@ -217,22 +208,6 @@ export default {
       }
       return true;
     },
-    // 根据用户id，商铺id，商品id，更改该用户的购物车中的商铺为shopid的商品productid的数量为quantity
-    changeDataQuantity(shopId,productId,quantity){
-      post("/shoppingCart/updataQuantity", {userId: this.$cookies.get("userId"),shopId:shopId,productId:productId,quantity:quantity}).then(
-      (Response) => {
-        console.log("请求成功", Response);
-        //Response是返回的参数
-        var data = Response.data;
-        //打印商品已经成功修改
-        if(data.isSuccess)
-        console.log("后台修改成功");
-      },
-      (error) => {
-        console.log("请求失败", error.message);
-      }
-    );
-    },
   },
   mounted() {
     this.setOuterDivSize(); // 初始化时设置最外层div的尺寸
@@ -242,37 +217,6 @@ export default {
     this.initializeItemPrices();
     // 初始化店铺选择框状态
     this.initializeShopSelections();
-    post("/product/getCartList", { userId: this.$cookies.get("userId") }).then(
-      (Response) => {
-        console.log("请求成功", Response);
-        //Response是返回的参数
-        var data = Response.data;
-        var sortData = data.slice().sort((a, b) => {
-          // 根据name属性进行升序排序
-          return a.storeId.localeCompare(b.storeId);
-        });
-        this.cartItems = [];
-        var lastId = undefined;
-        var t = {};
-        for (var i = 0; i < data.length; i++) {
-          if (sortData[i].storeId != lastId) {
-            if (i != 0)
-              this.cartItems.push(t);
-            t = {
-              shopid:sortData[i].storeId,
-              shopname: sortData[i].storeName,
-              cartItems: [],
-            }
-          }
-          t.cartItems.push(sortData[i]);
-
-        }
-      },
-      (error) => {
-        console.log("请求失败", error.message);
-      }
-    );
-
   },
   beforeDestroy() {
     // 组件销毁时，移除窗口大小改变事件的监听

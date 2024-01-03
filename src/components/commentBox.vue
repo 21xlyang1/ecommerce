@@ -7,14 +7,14 @@
                     <img src="../assets/img/默认头像.svg" alt="头像" height="35px" />
                 </div>
                 <div class="r">
-                    <div class="userName" @mouseover="showTooltip" @mouseout="hideTooltip"> {{ data.name }} </div>
-                    <div class="toolTip" :class="{ 'visible': tooltipVisible }"> {{ data.name }} </div>
+                    <div class="userName" @mouseover="showTooltip" @mouseout="hideTooltip"> {{ data.commentId }} </div>
+                    <div class="toolTip" :class="{ 'visible': tooltipVisible }"> {{ data.commentId }} </div>
                 </div>
             </div>
             <div class="phone_box">
-                <div class="phone" @mouseover="showTooltip_phone" @mouseout="hideTooltip_phone"> {{ data.phoneNumber }}
+                <div class="phone" @mouseover="showTooltip_phone" @mouseout="hideTooltip_phone"> {{ data.photonumber }}
                 </div>
-                <div class="toolTip_phone" :class="{ 'visible_phone': tooltipVisible_phone }"> {{ data.phoneNumber }} </div>
+                <div class="toolTip_phone" :class="{ 'visible_phone': tooltipVisible_phone }"> {{ data.photonumber }} </div>
             </div>
             <div class="email_box">
                 <div class="email" @mouseover="showTooltip_email" @mouseout="hideTooltip_email"> {{ data.email }} </div>

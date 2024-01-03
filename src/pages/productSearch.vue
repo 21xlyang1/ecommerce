@@ -53,8 +53,8 @@ export default {
         },
     },
     mounted() {
-        console.log("父组件:", "searchKey:", this.searchText);
-        post("/product/getList", { searchKey: this.searchText }).then(
+        console.log("父组件:", "searchKey:", searchText);
+        post("/product/getList", { searchKey: searchText }).then(
             (Response) => {
                 console.log("搜索商品请求成功", Response);
                 this.searchList = Response.data;

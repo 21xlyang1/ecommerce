@@ -192,13 +192,25 @@ export default {
       this.editDialogVisible = false;
     },
     saveEdit() {
-      const index = this.products.findIndex(
-        (product) => product.orderNumber === this.editedProduct.orderNumber
-      );
-      if (index !== -1) {
-        this.products[index].deliveryStatus = this.editedProduct.deliveryStatus;
-      }
       this.editDialogVisible = false;
+      post("/order/editOrder",this.editedProduct).then(
+        (Response) => {
+          // this.users = Response.data;
+          this.getOrdList()
+          console.log("请求成功", Response);
+        },
+        (error) => {
+          alert("保存失败");
+          console.log("请求失败", error.message);
+        }
+      );
+      // const index = this.products.findIndex(
+      //   (product) => product.orderNumber === this.editedProduct.orderNumber
+      // );
+      // if (index !== -1) {
+      //   this.products[index].deliveryStatus = this.editedProduct.deliveryStatus;
+      // }
+      // this.editDialogVisible = false;
     },
     deleteProduct(index) {
       this.products.splice(index, 1);
@@ -233,22 +245,24 @@ export default {
       this.currentPage = page;
     },
     getOrdList() {
-      this.isLoading = true;
-      post("/order/orderList", {  }).then(
+      console.log("asdada")
+      // this.isLoading = true;
+      post("/order/orderList",{}).then(
         (Response) => {
-          console.log("请求成功", Response);
+          // console.log("请求成功", Response);
           //Response是返回的参数
-          var data = Response.data;
-          this.products = data;
-          this.isLoading = false;
+          this.products = Response.data;
+          console.log("请求成功", Response);
+          // this.products = data;
+          // this.isLoading = false;
         },
         (error) => {
           console.log("请求失败", error.message);
         }
       );
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 1000);
+      // setTimeout(() => {
+      //   this.isLoading = false;
+      // }, 1000);
     },
   },
   mounted() {

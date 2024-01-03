@@ -98,6 +98,7 @@
 </template>
 
 <script>
+import { post } from '@/utils/http';
 export default {
   name: "",
   props: {
@@ -231,6 +232,28 @@ export default {
     handleCurrentChange(page) {
       this.currentPage = page;
     },
+    getOrdList() {
+      console.log("asdada")
+      this.isLoading = true;
+      post("/order/orderList", {  }).then(
+        (Response) => {
+          console.log("请求成功", Response);
+          //Response是返回的参数
+          var data = Response.data;
+          this.products = data;
+          this.isLoading = false;
+        },
+        (error) => {
+          console.log("请求失败", error.message);
+        }
+      );
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 1000);
+    },
+  },
+  mounted() {
+    this.getOrdList()
   },
 };
 </script>

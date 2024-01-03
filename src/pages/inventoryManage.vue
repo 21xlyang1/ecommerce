@@ -35,7 +35,8 @@
   border-collapse: collapse;
 }
 
-.inventory-table th, .inventory-table td {
+.inventory-table th,
+.inventory-table td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
@@ -65,7 +66,7 @@ export default {
   methods: {
     increaseStock(product) {
       product.stock += 1;
-      this.changeDataStock(product.id,product.stock);
+      this.changeDataStock(product.id, product.stock);
     },
     decreaseStock(product) {
       if (product.stock > 0) {
@@ -74,7 +75,7 @@ export default {
           this.removeProduct(product);
         }
       }
-      this.changeDataStock(product.id,product.stock);
+      this.changeDataStock(product.id, product.stock);
     },
     editStock(product) {
       const newStock = prompt("请输入新的库存数量:", product.stock);
@@ -84,7 +85,7 @@ export default {
           this.removeProduct(product);
         }
       }
-      this.changeDataStock(product.id,product.stock);
+      this.changeDataStock(product.id, product.stock);
     },
     deleteProduct(product) {
       const confirmDelete = confirm("确定要删除该商品吗？");
@@ -92,58 +93,78 @@ export default {
         product.stock = 0;
         this.removeProduct(product);
       }
-      this.changeDataStock(product.id,product.stock);
+      this.changeDataStock(product.id, product.stock);
     },
     removeProduct(product) {
       // Filter out the product with stock = 0
       this.products = this.products.filter((p) => p.stock > 0);
     },
-    changeDataStock(productId,stock){
-      post("/product/editProduc", {productId:productId, productName:"", description:"", storeId:"", price:"", stock:stock, productStatus:""}).then(
-      (Response) => {
-        console.log("请求成功", Response);
-        //Response是返回的参数
-        var data = Response.data;
-        //打印商品已经成功修改
-        if(data.isSuccess)
-        console.log(data.msg);
-      },
-      (error) => {
-        console.log("请求失败", error.message);
-      }
-    );
+    changeDataStock(productId, stock) {
+      post("/product/editProduc", { productId: productId, productName: "", description: "", storeId: "", price: "", stock: stock, productStatus: "" }).then(
+        (Response) => {
+          console.log("请求成功", Response);
+          //Response是返回的参数
+          var data = Response.data;
+          //打印商品已经成功修改
+          if (data.isSuccess)
+            console.log(data.msg);
+        },
+        (error) => {
+          console.log("请求失败", error.message);
+        }
+      );
     }
   },
   mounted() {
-    post("/product/getCartList", { userId: this.$cookies.get("userId") }).then(
-      (Response) => {
-        console.log("请求成功", Response);
-        //Response是返回的参数
-        var data = Response.data;
-        var sortData = data.slice().sort((a, b) => {
-          // 根据name属性进行升序排序
-          return a.storeId.localeCompare(b.storeId);
-        });
-        this.cartItems = [];
-        var lastId = undefined;
-        var t = {};
-        for (var i = 0; i < data.length; i++) {
-          if (sortData[i].storeId != lastId) {
-            if (i != 0)
-              this.cartItems.push(t)
-            t = {
-              shopname: sortData[i].storeName,
-              cartItems: [],
-            }
-          }
-          t.cartItems.push(sortData[i]);
+    //先获取商品id列表
+    post("/product/getList", { searchKey: "", type: "" }).then(
+      (response) => {
+        console.log("请求成功", response);
+        // response是返回的参数
+        var data = response.data;
 
+        // 检查是否存在 productId 字段
+        if (Array.isArray(data) && data.length > 0) {
+          data.forEach((product) => {
+            if (product.productId) {
+              // 提取并处理 productId
+              var productId = product.productId;
+              console.log("商品ID:", productId);
+
+              //此处根据商品id获取商品信息并且展示在前端上
+              post("/product/getProductInfo", { productId: productId }).then(
+                (Response) => {
+                  console.log("请求成功", Response);
+                  //Response是返回的参数
+                  var data = Response.data;
+                  
+                  this.products = [];
+                  var t = {};
+                  t = {
+                    productId:productId,
+                    name:data.productName,
+                    stock:data.stock,
+                  }
+                  this.products.push(t);
+                },
+                (error) => {
+                  console.log("请求失败", error.message);
+                }
+              );
+            } else {
+              console.error("未找到productId字段");
+            }
+          });
+        } else {
+          console.error("未找到符合条件的商品列表");
         }
       },
       (error) => {
         console.log("请求失败", error.message);
       }
     );
+
+
 
   },
 };

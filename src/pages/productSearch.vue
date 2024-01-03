@@ -31,9 +31,6 @@ export default {
             placeholder: "请输入关键字进行搜索...",
             searchText: '',
             searchList: [
-                {
-                    productId: 1,
-                }
             ],
         }
     },

@@ -198,13 +198,14 @@ export default {
       let logId = identifier;
       let title = newData.title;
       let content = newData.text;
-      post("/log/editLog", { logId, title, content }).then(
+      post("/log/editLog", { logId: logId, title: title, content: content }).then(
         (Response) => {
-          this.dataList[identifier].time_data = newData.time_data;
-          this.dataList[identifier].title = title;
-          this.dataList[identifier].text = content;
-          // 按照时间排序
-          this.sortDataList();
+          // this.dataList[identifier].time_data = newData.time_data;
+          // this.dataList[identifier].title = title;
+          // this.dataList[identifier].text = content;
+          // // 按照时间排序
+          // this.sortDataList();
+          this.update()
           console.log("请求成功", Response);
         },
         (error) => {

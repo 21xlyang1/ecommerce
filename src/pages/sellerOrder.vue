@@ -245,10 +245,14 @@ computed: {
       );
     },
     openEditDialog(index) {
-      // 打开编辑对话框，设置编辑项的初始值
       this.editedItem = {
-        ...this.tableData[index]
-      };
+        date: this.tableData[index].date,
+        name: this.tableData[index].name,
+        deliveryStatus: this.tableData[index].deliveryStatus,
+        provence: this.tableData[index].provence,
+        address: this.tableData[index].address,
+        orderNumber: this.tableData[index].orderNumber,
+        };
       this.editDialogVisible = true;
     },
     closeEditDialog() {
@@ -288,8 +292,8 @@ computed: {
       //   this.tableData.splice(index, 1, Object.assign({}, this.tableData[index], updatedFields));
       // }
 
-      // // 关闭编辑对话框
-      // this.editDialogVisible = false;
+      // 关闭编辑对话框
+      this.editDialogVisible = false;
     },
     validateEditForm() {
       // 进行数据验证，这里只是简单的示例，你可以根据实际需求进行修改

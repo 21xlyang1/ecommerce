@@ -192,10 +192,10 @@ export default {
       };
     },
     updateLog( newData ) {
-      console.log(newData);
-      let logId = newData.ID;
-      let title = newData.title;
-      let content = newData.text;
+      console.log(newData.newData.ID);
+      var logId = newData.newData.ID;
+      var title = newData.newData.title;
+      var content = newData.newData.text;
       post("/log/editLog", { logId: logId, title: title, content: content }).then(
         (Response) => {
           // this.dataList[identifier].time_data = newData.time_data;

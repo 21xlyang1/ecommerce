@@ -41,7 +41,6 @@ export default {
                 (Response) => {
                     console.log("搜索商品请求成功", Response);
                     this.searchList = Response.data;
-                    // this.$set(this, 'searchList', Response.data);
                 },
                 (error) => {
                     console.log("搜索商品请求失败", error.message);
@@ -50,8 +49,8 @@ export default {
         },
     },
     mounted() {
-        console.log("父组件:", "searchKey:", searchText);
-        post("/product/getList", { searchKey: searchText }).then(
+        console.log("父组件:", "searchKey:", this.searchText);
+        post("/product/getList", { searchKey: this.searchText }).then(
             (Response) => {
                 console.log("搜索商品请求成功", Response);
                 this.searchList = Response.data;

@@ -4,45 +4,46 @@
     <div class=" d-flex mb-3 mt-2">
       <div style="font-weight: 700; font-size: 18px">用户管理</div>
     </div>
-    <div class="w-100 mt-3 rounded-2  bg-body shadow p-3 " >
-        <!-- 搜索栏 -->
-        <div class="search-bar mb-4">
-      <input v-model="searchQuery" placeholder="搜索用户...">
-      <button @click="searchUsers">搜索</button>
-    </div>
+    <div class="w-100 mt-3 rounded-2  bg-body shadow p-3 ">
+      <!-- 搜索栏 -->
+      <div class="search-bar mb-4">
+        <input v-model="searchQuery" placeholder="搜索用户...">
+        <button @click="searchUsers">搜索</button>
+      </div>
 
-    <!-- 用户列表 -->
-    <div class="user-list">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>用户ID</th>
-            <th>用户名</th>
-            <th>邮箱</th>
-            <th>号码</th>
-            <th>角色</th>
-            <th>操作</th>
-          </tr>
-          <tr><th colspan="6">
-              <button class="btn-neumorphism add" @click="addingUser = true">添加</button>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="user in filteredUsers" :key="user.id">
-            <td>{{ user.id }}</td>
-            <td>{{ user.username }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.phone }}</td>
-            <td>{{ user.role }}</td>
-            <td>
-              <button class="btn-neumorphism edit" @click="editUser(user)">编辑</button>
-              <button class="btn-neumorphism delete" @click="deleteUser(user.id)">删除</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <!-- 用户列表 -->
+      <div class="user-list">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>用户ID</th>
+              <th>用户名</th>
+              <th>邮箱</th>
+              <th>号码</th>
+              <th>角色</th>
+              <th>操作</th>
+            </tr>
+            <tr>
+              <th colspan="6">
+                <button class="btn-neumorphism add" @click="addingUser = true">添加</button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="user in filteredUsers" :key="user.id">
+              <td>{{ user.id }}</td>
+              <td>{{ user.username }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.phone }}</td>
+              <td>{{ user.role }}</td>
+              <td>
+                <button class="btn-neumorphism edit" @click="editUser(user)">编辑</button>
+                <button class="btn-neumorphism delete" @click="deleteUser(user.id)">删除</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <!-- 编辑用户信息的模态框 -->
@@ -50,6 +51,9 @@
       <div class="modal-content">
         <h3>编辑用户信息</h3>
         <form>
+          <label for="edit-id">用户ID:</label>
+          <input type="text" id="edit-id" v-model="editedUser.id" readonly>
+
           <label for="edit-username">用户名:</label>
           <input type="text" id="edit-username" v-model="editedUser.username" required>
 
@@ -81,6 +85,7 @@
       <div class="modal-content">
         <h3>添加新用户</h3>
         <form @submit.prevent="saveNewUser">
+
           <label for="add-username">用户名:</label>
           <input type="text" id="add-username" v-model="newUser.username" required>
 
@@ -123,16 +128,16 @@ export default {
         // { id: 2, username: "JohnDoe", email: "johndoe@example.com", phone: "24680", role: "用户" },
         // 更多用户数据...
       ],
-      tempUser:{
+      tempUser: {
         username: "",
         email: "",
         phone: "",
         role: ""
       },
       editingUser: false,
-      editedUser: { id: null, username: "", email: "", phone: "", password:"",role: "" },
+      editedUser: { id: null, username: "", email: "", phone: "", password: "", role: "" },
       addingUser: false, // 添加用户模态框的显示状态
-      newUser: { username: "", email: "", phone: "",password:"", role: "" }, // 新用户的信息
+      newUser: { username: "", email: "", phone: "", password: "", role: "" }, // 新用户的信息
     };
   },
   mounted() {
@@ -164,31 +169,31 @@ export default {
   methods: {
     loadData() {
       get("/user/getList", {}).then(
-      (Response) => {
-        this.users = Response.data;
-        console.log("请求成功", Response);
-        //Response是返回的参数
-      },
-      (error) => {
-        console.log("请求失败", error.message);
-      }
-    )
+        (Response) => {
+          this.users = Response.data;
+          console.log("请求成功", Response);
+          //Response是返回的参数
+        },
+        (error) => {
+          console.log("请求失败", error.message);
+        }
+      )
     },
     searchUsers() {
       // 搜索用户的逻辑
     },
-    editUser(user){
-    this.editedUser.id = user.id;
-    this.editedUser.username = user.username;
-    this.editedUser.email = user.email;
-    this.editedUser.phone = user.phone;
-    this.editedUser.password = user.password;
-    this.editedUser.role = user.role;
+    editUser(user) {
+      this.editedUser.id = user.id;
+      this.editedUser.username = user.username;
+      this.editedUser.email = user.email;
+      this.editedUser.phone = user.phone;
+      this.editedUser.password = user.password;
+      this.editedUser.role = user.role;
 
-    // 打开编辑用户信息的模态框
-    this.editingUser = true;
-    },
-    handleEdit(){
+      // 打开编辑用户信息的模态框
+      this.editingUser = true;
+    },
+    handleEdit() {
       this.editingUser = false;
       post("/user/update", this.editedUser).then(
         (Response) => {
@@ -201,7 +206,7 @@ export default {
         }
       );
     },
-    cancelEdit(){
+    cancelEdit() {
       this.editingUser = false;
     },
     deleteUser(userId) {
@@ -238,7 +243,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 /* 添加样式以适应模态框的显示和隐藏 */
 .modal {
   position: fixed;
@@ -264,10 +268,12 @@ export default {
 .modal.active {
   visibility: visible;
 }
+
 .user-management {
   background-color: #f0f0f3;
   padding: 20px;
   border-radius: 20px;
+
   .neumorphism-container {
     box-shadow: -10px -10px 20px #ffffff, 10px 10px 20px rgba(174, 174, 192, 0.4);
   }
@@ -286,6 +292,7 @@ export default {
   .search-bar {
     display: flex;
     align-items: center;
+
     input {
       flex-grow: 1;
       padding: 10px 15px;
@@ -293,10 +300,12 @@ export default {
       border-radius: 20px;
       background-color: #f0f0f3;
       box-shadow: inset -2px -2px 5px #ffffff, inset 2px 2px 5px rgba(174, 174, 192, 0.4);
+
       &:focus {
         outline: none;
       }
     }
+
     button {
       padding: 10px 20px;
       border: none;
@@ -305,11 +314,13 @@ export default {
       box-shadow: -2px -2px 5px #ffffff, 2px 2px 5px rgba(174, 174, 192, 0.4);
       color: #007bff;
       cursor: pointer;
+
       &:hover {
         background-color: #e0e0e3;
       }
     }
   }
+
   .btn-neumorphism {
     padding: 5px 15px;
     border: none;
@@ -333,14 +344,17 @@ export default {
       color: #dc3545;
     }
   }
+
   .user-list {
     .table {
       width: 100%;
       border-collapse: separate;
       border-spacing: 0 15px;
+
       thead {
         tr {
           background-color: transparent;
+
           th {
             padding: 10px;
             border: none;
@@ -349,11 +363,13 @@ export default {
           }
         }
       }
+
       tbody {
         tr {
           background-color: #f0f0f3;
           box-shadow: -5px -5px 10px #ffffff, 5px 5px 15px rgba(174, 174, 192, 0.4);
           border-radius: 10px;
+
           td {
             padding: 10px;
             border: none;
@@ -363,5 +379,4 @@ export default {
       }
     }
   }
-}
-</style>
+}</style>

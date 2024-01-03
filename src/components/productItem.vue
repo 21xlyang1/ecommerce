@@ -61,10 +61,8 @@ export default {
     toShow() {
       this.$router.push("/ss/productShow/" + this.proId);
     },
-  },
-  mounted() {
-    //""填入url地址，{}为请求参数
-    post("/product/getProductInfo", { productId: this.proId }).then(
+    loadData() {
+      post("/product/getProductInfo", { productId: this.proId }).then(
       (Response) => {
         console.log("请求成功", Response);
         //Response是返回的参数
@@ -76,6 +74,17 @@ export default {
         console.log("请求失败", error.message);
       }
     );
+    }
+  },
+  watch: {
+    proId(newProId, oldProId) {
+      // 监听 proId 的变化并执行相应操作
+      this.loadData();
+    }
+  },
+  mounted() {
+    //""填入url地址，{}为请求参数
+    this.loadData();
   },
 };
 </script>

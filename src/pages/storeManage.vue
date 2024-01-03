@@ -48,6 +48,9 @@
       <div class="modal-content">
         <h3>编辑商家信息</h3>
         <form>
+          <label for="edit-id">商家ID:</label>
+          <input type="text" id="edit-id" v-model="editedSeller.id" readonly>
+
           <label for="edit-sellername">商家名:</label>
           <input type="text" id="edit-sellername" v-model="editedSeller.sellername" required>
 

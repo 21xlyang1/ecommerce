@@ -130,7 +130,7 @@ export default {
         role: ""
       },
       editingUser: false,
-      editedUser: { id: null, username: "", email: "", phone: "", password:"",role: "" },
+      editedUser: { id: "", username: "", email: "", phone: "", password:"",role: "" },
       addingUser: false, // 添加用户模态框的显示状态
       newUser: { username: "", email: "", phone: "",password:"", role: "" }, // 新用户的信息
     };

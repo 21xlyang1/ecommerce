@@ -107,7 +107,7 @@
 
 <script>
 import 'element-ui/lib/theme-chalk/index.css';
-
+import { post } from "@/utils/http";
 export default {
   name: "",
   props: {
@@ -123,71 +123,73 @@ export default {
   data() {
   return {
     originalTableData: [], // 保存原始的表格数据
-    tableData: [{
-      date: '2016-05-02',
-      name: '王小虎',
-      send: '发货',
-      provence: '广东省',
-      address: '汕头市澄海区汕头大学东海岸校区',
-      zip: 20033312312312312,
-      editing: false
-    }, {
-      date: '2016-05-04',
-      name: '王小虎',
-      send: '未发货',
-      provence: '广东省',
-      address: '汕头市澄海区汕头大学东海岸校区',
-      zip: 20033312312312312,
-      editing: false
-    }, {
-      date: '2016-05-04',
-      name: '王小虎',
-      send: '未发货',
-      provence: '广东省',
-      address: '汕头市澄海区汕头大学东海岸校区',
-      zip: 20033312312312312,
-      editing: false
-    }, {
-      date: '2016-05-04',
-      name: '王小虎',
-      send: '未发货',
-      provence: '广东省',
-      address: '汕头市澄海区汕头大学东海岸校区',
-      zip: 20033312312312312,
-      editing: false
-    }, {
-      date: '2016-05-04',
-      name: '张三',
-      send: '发货',
-      provence: '广东省',
-      address: '汕头市澄海区汕头大学东海岸校区',
-      zip: 20033312312312312,
-      editing: false
-    }, {
-      date: '2016-05-04',
-      name: '王小虎',
-      send: '未发货',
-      provence: '广东省',
-      address: '汕头市澄海区汕头大学东海岸校区',
-      zip: 20033312312312312,
-      editing: false
-    }, {
-      date: '2016-05-01',
-      name: '王小虎',
-      send: '发货',
-      provence: '广东省',
-      address: '汕头市澄海区汕头大学东海岸校区',
-      zip: 20033312312312312,
-      editing: false
-    }, {
-      date: '2016-05-03',
-      name: '王小虎',
-      send: '发货',
-      provence: '广东省',
-      address: '汕头市澄海区汕头大学东海岸校区',
-      zip: 20033312312312312,
-      editing: false
-    }],
+     tableData: [
+      {
+        date: '2016-05-02',
+        name: '王小虎',
+        send: '发货',
+        provence: '广东省',
+        address: '汕头市澄海区汕头大学东海岸校区',
+        zip: 20033312312312312,
+        editing: false
+      }, {
+        date: '2016-05-04',
+        name: '王小虎',
+        send: '未发货',
+        provence: '广东省',
+        address: '汕头市澄海区汕头大学东海岸校区',
+        zip: 20033312312312312,
+        editing: false
+      }, {
+        date: '2016-05-04',
+        name: '王小虎',
+        send: '未发货',
+        provence: '广东省',
+        address: '汕头市澄海区汕头大学东海岸校区',
+        zip: 20033312312312312,
+        editing: false
+      }, {
+        date: '2016-05-04',
+        name: '王小虎',
+        send: '未发货',
+        provence: '广东省',
+        address: '汕头市澄海区汕头大学东海岸校区',
+        zip: 20033312312312312,
+        editing: false
+      }, {
+        date: '2016-05-04',
+        name: '张三',
+        send: '发货',
+        provence: '广东省',
+        address: '汕头市澄海区汕头大学东海岸校区',
+        zip: 20033312312312312,
+        editing: false
+      }, {
+        date: '2016-05-04',
+        name: '王小虎',
+        send: '未发货',
+        provence: '广东省',
+        address: '汕头市澄海区汕头大学东海岸校区',
+        zip: 20033312312312312,
+        editing: false
+      }, {
+        date: '2016-05-01',
+        name: '王小虎',
+        send: '发货',
+        provence: '广东省',
+        address: '汕头市澄海区汕头大学东海岸校区',
+        zip: 20033312312312312,
+        editing: false
+      }, {
+        date: '2016-05-03',
+        name: '王小虎',
+        send: '发货',
+        provence: '广东省',
+        address: '汕头市澄海区汕头大学东海岸校区',
+        zip: 20033312312312312,
+        editing: false
+      }
+  ],
     keyword: '',
     editDialogVisible: false,
     editedItem: {
@@ -233,7 +235,16 @@ export default {
       this.tableData[index].editing = !this.tableData[index].editing;
     },
     deleteRow(index) {
-      this.tableData.splice(index, 1);
+      post("/order/deleteOrder", { orderID: orderId }).then(
+        (Response) => {
+          this.loadData()
+          console.log("请求成功", Response);
+        },
+        (error) => {
+          alert("删除失败");
+          console.log("请求失败", error.message);
+        }
+      );
     },
     openEditDialog(index) {
       // 打开编辑对话框，设置编辑项的初始值
@@ -247,28 +258,40 @@ export default {
       this.editDialogVisible = false;
     },
     saveEdit() {
-      // 进行数据验证，这里只是简单的示例，你可以根据实际需求进行修改
-      if (!this.validateEditForm()) {
-        // 数据验证失败，可以在这里添加提示或其他操作
-        return;
-      }
-      // 找到编辑项在原始数据中的索引
-      const index = this.tableData.findIndex(item => item.date === this.editedItem.date);
-      if (index !== -1) {
-        // 只更新需要修改的字段
-        const updatedFields = {
-          name: this.editedItem.name,
-          send: this.editedItem.send,
-          provence: this.editedItem.provence,
-          address: this.editedItem.address,
-          zip: this.editedItem.zip
-        };
-        // 使用 Object.assign 或者展开运算符 (...) 更新原始数据
-        this.tableData.splice(index, 1, Object.assign({}, this.tableData[index], updatedFields));
-      }
+      // this.addingUser = false;
+      post("/order/editOrder",this.editedItem).then(
+        (Response) => {
+          // this.users = Response.data;
+          this.getOrdList()
+          console.log("请求成功", Response);
+        },
+        (error) => {
+          alert("保存失败");
+          console.log("请求失败", error.message);
+        }
+      );
+      // // 进行数据验证，这里只是简单的示例，你可以根据实际需求进行修改
+      // if (!this.validateEditForm()) {
+      //   // 数据验证失败，可以在这里添加提示或其他操作
+      //   return;
+      // }
+      // // 找到编辑项在原始数据中的索引
+      // const index = this.tableData.findIndex(item => item.date === this.editedItem.date);
+      // if (index !== -1) {
+      //   // 只更新需要修改的字段
+      //   const updatedFields = {
+      //     name: this.editedItem.name,
+      //     send: this.editedItem.send,
+      //     provence: this.editedItem.provence,
+      //     address: this.editedItem.address,
+      //     zip: this.editedItem.zip
+      //   };
+      //   // 使用 Object.assign 或者展开运算符 (...) 更新原始数据
+      //   this.tableData.splice(index, 1, Object.assign({}, this.tableData[index], updatedFields));
+      // }
 
-      // 关闭编辑对话框
-      this.editDialogVisible = false;
+      // // 关闭编辑对话框
+      // this.editDialogVisible = false;
     },
     validateEditForm() {
       // 进行数据验证，这里只是简单的示例，你可以根据实际需求进行修改
@@ -287,6 +310,29 @@ export default {
     handleCurrentChange(page) {
       this.currentPage = page;
     },
+    getOrdList() {
+      console.log("asdada")
+      // this.isLoading = true;
+      post("/order/orderList").then(
+        (Response) => {
+          // console.log("请求成功", Response);
+          //Response是返回的参数
+          var data = Response.data;
+          console.log("请求成功", data);
+          this.tableData = data;
+          // this.isLoading = false;
+        },
+        (error) => {
+          console.log("请求失败", error.message);
+        }
+      );
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 1000);
+    },
+    mounted() {
+    this.getOrdList()
+  },
   }
 };
 </script>

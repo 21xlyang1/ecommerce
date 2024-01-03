@@ -36,7 +36,7 @@
             <td>{{ seller.phone }}</td>
             <td>{{ seller.address }}</td>
             <td>
-              <button class="btn-neumorphism edit" @click="editingSeller = true">编辑</button>
+              <button class="btn-neumorphism edit" @click="editSeller(seller)">编辑</button>
               <button class="btn-neumorphism delete" @click="deleteSeller(seller.id)">删除</button>
             </td>
           </tr>
@@ -48,6 +48,9 @@
       <div class="modal-content">
         <h3>编辑商家信息</h3>
         <form>
+          <label for="edit-id">商家ID:</label>
+          <input type="text" id="edit-id" v-model="editedSeller.id" readonly>
+
           <label for="edit-sellername">商家名:</label>
           <input type="text" id="edit-sellername" v-model="editedSeller.sellername" required>
 
@@ -120,7 +123,7 @@ export default {
         address: ""
       },
       editingSeller: false,
-      editedSeller: { id: null, sellername: "", email: "", phone: "",password:"", address: "" },
+      editedSeller: { id: "", sellername: "", email: "", phone: "",password:"", address: "" },
       addingSeller: false, // 添加商家模态框的显示状态
       newSeller: { sellername: "", email: "", phone: "",password:"", address: "" }, // 新商家的信息
     };
@@ -158,6 +161,16 @@ export default {
     searchSellers() {
       // 搜索商家的逻辑
     },
+    editSeller(seller){
+      this.editedSeller.id = seller.id;
+      this.editedSeller.sellername = seller.sellername;
+      this.editedSeller.email = seller.email;
+      this.editedSeller.phone = seller.phone;
+      this.editedSeller.password = seller.password;
+      this.editedSeller.address = seller.address;
+
+      this.editingSeller = true;
+    },
     handleEdit() {
       this.editingSeller = false
       get("/seller/updata",this.editedSeller).then(

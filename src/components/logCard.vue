@@ -70,7 +70,7 @@ export default {
                 desc: '',
                 valueDay: '',
                 valueTime: '',
-                userId: 1,
+                ID: 1,
             },
             pickerOptions: {
                 disabledDate(time) {
@@ -114,9 +114,9 @@ export default {
             // console.log(this.form);
             // console.log(this.form.time_data);
         },
-        delLog() {
-            console.log("删除日志");
-        },
+        // delLog() {
+            // console.log("删除日志");
+        // },
         onSubmitAndClose() {
             this.$refs.form.validate((valid) => {
                 if (valid) {
@@ -129,6 +129,7 @@ export default {
                     const seconds = this.form.valueTime.getSeconds();
                     const formattedDateTime = `${year}/${month.toString().padStart(2, '0')}/${day.toString().padStart(2, '0')} ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                     this.form.time_data = formattedDateTime;
+                    this.form.ID = this.dataIdentifier;
                     console.log("提交更改了");
                     this.$emit('update-log', {
                         newData: this.form,
@@ -158,6 +159,7 @@ export default {
                 desc: '',
                 valueDay: '',
                 valueTime: '',
+                ID: 1,
             };
         },
     },

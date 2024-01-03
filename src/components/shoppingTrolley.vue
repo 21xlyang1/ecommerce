@@ -59,6 +59,7 @@
 
 <script>
 import Iconbutton from './iconbutton.vue';
+import { post } from '@/utils/http';
 
 export default {
   name: "ShoppingCart",
@@ -134,7 +135,7 @@ export default {
     },
     // 更新购物车中商品数量的方法
     updateQuantity(shopIndex, itemIndex, change) {
-      
+
       const updatedQuantity = this.cartItems[shopIndex].cartItems[itemIndex].quantity + change;
       // 此处写一个接口定义发送后端数据
       this.changeDataQuantity(this.cartItems[shopIndex].shopid,this.cartItems[shopIndex].cartItems[itemIndex].productId,updatedQuantity);
@@ -242,12 +243,12 @@ export default {
     this.initializeItemPrices();
     // 初始化店铺选择框状态
     this.initializeShopSelections();
-    post("/product/getCartList", { userId: this.$cookies.get("userId") }).then(
+    post("/shoppingCart/cart", { userId: Number(this.$cookies.get("userId")) }).then(
       (Response) => {
         console.log("请求成功", Response);
         //Response是返回的参数
         var data = Response.data;
-        var sortData = data.slice().sort((a, b) => {
+        var sortData = data.sort((a, b) => {
           // 根据name属性进行升序排序
           return a.storeId.localeCompare(b.storeId);
         });

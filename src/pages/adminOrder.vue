@@ -42,18 +42,18 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(product, index) in displayedProducts" :key="index">
+          <tr v-for="(product, index) in products" :key="index">
             <td>{{ product.name }}</td>
             <td>
               <img
-                :src="getProductImage(product.productId)"
+                :src="getProductImage(product.ProductID)"
                 alt="商品图片"
                 style="max-width: 50px; max-height: 50px; border-radius: 5px"
               />
             </td>
-            <td>￥{{ product.price }}</td>
-            <td>{{ product.orderNumber }}</td>
-            <td>{{ product.deliveryStatus }}</td>
+            <td>￥{{ product.TotalPrice }}</td>
+            <td>{{ product.Quantity }}</td>
+            <td>{{ product.OrderStatus }}</td>
             <td>
               <el-button @click="editProduct(product)" type="primary"
                 >编辑</el-button
@@ -173,6 +173,7 @@ export default {
     displayedProducts() {
       const startIdx = (this.currentPage - 1) * this.pageSize;
       const endIdx = startIdx + this.pageSize;
+      console.log("121212dfd1vgh2j ", this.filteredProducts.slice(startIdx, endIdx));
       return this.filteredProducts.slice(startIdx, endIdx);
     },
   },
@@ -249,7 +250,8 @@ export default {
       post("/order/orderList",{}).then (
         (Response) => {
           this.products = Response.data;
-          console.log("请求成功", Response.data);
+          console.log("Response.data 请求成功", Response.data);
+          console.log("this.products 请求成功", this.products);
         },
         (error) => {
           console.log("请求失败", error.message);

@@ -60,6 +60,7 @@ export default {
                 console.log("搜索商品请求失败", error.message);
             }
         );
+        // 好好好
     }
 };
 </script>

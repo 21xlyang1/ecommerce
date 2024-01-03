@@ -233,7 +233,6 @@ export default {
       this.currentPage = page;
     },
     getOrdList() {
-      console.log("asdada")
       this.isLoading = true;
       post("/order/orderList", {  }).then(
         (Response) => {

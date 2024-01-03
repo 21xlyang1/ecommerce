@@ -250,24 +250,37 @@ export default {
         var data = Response.data;
         var sortData = data.sort((a, b) => {
           // 根据name属性进行升序排序
-          return a.storeId.localeCompare(b.storeId);
+          if (a.storeId < b.storeId) {
+            return -1;
+          }
+          if (a.storeId > b.storeId) {
+            return 1;
+          }
+          return 0;
         });
         this.cartItems = [];
-        var lastId = undefined;
-        var t = {};
-        for (var i = 0; i < data.length; i++) {
-          if (sortData[i].storeId != lastId) {
-            if (i != 0)
-              this.cartItems.push(t);
-            t = {
-              shopid:sortData[i].storeId,
-              shopname: sortData[i].storeName,
-              cartItems: [],
-            }
-          }
-          t.cartItems.push(sortData[i]);
-
+        var lastId = sortData[0].storeId;
+        var t = {
+          shopid: sortData[0].storeId,
+          shopname: sortData[0].storeName,
+          cartItems: [],
+        };
+        for (var i = 0; i < sortData.length; i++) {
+          // if (sortData[i].storeId != lastId || i == 0) {
+          //   if (i != 0)
+          //     this.cartItems.push(t);
+          //   t = {
+          //     shopid:sortData[i].storeId,
+          //     shopname: sortData[i].storeName,
+          //     cartItems: [],
+          //   }
+          // }
+          // t.cartItems.push(sortData[i]);
+          // console.log("1233546546 ", t);
+          t.cartItems.push(sortData[i])
         }
+        this.cartItems.push(t);
+        console.log("asdadad ", this.cartItems);
       },
       (error) => {
         console.log("请求失败", error.message);

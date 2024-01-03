@@ -20,6 +20,5 @@ module.exports = defineConfig({
 
       },
     },
-    port: 5050, // 确保这里设置的是正确的端口号
   }
 })

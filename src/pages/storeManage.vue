@@ -111,12 +111,12 @@ export default {
     return {
       searchQuery: "",
       sellers: [
-        
+
       ],
       tempSeller:{
-        sellername: "", 
-        email: "", 
-        phone: "", 
+        sellername: "",
+        email: "",
+        phone: "",
         address: ""
       },
       editingSeller: false,
@@ -124,20 +124,11 @@ export default {
       addingSeller: false, // 添加商家模态框的显示状态
       newSeller: { sellername: "", email: "", phone: "",password:"", address: "" }, // 新商家的信息
     };
-  },  
+  },
   mounted() {
-    
+
   //""填入url地址，{}为请求参数
-    get("/seller/getList", {}).then(
-      (Response) => {
-        sellers = Response.data;
-        console.log("请求成功", Response);
-        //Response是返回的参数
-      },
-      (error) => {
-        console.log("请求失败", error.message);
-      }
-    );
+    this.loadData()
   },
 
 
@@ -152,14 +143,26 @@ export default {
     },
   },
   methods: {
+    loadData() {
+      get("/seller/getList", {}).then(
+      (Response) => {
+        this.sellers = Response.data;
+        console.log("请求成功", Response);
+        //Response是返回的参数
+      },
+      (error) => {
+        console.log("请求失败", error.message);
+      }
+    )
+    },
     searchSellers() {
       // 搜索商家的逻辑
     },
-     handleEdit(){
+    handleEdit() {
       this.editingSeller = false
-       get("/seller/updata",this.editedSeller).then(
+      get("/seller/updata",this.editedSeller).then(
       (Response) => {
-        sellers = Response.data;
+        this.sellers = Response.data;
         console.log("请求成功", Response);
       },
       (error) => {
@@ -171,11 +174,11 @@ export default {
     cancelEdit(){
       this.editingSeller = false;
     },
-    
+
     deleteSeller(sellerId) {
-      post("/seller/delete",sellerId).then(
+      post("/seller/delete",{sellerId: sellerId}).then(
       (Response) => {
-        sellers = Response.data;
+        this.loadData()
         console.log("请求成功", Response);
       },
       (error) => {
@@ -183,14 +186,14 @@ export default {
         console.log("请求失败", error.message);
       }
     );
-    
+
     },
-    
+
     addSeller() {
     this.addingSeller = false;
-    post("/sellerr/addSeller",this.newSeller).then(
+    post("/seller/addSeller",this.newSeller).then(
       (Response) => {
-        sellers = Response.data;
+        this.loadData()
         console.log("请求成功", Response);
       },
       (error) => {
@@ -198,7 +201,7 @@ export default {
         console.log("请求失败", error.message);
       }
     );
-       
+
     },
     cancelAddSeller() {
        this.addingSeller = false;

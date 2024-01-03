@@ -246,23 +246,15 @@ export default {
     },
     getOrdList() {
       console.log("asdada")
-      // this.isLoading = true;
-      post("/order/orderList",{}).then(
+      post("/order/orderList",{}).then (
         (Response) => {
-          // console.log("请求成功", Response);
-          //Response是返回的参数
           this.products = Response.data;
-          console.log("请求成功", Response);
-          // this.products = data;
-          // this.isLoading = false;
+          console.log("请求成功", Response.data);
         },
         (error) => {
           console.log("请求失败", error.message);
         }
       );
-      // setTimeout(() => {
-      //   this.isLoading = false;
-      // }, 1000);
     },
   },
   mounted() {

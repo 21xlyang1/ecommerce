@@ -7,18 +7,18 @@
                     <img src="../assets/img/默认头像.svg" alt="头像" height="35px" />
                 </div>
                 <div class="r">
-                    <div class="userName" @mouseover="showTooltip" @mouseout="hideTooltip"> {{ data.name }} </div>
-                    <div class="toolTip" :class="{ 'visible': tooltipVisible }"> {{ data.name }} </div>
+                    <div class="userName" @mouseover="showTooltip" @mouseout="hideTooltip"> {{ name }} </div>
+                    <div class="toolTip" :class="{ 'visible': tooltipVisible }"> {{ name }} </div>
                 </div>
             </div>
             <div class="phone_box">
-                <div class="phone" @mouseover="showTooltip_phone" @mouseout="hideTooltip_phone"> {{ data.phoneNumber }}
+                <div class="phone" @mouseover="showTooltip_phone" @mouseout="hideTooltip_phone"> {{ phoneNumber }}
                 </div>
-                <div class="toolTip_phone" :class="{ 'visible_phone': tooltipVisible_phone }"> {{ data.phoneNumber }} </div>
+                <div class="toolTip_phone" :class="{ 'visible_phone': tooltipVisible_phone }"> {{ phoneNumber }} </div>
             </div>
             <div class="email_box">
-                <div class="email" @mouseover="showTooltip_email" @mouseout="hideTooltip_email"> {{ data.email }} </div>
-                <div class="toolTip_email" :class="{ 'visible_email': tooltipVisible_email }"> {{ data.email }} </div>
+                <div class="email" @mouseover="showTooltip_email" @mouseout="hideTooltip_email"> {{ email }} </div>
+                <div class="toolTip_email" :class="{ 'visible_email': tooltipVisible_email }"> {{ email }} </div>
             </div>
             <div class="comment_box">
                 <div class="box">
@@ -35,6 +35,8 @@
     </div>
 </template>
 <script>
+
+import { post } from "@/utils/http";
 export default {
     props: {
         data: {
@@ -44,6 +46,12 @@ export default {
     },
     data() {
         return {
+            name: '',
+            phoneNumber: '',
+            email: "",
+            // content: "",
+            // submission: "",
+            // selected: false,
             tooltipVisible: false,
             tooltipVisible_phone: false,
             tooltipVisible_email: false,
@@ -86,6 +94,36 @@ export default {
         triggerDeleteEvent() {
             this.$emit('trigger-delete', this.data);
         },
+        loadData() {
+            post("/user/getInf", { userId: this.data.ID }).then(
+                (Response) => {
+                    this.name = Response.data.username;
+                    this.phoneNumber = Response.data.phoneNum;
+                    this.email = Response.data.email;
+                    console.log("123654 用户信息请求成功", Response);
+                    // var content = item
+
+                    // content.email = Response.data.email;
+                    // content.phoneNumber = Response.data.phoneNum;
+                    // content.name = Response.data.username;
+                    // this.$set(this.dataList,index,content);
+                    // console.log("12121212 showList: ", this.showList);
+                    // this.updateShowList(); // 初始化时调用一次，显示第一页的数据
+                    },
+                (error) => {
+                    console.log("用户信息请求失败", error.message);
+                }
+            );
+        },
+    },
+    mounted() {
+        this.loadData();
+        // this.name = data.name;
+        // this.phoneNumber = data.phoneNumber;
+        // this.email = data.email;
+        // this.content = data.content;
+        // this.submission = data.submission;
+        // this.selected = data.selected;
     },
 };
 </script>

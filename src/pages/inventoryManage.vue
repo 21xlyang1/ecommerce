@@ -91,21 +91,35 @@ export default {
     deleteProduct(product) {
       const confirmDelete = confirm("确定要删除该商品吗？");
       if (confirmDelete) {
-        product.stock = 0;
-        this.removeProduct(product);
+        // product.stock = 0;
+        // this.removeProduct(product);
+        post("/product/deleteProduct", { productId: Number(product.id) }).then(
+        (Response) => {
+          console.log("删除成功", Response);
+          //Response是返回的参数
+          var data = Response;
+          //打印商品已经成功修改
+          if (data.isSuccess)
+            console.log(data.msg);
+          this.loadData()
+        },
+        (error) => {
+          console.log("删除失败", error.message);
+        }
+      );
       }
-      this.changeDataStock(product.id, product.stock);
+      // this.changeDataStock(product.id, product.stock);
     },
     removeProduct(product) {
       // Filter out the product with stock = 0
       this.products = this.products.filter((p) => p.stock > 0);
     },
     changeDataStock(productId, stock) {
-      post("/product/editProduc", { productId: productId, productName: "", description: "", storeId: "", price: "", stock: stock, productStatus: "" }).then(
+      post("/product/editProduct", { productId: productId, stock: stock }).then(
         (Response) => {
           console.log("请求成功", Response);
           //Response是返回的参数
-          var data = Response.data;
+          var data = Response;
           //打印商品已经成功修改
           if (data.isSuccess)
             console.log(data.msg);
@@ -114,11 +128,9 @@ export default {
           console.log("请求失败", error.message);
         }
       );
-    }
-  },
-  mounted() {
-    //先获取商品id列表
-    post("/product/getList", { searchKey: "", type: "" }).then(
+    },
+    loadData() {
+      post("/product/getList", { searchKey: "", type: Number(0) }).then(
       (response) => {
         console.log("请求成功", response);
         // response是返回的参数
@@ -126,6 +138,7 @@ export default {
 
         // 检查是否存在 productId 字段
         if (Array.isArray(data) && data.length > 0) {
+          this.products = [];
           data.forEach((product) => {
             if (product.productId) {
               // 提取并处理 productId
@@ -138,13 +151,11 @@ export default {
                   console.log("请求成功", Response);
                   //Response是返回的参数
                   var data = Response.data;
-                  
-                  this.products = [];
                   var t = {};
                   t = {
-                    productId:productId,
-                    name:data.productName,
-                    stock:data.stock,
+                    id: data.productId,
+                    name: data.productName,
+                    stock: data.stock,
                   }
                   this.products.push(t);
                 },
@@ -164,6 +175,11 @@ export default {
         console.log("请求失败", error.message);
       }
     );
+    }
+  },
+  mounted() {
+    //先获取商品id列表
+    this.loadData()
 
 
 

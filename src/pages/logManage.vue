@@ -192,10 +192,8 @@ export default {
       };
     },
     updateLog( newData ) {
-      let identifier = newData.Id
-      console.log(identifier);
       console.log(newData);
-      let logId = identifier;
+      let logId = newData.ID;
       let title = newData.title;
       let content = newData.text;
       post("/log/editLog", { logId: logId, title: title, content: content }).then(

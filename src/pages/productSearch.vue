@@ -30,8 +30,7 @@ export default {
         return {
             placeholder: "请输入关键字进行搜索...",
             searchText: '',
-            searchList: [
-            ],
+            searchList: [],
         }
     },
     methods: {
@@ -41,8 +40,8 @@ export default {
             post("/product/getList", { searchKey: keyword }).then(
                 (Response) => {
                     console.log("搜索商品请求成功", Response);
-                    // this.searchList = Response.data;
-                    this.$set(this, 'searchList', Response.data);
+                    this.searchList = Response.data;
+                    // this.$set(this, 'searchList', Response.data);
                 },
                 (error) => {
                     console.log("搜索商品请求失败", error.message);
@@ -55,8 +54,8 @@ export default {
         post("/product/getList", { searchKey: searchText }).then(
             (Response) => {
                 console.log("搜索商品请求成功", Response);
-                // this.searchList = Response.data;
-                this.$set(this, 'searchList', Response.data);
+                this.searchList = Response.data;
+                // this.$set(this, 'searchList', Response.data);
             },
             (error) => {
                 console.log("搜索商品请求失败", error.message);

@@ -106,7 +106,7 @@ export default {
   },
   mounted(){
     // 获取商铺id
-    post("/store/getStoreInfo", { userId: this.$cookies.get("userId") }).then(
+    post("/store/getStoreInfo", { userId: Number(this.$cookies.get("userId")) }).then(
       (Response) => {
         console.log("请求成功", Response);
         //Response是返回的参数

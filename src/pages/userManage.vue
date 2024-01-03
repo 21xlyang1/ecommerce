@@ -119,14 +119,14 @@ export default {
     return {
       searchQuery: "",
       users: [
-        { id: 1, username: "JaneDoe", email: "janedoe@example.com", phone: "13579", role: "管理员" },
-        { id: 2, username: "JohnDoe", email: "johndoe@example.com", phone: "24680", role: "用户" },
+        // { id: 1, username: "JaneDoe", email: "janedoe@example.com", phone: "13579", role: "管理员" },
+        // { id: 2, username: "JohnDoe", email: "johndoe@example.com", phone: "24680", role: "用户" },
         // 更多用户数据...
       ],
       tempUser:{
-        username: "", 
-        email: "", 
-        phone: "", 
+        username: "",
+        email: "",
+        phone: "",
         role: ""
       },
       editingUser: false,
@@ -134,19 +134,20 @@ export default {
       addingUser: false, // 添加用户模态框的显示状态
       newUser: { username: "", email: "", phone: "",password:"", role: "" }, // 新用户的信息
     };
-  },  
+  },
   mounted() {
     //""填入url地址，{}为请求参数
-    get("/user/getList", {}).then(
-      (Response) => {
-        users = Response.data;
-        console.log("请求成功", Response);
-        //Response是返回的参数
-      },
-      (error) => {
-        console.log("请求失败", error.message);
-      }
-    );
+    // get("/user/getList", {}).then(
+    //   (Response) => {
+    //     this.users = Response.data;
+    //     console.log("请求成功", Response);
+    //     //Response是返回的参数
+    //   },
+    //   (error) => {
+    //     console.log("请求失败", error.message);
+    //   }
+    // );
+    this.loadData()
   },
 
 
@@ -161,6 +162,18 @@ export default {
     },
   },
   methods: {
+    loadData() {
+      get("/user/getList", {}).then(
+      (Response) => {
+        this.users = Response.data;
+        console.log("请求成功", Response);
+        //Response是返回的参数
+      },
+      (error) => {
+        console.log("请求失败", error.message);
+      }
+    )
+    },
     searchUsers() {
       // 搜索用户的逻辑
     },
@@ -168,7 +181,7 @@ export default {
       this.editingUser = false;
       post("/user/update", this.editedUser).then(
         (Response) => {
-          this.users = Response.data;
+          this.loadData()
           console.log("请求成功", Response);
         },
         (error) => {
@@ -181,9 +194,9 @@ export default {
       this.editingUser = false;
     },
     deleteUser(userId) {
-      post("/user/delete", { id: userId }).then(
+      post("/user/delete", { userID: userId }).then(
         (Response) => {
-          this.users = Response.data;
+          this.loadData()
           console.log("请求成功", Response);
         },
         (error) => {
@@ -196,7 +209,8 @@ export default {
       this.addingUser = false;
       post("/user/addUser", this.newUser).then(
         (Response) => {
-          this.users = Response.data;
+          // this.users = Response.data;
+          this.loadData()
           console.log("请求成功", Response);
         },
         (error) => {

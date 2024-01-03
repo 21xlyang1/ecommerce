@@ -7,7 +7,7 @@
     <div class="container-xl d-flex justify-content-center">
       <el-scrollbar
         style=" background: rgba(255, 255, 255, 0.7)"
-      
+
         :style="{ height: outerDivHeight + 'px' ,width:outerDivWidth>800?'200px':'140px'}"
       >
         <div
@@ -102,7 +102,7 @@ export default {
     },
     getOrdList() {
       this.isLoading = true;
-      post("/order/useGetList", { userId: this.$cookies.get("userId") }).then(
+      post("/order/useGetList", { userId: Number(this.$cookies.get("userId")) }).then(
         (Response) => {
           console.log("请求成功", Response);
           //Response是返回的参数
@@ -116,7 +116,7 @@ export default {
       );
       setTimeout(() => {
          this.isLoading = false;
-      }, 1000); 
+      }, 1000);
     },
   },
   mounted() {

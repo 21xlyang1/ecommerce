@@ -2,7 +2,7 @@
   <div class="adminProduct">
     <!-- 页面标题 -->
     <div class="page-title">
-      后台商品管理
+      商家商品管理
     </div>
 
     <!-- 商品显示数量和搜索 -->
@@ -41,10 +41,10 @@
                   <input type="checkbox" v-model="selectAll" @change="selectAllProducts">
                 </th>
                 <th class="text-center" style="width: 30%;">商品</th>
-                <th class="text-center" style="width: 15%;">商铺</th>
+                <th class="text-center" style="width: 15%;">商品id</th>
                 <th class="text-center" style="width: 15%;">价格</th>
                 <th class="text-center" style="width: 15%;">库存</th>
-                <th class="text-center" style="width: 15%;">商品状态</th>
+                <th class="text-center" style="width: 15%;">商铺id</th>
                 <th class="text-center" style="width: 15%;">编辑</th>
               </tr>
               </thead>
@@ -59,16 +59,15 @@
                   </div>
                   <div class="product-info"
                        style="flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                    {{ product.productName }}:{{ product.description }}
+                    {{ product.productName }}:{{ product.label }}
                   </div>
                 </td>
-                <td class="text-center">{{ product.storeId }}</td>
+                <td class="text-center">{{ product.productId }}</td>
                 <td class="text-center">${{ product.price }}</td>
                 <td class="text-center">{{ product.stock }}</td>
-                <td class="text-center">{{ product.status }}</td>
+                <td class="text-center">{{ product.sellerId }}</td>
                 <td class="text-center">
-                  <el-button class="edit-btn" @click="openEditProduct(productId)">编辑商品</el-button>
-                  <!--                  <el-button class="edit-btn" @click="undercarryProduct(productId)">下架商品</el-button>-->
+                  <el-button class="edit-btn" @click="openEditProduct(product)">编辑商品</el-button>
                 </td>
               </tr>
               </tbody>
@@ -109,7 +108,7 @@
         <el-form-item label="商品描述" prop="description">
           <el-input v-model="editedProduct.description"></el-input>
         </el-form-item>
-        <el-form-item label="商铺" prop="storeId" disabled>
+        <el-form-item label="商铺" prop="storeId">
           <el-input v-model="editedProduct.storeId"></el-input>
         </el-form-item>
         <el-form-item label="价格" prop="price">
@@ -130,13 +129,14 @@
 </template>
 <script>
 import 'element-ui/lib/theme-chalk/index.css';
+import axios from 'axios';
 import repsonse from "core-js/internals/is-forced";
-import { post } from '@/utils/http';
+import {post} from "@/utils/http";
+
 export default {
   name: "adminProduct",
   data() {
     return {
-      storeId: '',  //默认为空
       originalProducts: [],
       products: [
         {
@@ -210,7 +210,7 @@ export default {
           selected: false,
         }
       ],
-      products: [],
+      idList: [],
       itemsPerPage: 5, // 初始每页显示的商品数量
       currentPage: 1,  // 初始当前页码
       searchQuery: '', // 用户的搜索关键词
@@ -283,22 +283,29 @@ export default {
       });
     },
 
-    // // 下架商品
-    // undercarryProduct(productId) {
-    //   const index = productId;
-    //
-    //   if (index !== -1) {
-    //     this.products.splice(index, 1);
-    //     this.calculateTotalPages(); // 更新总页数
-    //   }
-    // },
+    // 删除商品
+    deleteProduct(product) {
+      const index = product.productId;
+
+      post('/product/deleteProduct', {
+        productId: index,
+      }).then((Response) => {
+        const msg = Response.msg;
+        alert(msg);
+      }).catch((error) => {
+        console.log('商品数据删除失败：', error);
+      });
+      if (index !== -1) {
+        this.products.splice(index, 1);
+        this.calculateTotalPages(); // 更新总页数
+      }
+      this.loadData();
+    },
 
     // 编辑
-    openEditProduct(productId) {
+    openEditProduct(product) {
       // 打开编辑对话框，设置编辑项的初始值
-      this.editedProduct = {
-        ...this.products[productId]
-      };
+      this.editedProduct = product;
       this.editProductVisible = true;
     },
     closeEditDialog() {
@@ -307,7 +314,7 @@ export default {
     },
     // 更新商品数据
     saveEdit() {
-      axios.post('/product/editProduct', {
+      post('/product/editProduct', {
         productId: this.editedProduct.productId,
         productName: this.editedProduct.productName,
         description: this.editedProduct.description,
@@ -315,15 +322,14 @@ export default {
         price: this.editedProduct.price,
         stock: this.editedProduct.stock,
         productStatus: this.editedProduct.status,
-      }).then(response => {
-        const msg = response.msg;
+      }).then((Response) => {
+        const msg = Response.msg;
         alert(msg);
-      }).catch(error => {
+      }).catch((error) => {
         console.log('商品数据更新失败：', error);
-      })
-
-      // 关闭编辑对话框
+      });
       this.editProductVisible = false;
+      this.loadData();
     },
     validEditForm() {
       // 进行数据验证，这里只是简单的示例，你可以根据实际需求进行修改
@@ -334,6 +340,36 @@ export default {
 
       return true;
     },
+    loadData() {
+    post('/product/getList', {searchKey: "", type: 0} ).then((Response) => {
+          console.log("请求成功");
+
+          this.idList = Response.data;
+
+          this.products = [];
+          for (const productId of this.idList) {
+
+            console.log("asdadasda", productId);
+            try {
+              // 发送POST请求
+              post('/product/getProductInfo', {productId: productId.productId}).then((Response) => {
+                this.products.push(Response.data);
+              }, (error) => {
+                console.log("获取商品数据失败：", error);
+              });
+            } catch (error) {
+              // 处理错误
+              console.error(`Error fetching data for product ${productId}:`, error.message);
+            }
+          }
+          this.calculateTotalPages();
+          //}//
+
+        }, (error) => {
+          console.log("请求失败:", error);
+        }
+    );
+  },
   },
   computed: {
     filteredProducts() {
@@ -351,27 +387,10 @@ export default {
       this.calculateTotalPages();
     },
   },
-  // 获取商品数据
-  mounted() {
-    // axios.post('/product/getList', {
-    //   searchKey: this.storeId,
-    // }).then(response => {
-    //   this.products = response.data;
-    // }).catch(error => {
-    //   console.error('获取商家商品数据失败：', error);
-    // });
 
-    // this.calculateTotalPages();
-    post("/product/getList", {} ).then(
-      (Response) => {
-        console.log("请求成功", Response);
-        //Response是返回的参数
-        this.products = Response.data;
-      },
-      (error) => {
-        console.log("获取商家商品数据失败", error.message);
-      }
-    );
+  // 获取商品数据
+  async mounted() {
+    this.loadData();
   },
 
 }

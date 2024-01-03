@@ -41,10 +41,10 @@
                   <input type="checkbox" v-model="selectAll" @change="selectAllProducts">
                 </th>
                 <th class="text-center" style="width: 30%;">商品</th>
-                <th class="text-center" style="width: 15%;">商铺</th>
+                <th class="text-center" style="width: 15%;">商品id</th>
                 <th class="text-center" style="width: 15%;">价格</th>
                 <th class="text-center" style="width: 15%;">库存</th>
-                <th class="text-center" style="width: 15%;">商品状态</th>
+                <th class="text-center" style="width: 15%;">商铺id</th>
                 <th class="text-center" style="width: 15%;">编辑</th>
               </tr>
               </thead>
@@ -59,16 +59,16 @@
                   </div>
                   <div class="product-info"
                        style="flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                    {{ product.productName }}:{{ product.description }}
+                    {{ product.productName }}:{{ product.label }}
                   </div>
                 </td>
-                <td class="text-center">{{ product.storeId }}</td>
+                <td class="text-center">{{ product.productId }}</td>
                 <td class="text-center">${{ product.price }}</td>
                 <td class="text-center">{{ product.stock }}</td>
-                <td class="text-center">{{ product.status }}</td>
+                <td class="text-center">{{ product.sellerId }}</td>
                 <td class="text-center">
-                  <el-button class="edit-btn" @click="openEditProduct(productId)">编辑商品</el-button>
-                  <el-button class="edit-btn" @click="deleteProduct(productId)">删除商品</el-button>
+                  <el-button class="edit-btn" @click="openEditProduct(product)">编辑商品</el-button>
+                  <el-button class="edit-btn" @click="deleteProduct(product)">删除商品</el-button>
                 </td>
               </tr>
               </tbody>
@@ -139,79 +139,79 @@ export default {
   data() {
     return {
       originalProducts: [],
-      // products: [
-      //   {
-      //     productId: 1,
-      //     productName: '商品1',
-      //     description: '信息1',
-      //     storeId: 'AAA',
-      //     price: '20.9',
-      //     stock: '50',
-      //     status: '上架',
-      //     selected: false,
-      //   },
-      //   {
-      //     productId: 2,
-      //     productName: '商品2',
-      //     description: '信息2',
-      //     storeId: 'GGG',
-      //     price: '9.9',
-      //     stock: '20',
-      //     status: '售罄',
-      //     selected: false,
-      //   },
-      //   {
-      //     productId: 3,
-      //     productName: '商品3',
-      //     description: '信息3',
-      //     storeId: 'BBB',
-      //     price: '9.9',
-      //     stock: '20',
-      //     status: '下架',
-      //     selected: false,
-      //   },
-      //   {
-      //     productId: 4,
-      //     productName: '商品4',
-      //     description: '信息4',
-      //     storeId: 'CCC',
-      //     price: '9.9',
-      //     stock: '20',
-      //     status: '下架',
-      //     selected: false,
-      //   },
-      //   {
-      //     productId: 5,
-      //     productName: '商品5',
-      //     description: '信息5',
-      //     storeId: 'DDD',
-      //     price: '9.9',
-      //     stock: '20',
-      //     status: '上架',
-      //     selected: false,
-      //   },
-      //   {
-      //     productId: 6,
-      //     productName: '商品6',
-      //     description: '信息6',
-      //     storeId: 'EEE',
-      //     price: '9.9',
-      //     stock: '20',
-      //     status: '上架',
-      //     selected: false,
-      //   },
-      //   {
-      //     productId: 7,
-      //     productName: '商品7',
-      //     description: '信息7',
-      //     storeId: 'FFF',
-      //     price: '9.9',
-      //     stock: '20',
-      //     status: '上架',
-      //     selected: false,
-      //   }
-      // ],
-      products: [],
+      products: [
+        {
+          productId: 1,
+          productName: '商品1',
+          description: '信息1',
+          storeId: 'AAA',
+          price: '20.9',
+          stock: '50',
+          status: '上架',
+          selected: false,
+        },
+        {
+          productId: 2,
+          productName: '商品2',
+          description: '信息2',
+          storeId: 'GGG',
+          price: '9.9',
+          stock: '20',
+          status: '售罄',
+          selected: false,
+        },
+        {
+          productId: 3,
+          productName: '商品3',
+          description: '信息3',
+          storeId: 'BBB',
+          price: '9.9',
+          stock: '20',
+          status: '下架',
+          selected: false,
+        },
+        {
+          productId: 4,
+          productName: '商品4',
+          description: '信息4',
+          storeId: 'CCC',
+          price: '9.9',
+          stock: '20',
+          status: '下架',
+          selected: false,
+        },
+        {
+          productId: 5,
+          productName: '商品5',
+          description: '信息5',
+          storeId: 'DDD',
+          price: '9.9',
+          stock: '20',
+          status: '上架',
+          selected: false,
+        },
+        {
+          productId: 6,
+          productName: '商品6',
+          description: '信息6',
+          storeId: 'EEE',
+          price: '9.9',
+          stock: '20',
+          status: '上架',
+          selected: false,
+        },
+        {
+          productId: 7,
+          productName: '商品7',
+          description: '信息7',
+          storeId: 'FFF',
+          price: '9.9',
+          stock: '20',
+          status: '上架',
+          selected: false,
+        }
+      ],
+      idList: [],
       itemsPerPage: 5, // 初始每页显示的商品数量
       currentPage: 1,  // 初始当前页码
       searchQuery: '', // 用户的搜索关键词
@@ -285,17 +285,8 @@ export default {
     },
 
     // 删除商品
-    deleteProduct(productId) {
-      const index = productId;
-
-      // axios.post('/product/deleteProduct', {
-      //   productId: index,
-      // }).then(response => {
-      //   const msg = response.msg;
-      //   alert(msg);
-      // }).catch(error => {
-      //   console.log('商品数据删除失败：', error);
-      // });
+    deleteProduct(product) {
+      const index = product.productId;
 
       post('/product/deleteProduct', {
         productId: index,
@@ -305,20 +296,17 @@ export default {
       }).catch((error) => {
         console.log('商品数据删除失败：', error);
       });
-
-
       if (index !== -1) {
         this.products.splice(index, 1);
         this.calculateTotalPages(); // 更新总页数
       }
+      this.loadData();
     },
 
     // 编辑
-    openEditProduct(productId) {
+    openEditProduct(product) {
       // 打开编辑对话框，设置编辑项的初始值
-      this.editedProduct = {
-        ...this.products[productId]
-      };
+      this.editedProduct = product;
       this.editProductVisible = true;
     },
     closeEditDialog() {
@@ -327,21 +315,6 @@ export default {
     },
     // 更新商品数据
     saveEdit() {
-      // axios.post('/product/editProduct', {
-      //   productId: this.editedProduct.productId,
-      //   productName: this.editedProduct.productName,
-      //   description: this.editedProduct.description,
-      //   storeId: this.editedProduct.storeId,
-      //   price: this.editedProduct.price,
-      //   stock: this.editedProduct.stock,
-      //   productStatus: this.editedProduct.status,
-      // }).then(response => {
-      //   const msg = response.msg;
-      //   alert(msg);
-      // }).catch(error => {
-      //   console.log('商品数据更新失败：', error);
-      // });
-
       post('/product/editProduct', {
         productId: this.editedProduct.productId,
         productName: this.editedProduct.productName,
@@ -356,25 +329,8 @@ export default {
       }).catch((error) => {
         console.log('商品数据更新失败：', error);
       });
-
-      // // 找到编辑项在原始数据中的索引
-      // const index = this.products.findIndex(item => item.productId === this.editedProduct.productId)
-      // // console.log("index:",index);
-
-      // if (index !== -1) {
-      //   const updatedProducts = {
-      //     productName: this.editedProduct.productName,
-      //     description: this.editedProduct.description,
-      //     storeId: this.editedProduct.storeId,
-      //     price: this.editedProduct.price,
-      //     stock: this.editedProduct.stock,
-      //     status: this.editedProduct.status,
-      //   };
-      //   this.products.splice(index, 1, Object.assign({}, this.products[index], updatedProducts));
-      // }
-
-      // 关闭编辑对话框
       this.editProductVisible = false;
+      this.loadData();
     },
     validEditForm() {
       // 进行数据验证，这里只是简单的示例，你可以根据实际需求进行修改
@@ -385,6 +341,36 @@ export default {
 
       return true;
     },
+    loadData() {
+    post('/product/getList', {searchKey: "", type: 0} ).then((Response) => {
+          console.log("请求成功");
+
+          this.idList = Response.data;
+
+          this.products = [];
+          for (const productId of this.idList) {
+
+            console.log("asdadasda", productId);
+            try {
+              // 发送POST请求
+              post('/product/getProductInfo', {productId: productId.productId}).then((Response) => {
+                this.products.push(Response.data);
+              }, (error) => {
+                console.log("获取商品数据失败：", error);
+              });
+            } catch (error) {
+              // 处理错误
+              console.error(`Error fetching data for product ${productId}:`, error.message);
+            }
+          }
+          this.calculateTotalPages();
+          //}//
+
+        }, (error) => {
+          console.log("请求失败:", error);
+        }
+    );
+  },
   },
   computed: {
     filteredProducts() {
@@ -402,28 +388,10 @@ export default {
       this.calculateTotalPages();
     },
   },
+
   // 获取商品数据
-  mounted() {
-    post('/product/getsList').then((Response) => {
-          console.log("请求成功");
-
-          this.products.productId = Response.data;
-
-          post('/product/getProductInfo', {
-            productId: this.products.productId
-          }).then(Response => {
-            console.log("获取商品数据成功")
-
-            this.products = Response.data;
-
-            this.calculateTotalPages();
-          }, (error) => {
-            console.log("获取商品失败：", error);
-          });
-        }, (error) => {
-          console.log("请求失败:", error);
-        }
-    );
+  async mounted() {
+    this.loadData();
   },
 
 }

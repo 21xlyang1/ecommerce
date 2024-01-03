@@ -44,8 +44,8 @@
               <input v-else v-model="item.name" />
             </td>
             <td>
-              <span v-if="!item.editing">{{ item.send }}</span>
-              <input v-else v-model="item.send" />
+              <span v-if="!item.editing">{{ item.deliveryStatus }}</span>
+              <input v-else v-model="item.deliveryStatus" />
             </td>
             <td>
               <span v-if="!item.editing">{{ item.provence }}</span>
@@ -56,8 +56,8 @@
               <input v-else v-model="item.address" />
             </td>
             <td>
-              <span v-if="!item.editing">{{ item.zip }}</span>
-              <input v-else v-model="item.zip" />
+              <span v-if="!item.editing">{{ item.orderNumber }}</span>
+              <input v-else v-model="item.orderNumber" />
             </td>
             <td>
               <el-button @click="openEditDialog(index)" type="primary">编辑</el-button>
@@ -85,17 +85,17 @@
         <el-form-item label="用户名" prop="name">
           <el-input v-model="editedItem.name"></el-input>
         </el-form-item>
-        <el-form-item label="省份" prop="send">
-          <el-input v-model="editedItem.send"></el-input>
+        <el-form-item label="是否发货" prop="deliveryStatus">
+          <el-input v-model="editedItem.deliveryStatus"></el-input>
         </el-form-item>
-        <el-form-item label="市区" prop="provence">
+        <el-form-item label="省份" prop="provence">
           <el-input v-model="editedItem.provence"></el-input>
         </el-form-item>
         <el-form-item label="地址" prop="address">
           <el-input v-model="editedItem.address"></el-input>
         </el-form-item>
-        <el-form-item label="订单号" prop="zip">
-          <el-input v-model="editedItem.zip"></el-input>
+        <el-form-item label="订单号" prop="orderNumber">
+          <el-input v-model="editedItem.orderNumber"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="saveEdit">保存</el-button>
@@ -107,7 +107,7 @@
 
 <script>
 import 'element-ui/lib/theme-chalk/index.css';
-import { post } from "@/utils/http";
+
 export default {
   name: "",
   props: {
@@ -123,89 +123,87 @@ export default {
   data() {
   return {
     originalTableData: [], // 保存原始的表格数据
-     tableData: [
-      {
-        date: '2016-05-02',
-        name: '王小虎',
-        send: '发货',
-        provence: '广东省',
-        address: '汕头市澄海区汕头大学东海岸校区',
-        zip: 20033312312312312,
-        editing: false
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        send: '未发货',
-        provence: '广东省',
-        address: '汕头市澄海区汕头大学东海岸校区',
-        zip: 20033312312312312,
-        editing: false
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        send: '未发货',
-        provence: '广东省',
-        address: '汕头市澄海区汕头大学东海岸校区',
-        zip: 20033312312312312,
-        editing: false
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        send: '未发货',
-        provence: '广东省',
-        address: '汕头市澄海区汕头大学东海岸校区',
-        zip: 20033312312312312,
-        editing: false
-      }, {
-        date: '2016-05-04',
-        name: '张三',
-        send: '发货',
-        provence: '广东省',
-        address: '汕头市澄海区汕头大学东海岸校区',
-        zip: 20033312312312312,
-        editing: false
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        send: '未发货',
-        provence: '广东省',
-        address: '汕头市澄海区汕头大学东海岸校区',
-        zip: 20033312312312312,
-        editing: false
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        send: '发货',
-        provence: '广东省',
-        address: '汕头市澄海区汕头大学东海岸校区',
-        zip: 20033312312312312,
-        editing: false
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        send: '发货',
-        provence: '广东省',
-        address: '汕头市澄海区汕头大学东海岸校区',
-        zip: 20033312312312312,
-        editing: false
-      }
-  ],
+    tableData: [{
+      date: '2016-05-02',
+      name: '王小虎',
+      deliveryStatus: '发货',
+      provence: '广东省',
+      address: '汕头市澄海区汕头大学东海岸校区',
+      orderNumber: 20033312312312312,
+      editing: false
+    }, {
+      date: '2016-05-04',
+      name: '王小虎',
+      deliveryStatus: '未发货',
+      provence: '广东省',
+      address: '汕头市澄海区汕头大学东海岸校区',
+      orderNumber: 20033312312312312,
+      editing: false
+    }, {
+      date: '2016-05-04',
+      name: '王小虎',
+      deliveryStatus: '未发货',
+      provence: '广东省',
+      address: '汕头市澄海区汕头大学东海岸校区',
+      orderNumber: 20033312312312312,
+      editing: false
+    }, {
+      date: '2016-05-04',
+      name: '王小虎',
+      deliveryStatus: '未发货',
+      provence: '广东省',
+      address: '汕头市澄海区汕头大学东海岸校区',
+      orderNumber: 20033312312312312,
+      editing: false
+    }, {
+      date: '2016-05-04',
+      name: '张三',
+      deliveryStatus: '发货',
+      provence: '广东省',
+      address: '汕头市澄海区汕头大学东海岸校区',
+      orderNumber: 20033312312312312,
+      editing: false
+    }, {
+      date: '2016-05-04',
+      name: '王小虎',
+      deliveryStatus: '未发货',
+      provence: '广东省',
+      address: '汕头市澄海区汕头大学东海岸校区',
+      orderNumber: 20033312312312312,
+      editing: false
+    }, {
+      date: '2016-05-01',
+      name: '王小虎',
+      deliveryStatus: '发货',
+      provence: '广东省',
+      address: '汕头市澄海区汕头大学东海岸校区',
+      orderNumber: 20033312312312312,
+      editing: false
+    }, {
+      date: '2016-05-03',
+      name: '王小虎',
+      deliveryStatus: '发货',
+      provence: '广东省',
+      address: '汕头市澄海区汕头大学东海岸校区',
+      orderNumber: 20033312312312312,
+      editing: false
+    }],
     keyword: '',
     editDialogVisible: false,
     editedItem: {
       date: '',
       name: '',
-      send: '',
+      deliveryStatus: '',
       provence: '',
       address: '',
-      zip: '',
+      orderNumber: '',
     },
     currentPage: 1, // 添加 currentPage 属性
     pageSize: 5,
   };
 },
 
-  computed: {
+computed: {
     displayedData() {
       const start = (this.currentPage - 1) * this.pageSize;
       const end = start + this.pageSize;

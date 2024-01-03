@@ -70,6 +70,7 @@ export default {
                 desc: '',
                 valueDay: '',
                 valueTime: '',
+                userId: 1,
             },
             pickerOptions: {
                 disabledDate(time) {

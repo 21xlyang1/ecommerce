@@ -132,6 +132,7 @@
 import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios';
 import repsonse from "core-js/internals/is-forced";
+import {post} from "@/utils/http";
 
 export default {
   name: "adminProduct",
@@ -287,14 +288,24 @@ export default {
     deleteProduct(productId) {
       const index = productId;
 
-      axios.post('/product/deleteProduct', {
+      // axios.post('/product/deleteProduct', {
+      //   productId: index,
+      // }).then(response => {
+      //   const msg = response.msg;
+      //   alert(msg);
+      // }).catch(error => {
+      //   console.log('商品数据删除失败：', error);
+      // });
+
+      post('/product/deleteProduct', {
         productId: index,
-      }).then(response => {
-        const msg = response.msg;
+      }).then((Response) => {
+        const msg = Response.msg;
         alert(msg);
-      }).catch(error => {
+      }).catch((error) => {
         console.log('商品数据删除失败：', error);
       });
+
 
       if (index !== -1) {
         this.products.splice(index, 1);
@@ -316,7 +327,22 @@ export default {
     },
     // 更新商品数据
     saveEdit() {
-      axios.post('/product/editProduct', {
+      // axios.post('/product/editProduct', {
+      //   productId: this.editedProduct.productId,
+      //   productName: this.editedProduct.productName,
+      //   description: this.editedProduct.description,
+      //   storeId: this.editedProduct.storeId,
+      //   price: this.editedProduct.price,
+      //   stock: this.editedProduct.stock,
+      //   productStatus: this.editedProduct.status,
+      // }).then(response => {
+      //   const msg = response.msg;
+      //   alert(msg);
+      // }).catch(error => {
+      //   console.log('商品数据更新失败：', error);
+      // });
+
+      post('/product/editProduct', {
         productId: this.editedProduct.productId,
         productName: this.editedProduct.productName,
         description: this.editedProduct.description,
@@ -324,12 +350,12 @@ export default {
         price: this.editedProduct.price,
         stock: this.editedProduct.stock,
         productStatus: this.editedProduct.status,
-      }).then(response => {
-        const msg = response.msg;
+      }).then((Response) => {
+        const msg = Response.msg;
         alert(msg);
-      }).catch(error => {
+      }).catch((error) => {
         console.log('商品数据更新失败：', error);
-      })
+      });
 
       // // 找到编辑项在原始数据中的索引
       // const index = this.products.findIndex(item => item.productId === this.editedProduct.productId)
@@ -378,15 +404,26 @@ export default {
   },
   // 获取商品数据
   mounted() {
-    axios.post('/product/getList')
-        .then(response => {
-          this.products = response.data;
-        })
-        .catch(error => {
-          console.error('获取商品数据失败：', error);
-        });
+    post('/product/getsList').then((Response) => {
+          console.log("请求成功");
 
-    this.calculateTotalPages();
+          this.products = Response.data;
+
+          this.calculateTotalPages();
+        }, (error) => {
+          console.log("请求失败:", error);
+        }
+    );
+
+    //   axios.post('/product/getList')
+    //       .then(response => {
+    //         this.products = response.data;
+    //       })
+    //       .catch(error => {
+    //         console.error('获取商品数据失败：', error);
+    //       });
+    //
+    //   this.calculateTotalPages();
   },
 
 }

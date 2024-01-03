@@ -120,7 +120,7 @@ export default {
         address: ""
       },
       editingSeller: false,
-      editedSeller: { id: null, sellername: "", email: "", phone: "",password:"", address: "" },
+      editedSeller: { id: "", sellername: "", email: "", phone: "",password:"", address: "" },
       addingSeller: false, // 添加商家模态框的显示状态
       newSeller: { sellername: "", email: "", phone: "",password:"", address: "" }, // 新商家的信息
     };

@@ -62,7 +62,7 @@ export default {
         {
           name: "Peanut",
           email: "123456789@.com",
-          photonumber: "123456789abcdefg",
+          phoneNumber: "123456789abcdefg",
           content: "第一条评论,第一条评论",
           submission: "1234:12:12 12:12",
           selected: false,
@@ -328,26 +328,31 @@ export default {
     post("/comment/all").then(
       (Response) => {
         console.log("评论数据请求成功", Response);
-        this.dataList = Response;
+        this.dataList = Response.data;
+        this.dataList.forEach((item,index) => {
+          let userId = item.userId;
+          post("/user/getInf", { userId: userId }).then(
+            (Response) => {
+              console.log("用户信息请求成功", Response);
+              var content = item
+
+              content.email = Response.data.email;
+              content.phoneNumber = Response.data.phoneNum;
+              content.name = Response.data.username;
+              this.$set(this.dataList,index,content)
+              this.updateShowList(); // 初始化时调用一次，显示第一页的数据
+            },
+            (error) => {
+              console.log("用户信息请求失败", error.message);
+            }
+          );
+        });
       },
       (error) => {
         console.log("评论数据请求失败", error.message);
       }
     );
-    this.dataList.forEach((item) => {
-      let userId = item.commentId;
-      post("/user/getInf", { userId }).then(
-        (Response) => {
-          console.log("用户信息请求成功", Response);
-          this.dataList.email = Response.email;
-          this.dataList.phoneNumber = Response.phoneNumber;
-          this.dataList.name = Response.username;
-        },
-        (error) => {
-          console.log("用户信息请求失败", error.message);
-        }
-      );
-    });
+
   },
 };
 </script>

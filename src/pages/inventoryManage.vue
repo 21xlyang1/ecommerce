@@ -51,6 +51,7 @@
 </style>
 
 <script>
+import { post } from '@/utils/http';
 export default {
   name: "InventoryManagement",
   data() {

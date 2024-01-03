@@ -177,15 +177,16 @@ export default {
     searchUsers() {
       // 搜索用户的逻辑
     },
-    editSeller(seller){
-      this.editedSeller.id = seller.id;
-      this.editedSeller.sellername = seller.sellername;
-      this.editedSeller.email = seller.email;
-      this.editedSeller.phone = seller.phone;
-      this.editedSeller.password = seller.password;
-      this.editedSeller.address = seller.address;
+    editUser(user){
+    this.editedUser.id = user.id;
+    this.editedUser.username = user.username;
+    this.editedUser.email = user.email;
+    this.editedUser.phone = user.phone;
+    this.editedUser.password = user.password;
+    this.editedUser.role = user.role;
 
-      this.editingSeller = true;
+    // 打开编辑用户信息的模态框
+    this.editingUser = true;
     },
     handleEdit(){
       this.editingUser = false;

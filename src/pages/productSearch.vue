@@ -40,8 +40,7 @@ export default {
     methods: {
         Search( data ) {
             let keyword = data[0];
-            let type = data[1];
-            console.log("父组件:", "'", data[0], "' '", data[1], "'");
+            console.log("父组件:", "searchKey:", data[0]);
             post("/product/getList", { searchKey: keyword }).then(
                 (Response) => {
                     console.log("搜索商品请求成功", Response);
@@ -53,6 +52,18 @@ export default {
             );
         },
     },
+    mounted() {
+        console.log("父组件:", "searchKey:", searchText);
+        post("/product/getList", { searchKey: searchText }).then(
+            (Response) => {
+                console.log("搜索商品请求成功", Response);
+                this.searchList = Response.data;
+            },
+            (error) => {
+                console.log("搜索商品请求失败", error.message);
+            }
+        );
+    }
 };
 </script>
 

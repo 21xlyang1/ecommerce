@@ -36,7 +36,7 @@
             <td>{{ user.phone }}</td>
             <td>{{ user.role }}</td>
             <td>
-              <button class="btn-neumorphism edit" @click="editingUser = true">编辑</button>
+              <button class="btn-neumorphism edit" @click="editUser(user)">编辑</button>
               <button class="btn-neumorphism delete" @click="deleteUser(user.id)">删除</button>
             </td>
           </tr>
@@ -177,6 +177,16 @@ export default {
     searchUsers() {
       // 搜索用户的逻辑
     },
+    editSeller(seller){
+      this.editedSeller.id = seller.id;
+      this.editedSeller.sellername = seller.sellername;
+      this.editedSeller.email = seller.email;
+      this.editedSeller.phone = seller.phone;
+      this.editedSeller.password = seller.password;
+      this.editedSeller.address = seller.address;
+
+      this.editingSeller = true;
+    },
     handleEdit(){
       this.editingUser = false;
       post("/user/update", this.editedUser).then(

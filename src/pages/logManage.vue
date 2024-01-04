@@ -228,6 +228,10 @@ export default {
     },
     // 添加一个排序方法
     sortDataList() {
+      if(this.dataList == null) {
+        this.dataList = []
+        return;
+      }
       this.dataList.sort((a, b) => {
         // 将时间字符串转换为日期对象进行比较
         const dateA = new Date(a.time_data);
